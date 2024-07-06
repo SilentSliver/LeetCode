@@ -18,15 +18,18 @@ jobs:
           .github
           cpp
           golang
-          problems
-          premiums
           python
-          mysql
           qubhjava
           typescript
           go.mod
           go.sum
           pom.xml
+          WORKSPACE
+          tsconfig.json
+          package.json
+          jest.config.ts
+          ${{ secrets.PROBLEM_FOLDER || 'problems' }}
+          ${{ secrets.PREMIUM_FOLDER || 'premiums' }}
 
     - name: Set up Python environment
       uses: actions/setup-python@v2
