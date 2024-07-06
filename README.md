@@ -283,6 +283,49 @@ and tasks.json under `.vscode`
 }
 ```
 
+If you want to write c++ in idea better, load this `CMakeLists.txt`. But still, run test in bazel.
+```cmake
+cmake_minimum_required(VERSION 3.28)
+project(LeetCodeCpp)
+
+set(CMAKE_CXX_STANDARD 20)
+
+include(FetchContent)
+# googletest
+FetchContent_Declare(
+        googletest
+        GIT_REPOSITORY https://github.com/google/googletest.git
+        GIT_TAG release-1.10.0 # Specify the version you need
+)
+FetchContent_MakeAvailable(googletest)
+
+# nlohmann_json
+FetchContent_Declare(
+        json
+        GIT_REPOSITORY https://github.com/nlohmann/json.git
+        GIT_TAG v3.9.1 # Specify the version you need
+)
+FetchContent_MakeAvailable(json)
+
+include_directories(LeetCode)
+
+file(GLOB_RECURSE COMMON_SOURCE LeetCode/cpp/*.cpp LeetCode/cpp/*.h)
+file(GLOB_RECURSE PROBLEM_SOLUTIONS LeetCode/problems/*.cpp)
+file(GLOB_RECURSE PREMIUMS_SOLUTIONS LeetCode/premiums/*.cpp)
+
+add_executable(LeetCodeCpp
+        ${COMMON_SOURCE}
+        ${PROBLEM_SOLUTIONS}
+        ${PREMIUMS_SOLUTIONS}
+)
+
+target_link_libraries(LeetCodeCpp
+        gtest_main
+        gmock_main
+        nlohmann_json::nlohmann_json
+)
+```
+
 Solve your problem and enjoy!
 
 Feel free to ask the author and add issues, discussions on GitHub.
@@ -296,22 +339,7 @@ Add values similar to you .env, for example,
 ![cookie_key.png](docs/cookie_key.png)
 
 **Notice:** 
-Add your folder to all [actions](.github/workflows/) sparse-checkout part and commit
-```yaml
-        sparse-checkout: |
-          .github
-          cpp
-          golang
-          mysql
-          python
-          qubhjava
-          typescript
-          go.mod
-          go.sum
-          pom.xml
-          `demo`
-          `your_folder`
-```
+Add PROBLEM_FOLDER for [actions](.github/workflows/) to work properly.
 
 [**Demo project**](https://github.com/BenhaoQu/LeetCode/tree/demo_master)
 
