@@ -22,7 +22,7 @@ import java.util.List;
 public class TestMain {
 
     private static final Logger log = LoggerFactory.getLogger(TestMain.class);
-    private static final String PROBLEM_ID = "3101";
+    private static final String PROBLEM_ID = "2981";
 
     private Testcase[] loadTestcases() throws IOException {
         String problemFolder = null;
