@@ -1,6 +1,5 @@
 //go:build ignore
 #include "cpp/common/Solution.h"
-#include <stack>
 
 
 using namespace std;
@@ -8,19 +7,14 @@ using json = nlohmann::json;
 
 class Solution {
 public:
-    bool isValid(string s) {
-        stack<char> stack;
-        string left = "([{", right = ")]}";
-        for (auto c: s) {
-            if (left.find(c) != string::npos) {
-                stack.push(c);
-            } else if (stack.empty() || stack.top() != left[right.find(c)]) {
-                return false;
-            } else {
-                stack.pop();
+    int uniquePaths(int m, int n) {
+        vector<int> dp(n, 1);
+        for (int i = 1; i < m; i++) {
+            for (int j = 1; j < n; j++) {
+                dp[j] += dp[j - 1];
             }
         }
-        return stack.empty();
+        return dp[n - 1];
     }
 };
 
@@ -35,6 +29,7 @@ json leetcode::qubh::Solve(string input_json_values) {
 	inputArray.push_back(input_json_values);
 
 	Solution solution;
-	string s = json::parse(inputArray.at(0));
-	return solution.isValid(s);
+	int m = json::parse(inputArray.at(0));
+	int n = json::parse(inputArray.at(1));
+	return solution.uniquePaths(m, n);
 }

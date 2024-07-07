@@ -1,6 +1,5 @@
 //go:build ignore
 #include "cpp/common/Solution.h"
-#include <stack>
 
 
 using namespace std;
@@ -8,19 +7,17 @@ using json = nlohmann::json;
 
 class Solution {
 public:
-    bool isValid(string s) {
-        stack<char> stack;
-        string left = "([{", right = ")]}";
-        for (auto c: s) {
-            if (left.find(c) != string::npos) {
-                stack.push(c);
-            } else if (stack.empty() || stack.top() != left[right.find(c)]) {
-                return false;
+    int searchInsert(vector<int>& nums, int target) {
+        auto left = 0, right = static_cast<int>(nums.size());
+        while (left < right) {
+            auto mid = left + (right - left) / 2;
+            if (nums[mid] < target) {
+                left = mid + 1;
             } else {
-                stack.pop();
+                right = mid;
             }
         }
-        return stack.empty();
+        return left;
     }
 };
 
@@ -35,6 +32,7 @@ json leetcode::qubh::Solve(string input_json_values) {
 	inputArray.push_back(input_json_values);
 
 	Solution solution;
-	string s = json::parse(inputArray.at(0));
-	return solution.isValid(s);
+	vector<int> nums = json::parse(inputArray.at(0));
+	int target = json::parse(inputArray.at(1));
+	return solution.searchInsert(nums, target);
 }
