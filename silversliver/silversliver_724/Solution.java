@@ -7,7 +7,16 @@ import qubhjava.BaseSolution;
 
 public class Solution extends BaseSolution {
     public int pivotIndex(int[] nums) {
-
+        var l_sum = 0;
+        var r_sum = 0;
+        for (int i = 0; i < nums.length; i++) r_sum += nums[i];
+        for (int i = 0; i < nums.length; ++i) {
+            r_sum -= nums[i];
+            if (l_sum == r_sum)
+                return i;
+            l_sum += nums[i];
+        }
+        return -1;
     }
 
     @Override
