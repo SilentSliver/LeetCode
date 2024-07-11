@@ -87,6 +87,8 @@
                     <target>21</target>
                     <excludes>
                         <exclude>bazel-*/**</exclude>
+                        <exclude>problems/**</exclude>
+                        <exclude>premiums/**</exclude>
                     </excludes>
                 </configuration>
             </plugin>
