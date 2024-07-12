@@ -6,26 +6,17 @@ using namespace std;
 using json = nlohmann::json;
 
 class Solution {
-private:
-    void backtrack(vector<vector<int>>& res, vector<int>& nums, int idx) {
-        if (idx == static_cast<int>(nums.size())) {
-            res.push_back(nums);
-            return;
-        }
-        for (int i = idx; i < static_cast<int>(nums.size()); i++) {
-            swap(nums[i], nums[idx]);
-            backtrack(res, nums, idx + 1);
-            swap(nums[i], nums[idx]);
-        }
-    }
 public:
-    vector<vector<int>> permute(vector<int>& nums) {
-        vector<vector<int>> res;
-        backtrack(res, nums, 0);
+    vector<int> numberGame(vector<int>& nums) {
+        std::sort(nums.begin(), nums.end());
+        vector<int> res;
+        for (int i = 1; i < static_cast<int>(nums.size()); i += 2) {
+            res.push_back(nums[i]);
+            res.push_back(nums[i - 1]);
+        }
         return res;
     }
 };
-
 
 json leetcode::qubh::Solve(string input_json_values) {
 	vector<string> inputArray;
@@ -39,5 +30,5 @@ json leetcode::qubh::Solve(string input_json_values) {
 
 	Solution solution;
 	vector<int> nums = json::parse(inputArray.at(0));
-	return solution.permute(nums);
+	return solution.numberGame(nums);
 }
