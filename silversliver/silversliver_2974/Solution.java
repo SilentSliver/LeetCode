@@ -7,8 +7,17 @@ import qubhjava.BaseSolution;
 
 public class Solution extends BaseSolution {
     public int[] numberGame(int[] nums) {
-
+        Arrays.sort(nums);
+        var n = nums.length;
+        for (int i = 0; i < n; i += 2){
+            var tmp = nums[i];
+            nums[i] = nums[i + 1];
+            nums[i + 1] = tmp;
+        }
+        return nums;
     }
+
+
 
     @Override
     public Object solve(String[] inputJsonValues) {
