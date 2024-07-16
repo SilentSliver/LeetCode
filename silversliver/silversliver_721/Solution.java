@@ -36,49 +36,8 @@ public class Solution extends BaseSolution {
         }
         return ans;
     }
-
-
-class UnionFind {
-    private final int[] p;
-    private final int[] size;
-
-    public UnionFind(int n) {
-        p = new int[n];
-        size = new int[n];
-        for (int i = 0; i < n; ++i) {
-            p[i] = i;
-            size[i] = 1;
-        }
-    }
-
-    public int find(int x) {
-        if (p[x] != x)
-            p[x] = find(p[x]);
-        return p[x];
-    }
-
-    public boolean union(int a, int b) {
-        int pa = find(a), pb = find(b);
-        if (pa == pb)
-            return false;
-        if (size[pa] > size[pb]) {
-            p[pb] = pa;
-            size[pa] += size[pb];
-        } else {
-            p[pa] = pb;
-            size[pb] += size[pa];
-        }
-        return true;
-    }
-
-
-
-
-
-
-
     @Override
-    public Object solve(String[] inputJsonValues) {
+    public Object solve (String[]inputJsonValues){
         List<List<String>> accounts = jsonArrayToString2DList(inputJsonValues[0]);
         return JSON.toJSON(accountsMerge(accounts));
     }
@@ -116,7 +75,9 @@ class UnionFind {
         }
         return true;
     }
+
 }
+
 
 
 
