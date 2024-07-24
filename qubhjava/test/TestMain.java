@@ -12,7 +12,7 @@ import org.slf4j.LoggerFactory;
 // import premiums.premiums_1056.Solution;
 
 import org.testng.util.Strings;
-import silversliver.silversliver_2766.Solution;
+import javaProblem.javaProblem_2766.Solution;
 import qubhjava.Testcase;
 
 import java.io.IOException;
@@ -39,6 +39,7 @@ public class TestMain {
         if (Strings.isNullOrEmpty(problemFolder)) {
             problemFolder = "problems";
         }
+        System.out.println("problemFolder is " + problemFolder);
         return Common.loadTestcases(log, PROBLEM_ID, problemFolder);
     }
 
