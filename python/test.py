@@ -9,6 +9,10 @@ from utils import get_default_folder, timeout
 
 # Question ID that wants to test, modify here as passing arguments
 QUESTION = "3106"
+# QUESTION = "Interview/10_02"
+# QUESTION = "LCP/07"
+# QUESTION = "剑指Offer/52"
+
 
 
 class Test(unittest.TestCase):
@@ -61,6 +65,8 @@ class Test(unittest.TestCase):
                                                  sorted(sorted(item) for item in result), msg=f"input = {i}")
                         else:
                             self.assertListEqual(o, result, msg=f"input = {i}")
+                    elif result and isinstance(result, list):
+                        self.assertEqual(o, result[0], msg=f"input = {i}")
                     else:
                         if isinstance(o, float):
                             self.assertAlmostEqual(o, result, msg=f"input = {i}", delta=0.00001)
