@@ -87,6 +87,7 @@
                     <target>21</target>
                     <excludes>
                         <exclude>bazel-*/**</exclude>
+                        <exclude>external/**</exclude>
                         <exclude>problems/**</exclude>
                         <exclude>premiums/**</exclude>
                     </excludes>
