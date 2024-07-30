@@ -7,7 +7,7 @@ import qubhjava.BaseSolution;
 
 public class Solution extends BaseSolution {
     public int findValueOfPartition(int[] nums) {
-
+        return 0;
     }
 
     @Override

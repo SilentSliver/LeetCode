@@ -9,9 +9,6 @@ import org.junit.jupiter.api.Timeout;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-// import problems.problems_699.Solution;
-
-// import problems.problems_3106.Solution;
 import org.testng.util.Strings;
 import silversliver.silversliver_682.Solution;
 import qubhjava.Testcase;

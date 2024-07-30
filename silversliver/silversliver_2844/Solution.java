@@ -7,7 +7,7 @@ import qubhjava.BaseSolution;
 
 public class Solution extends BaseSolution {
     public int minimumOperations(String num) {
-
+        return 0;
     }
 
     @Override
