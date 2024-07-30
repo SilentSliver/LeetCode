@@ -27,6 +27,8 @@ public class Solution extends BaseSolution {
         return ans;
     }
 
+
+
     @Override
     public Object solve(String[] inputJsonValues) {
         String[] operations = jsonArrayToStringArray(inputJsonValues[0]);
