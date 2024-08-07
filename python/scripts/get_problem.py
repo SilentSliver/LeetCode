@@ -28,22 +28,23 @@ def __check_path__(problem_folder: str, problem_id: str, problem_slug: str, forc
     if os.path.exists(dir_path):
         if not force:
             logging.warning(f"Already exists problem [{problem_id}]{problem_slug}")
-            return None
+            return None, None
         if skip_language:
-            return dir_path
+            return root_path, dir_path
         shutil.rmtree(dir_path)
     os.makedirs(dir_path, exist_ok=True)
-    return dir_path
+    return root_path, dir_path
 
 
 def process_single_algorithm_problem(problem_folder: str, problem_id: str, problem_slug: str,
                                      problem_title: str, cookie: str, force: bool = False, skip_language: bool = False,
                                      languages=None):
-    dir_path = __check_path__(problem_folder, problem_id, problem_slug, force, skip_language)
+    root_path, dir_path = __check_path__(problem_folder, problem_id, problem_slug, force, skip_language)
     if not dir_path:
         return
     desc = get_question_desc(problem_slug, cookie)
     is_chinese = False
+    question_rating = lc_libs.get_rating(problem_id)
     if desc is None:
         logging.warning(f"Unable to fetch question content, [{problem_id}]{problem_slug}")
         return
@@ -52,14 +53,14 @@ def process_single_algorithm_problem(problem_folder: str, problem_id: str, probl
         is_chinese = True
     else:
         with open(f"{dir_path}/problem.md", "w", encoding="utf-8") as f:
-            f.write(Python3Writer.write_problem_md(problem_id, problem_title, desc))
+            f.write(Python3Writer.write_problem_md(problem_id, problem_title, desc, rating=question_rating))
     cn_result = get_question_desc_cn(problem_slug, cookie=cookie)
     if cn_result is not None:
         cn_desc, cn_title = cn_result
         if is_chinese:
             desc = cn_desc
         with open(f"{dir_path}/problem_zh.md", "w", encoding="utf-8") as f:
-            f.write(Python3Writer.write_problem_md(problem_id, cn_title, cn_desc))
+            f.write(Python3Writer.write_problem_md(problem_id, cn_title, cn_desc, True, rating=question_rating))
     code_maps = get_question_code(problem_slug, lang_slugs=languages, cookie=cookie)
     if code_maps is None:
         logging.warning(f"Unable to fetch question template code, [{problem_id}]{problem_slug}, desc: {desc}")
@@ -94,7 +95,7 @@ def process_single_algorithm_problem(problem_folder: str, problem_id: str, probl
             with open(file_path, "w", encoding="utf-8") as f:
                 f.write(obj.write_solution(val, None, problem_id, problem_folder))
             if isinstance(obj, lc_libs.RustWriter):
-                obj.write_cargo_toml(dir_path, problem_id)
+                obj.write_cargo_toml(root_path, dir_path, problem_folder, problem_id)
         except Exception as _:
             logging.error(f"Failed to write [{problem_id}] {key} solution", exc_info=True)
 
@@ -103,7 +104,7 @@ def process_single_algorithm_problem(problem_folder: str, problem_id: str, probl
 
 def process_single_database_problem(problem_folder: str, problem_id: str, problem_slug: str,
                                     problem_title: str, cookie: str, force: bool = False):
-    dir_path = __check_path__(problem_folder, problem_id, problem_slug, force)
+    _, dir_path = __check_path__(problem_folder, problem_id, problem_slug, force)
     if not dir_path:
         return
     desc = get_question_desc(problem_slug, cookie)

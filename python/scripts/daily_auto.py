@@ -41,15 +41,16 @@ def check_remain_languages(dir_path, languages: list[str]) -> list[str]:
     return remain_languages
 
 
-def write_question(dir_path, problem_folder: str, question_id: str, question_name: str,
+def write_question(root_path, dir_path, problem_folder: str, question_id: str, question_name: str,
                    slug: str, languages: list[str] = None, cookie: str = None):
     desc = get_question_desc(slug, cookie)
     cn_result = get_question_desc_cn(slug, cookie)
     cn_desc = None
+    question_rating = lc_libs.get_rating(question_id)
     if cn_result is not None and cn_result[0] is not None:
         cn_desc, cn_title = cn_result
         with open(f"{dir_path}/problem_zh.md", "w", encoding="utf-8") as f:
-            f.write(Python3Writer.write_problem_md(question_id, cn_title, cn_desc))
+            f.write(Python3Writer.write_problem_md(question_id, cn_title, cn_desc, True, rating=question_rating))
     if desc is not None:
         is_chinese = False
         if "English description is not available for the problem. Please switch to Chinese." in desc:
@@ -57,7 +58,7 @@ def write_question(dir_path, problem_folder: str, question_id: str, question_nam
             is_chinese = True
         else:
             with open(f"{dir_path}/problem.md", "w", encoding="utf-8") as f:
-                f.write(Python3Writer.write_problem_md(question_id, question_name, desc))
+                f.write(Python3Writer.write_problem_md(question_id, question_name, desc, rating=question_rating))
         testcases, testcase_str = get_question_testcases(slug)
         if testcases is not None:
             outputs = extract_outputs_from_md(desc, is_chinese)
@@ -88,7 +89,7 @@ def write_question(dir_path, problem_folder: str, question_id: str, question_nam
             with open(os.path.join(dir_path, solution_file), "w", encoding="utf-8") as f:
                 f.write(obj.write_solution(code, None, question_id, problem_folder))
             if isinstance(obj, lc_libs.RustWriter):
-                obj.write_cargo_toml(dir_path, question_id)
+                obj.write_cargo_toml(root_path, dir_path, problem_folder, question_id)
         except Exception as _:
             logging.error(f"Failed to write [{question_id}] {language}solution", exc_info=True)
             continue
@@ -103,14 +104,15 @@ def process_daily(languages: list[str], problem_folder: str = None):
     question_id = daily_info['questionId']
     tmp = get_default_folder(paid_only=daily_info['paidOnly']) if not problem_folder else problem_folder
     dir_path = os.path.join(root_path, tmp, f"{tmp}_{question_id}")
+    logging.info("Daily: {}, id: {}".format(daily_info['questionNameEn'], question_id))
     if not os.path.exists(dir_path):
         os.makedirs(dir_path, exist_ok=True)
-        write_question(dir_path, tmp, question_id, daily_info['questionNameEn'], daily_info['questionSlug'],
+        write_question(root_path, dir_path, tmp, question_id, daily_info['questionNameEn'], daily_info['questionSlug'],
                        languages)
     else:
         logging.warning("Already solved {} before".format(daily_info['questionId']))
         remain_languages = check_remain_languages(dir_path, languages)
-        write_question(dir_path, tmp, question_id, daily_info['questionNameEn'], daily_info['questionSlug'],
+        write_question(root_path, dir_path, tmp, question_id, daily_info['questionNameEn'], daily_info['questionSlug'],
                        remain_languages)
     for lang in languages:
         try:
@@ -149,11 +151,12 @@ def process_plans(cookie: str, languages: list[str] = None, problem_folder: str 
             dir_path = os.path.join(root_path, tmp_folder, f"{tmp_folder}_{question_id}")
             if not os.path.exists(dir_path):
                 os.makedirs(dir_path, exist_ok=True)
-                write_question(dir_path, tmp_folder, question_id, info["title"], question_slug, languages, cookie)
+                write_question(root_path, dir_path, tmp_folder, question_id, info["title"], question_slug,
+                               languages, cookie)
             else:
                 remain_languages = check_remain_languages(dir_path, languages)
-                write_question(dir_path, tmp_folder, question_id, info["title"], question_slug, remain_languages,
-                               cookie)
+                write_question(root_path, dir_path, tmp_folder, question_id, info["title"], question_slug,
+                               remain_languages, cookie)
             problem_ids.append([question_id, tmp_folder])
     if problem_ids:
         for lang in languages:
@@ -167,6 +170,8 @@ def process_plans(cookie: str, languages: list[str] = None, problem_folder: str 
             except Exception as _:
                 logging.error(f"Failed to change tests for {lang}", exc_info=True)
                 continue
+    else:
+        logging.info("No recommended questions in the study plan today!")
 
 
 def main(problem_folder: str = None, cookie: Optional[str] = None, languages: list[str] = None):

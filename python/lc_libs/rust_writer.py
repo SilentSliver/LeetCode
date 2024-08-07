@@ -1,6 +1,8 @@
+import logging
 import os
+import re
 from collections import deque
-from typing import Tuple, List
+from typing import Tuple, List, Dict, Any
 
 from python.constants import CARGO_TOML_TEMPLATE_SOLUTION, SOLUTION_TEMPLATE_RUST, \
     SOLUTIONS_TEMPLATE_RUST
@@ -39,11 +41,9 @@ class RustWriter(LanguageWriter):
                 if line_idx < len(lines) - 1 or line:
                     f.write(f"{line}\n")
         root_cargo_path = os.path.join(root_path, self.cargo_file)
-        RustWriter.__cargo_add_problems(root_cargo_path, [[question_id, problem_folder]])
+        RustWriter.cargo_add_problems(root_cargo_path, [[question_id, problem_folder]])
 
     def change_tests(self, root_path, problem_ids_folders: list):
-        root_cargo_path = os.path.join(root_path, self.cargo_file)
-        RustWriter.__cargo_add_problems(root_cargo_path, problem_ids_folders)
         tests_file_path = os.path.join(root_path, self.main_folder, self.test_executor_folder, self.tests_file)
         with open(tests_file_path, "w", encoding="utf-8") as f:
             f.write(SOLUTIONS_TEMPLATE_RUST.format(
@@ -63,6 +63,11 @@ class RustWriter(LanguageWriter):
             problem_folder: str = "",
     ) -> str:
         code = code or code_default
+        if "object will be instantiated and called as such:" in code:
+            struct_map = RustWriter._parse_rust_structs(code)
+            solve_part = RustWriter._generate_solve_function(struct_map)
+            return SOLUTION_TEMPLATE_RUST.format("\n".join([]), "", code, problem_id, "\n\t".join(solve_part))
+
         if "impl Solution" not in code:
             raise NotImplementedError("RustWriter does not support problem without Solution yet!")
         if "impl Solution {\n\n    fn new(" in code:
@@ -71,15 +76,63 @@ class RustWriter(LanguageWriter):
         solve_part = []
         return_part = []
         fn_count = 0
+        testcases = LanguageWriter.get_test_cases(problem_folder, problem_id)
         for line in code.split("\n"):
             if line.startswith("//"):
                 continue
             if "fn " in line:
                 function_name, variables, return_type = self.__parse_function(line)
-                for i, (var_name, var_type) in enumerate(variables):
-                    self.__parse_type(i, var_name, var_type, import_libs, solve_part, return_part)
+                i = 0
+                while i < len(variables):
+                    var_name, var_type = variables[i]
+                    if testcases and var_type == "Option<Rc<RefCell<TreeNode>>>":
+                        if len(variables) == len(testcases[0]) + 1:
+                            RustWriter._add_to_import_libs(import_libs, "use library::lib::tree_node::", "TreeNode")
+                            RustWriter._add_to_import_libs(import_libs, "use library::lib::tree_node::",
+                                                           "array_to_tree")
+                            RustWriter._add_to_import_libs(import_libs, "use library::lib::tree_node::",
+                                                           "tree_to_array")
+                            RustWriter._add_to_import_libs(import_libs, "use library::lib::tree_node::",
+                                                           "array_to_tree_with_targets")
+                            solve_part.append(f"let input_vec{i}: Vec<Option<i32>> = serde_json::from_str("
+                                              f"&input_values[{i}]).expect(\"Failed to parse input\");")
+                            solve_part.append("let target_val: i32 = serde_json::from_str(&input_values[1])"
+                                              ".expect(\"Failed to parse input\");")
+                            solve_part.append(
+                                f"let nodes = array_to_tree_with_targets(&input_vec{i}, vec![target_val]);")
+                            solve_part.append(f"let original = nodes[0].clone();")
+                            solve_part.append(f"let cloned = array_to_tree(&input_vec{i});")
+                            solve_part.append(f"let target = nodes[1].clone();")
+                            i += 3
+                            continue
+                        idx = i + 1
+                        while all(idx < len(testcase)
+                                  and "Option<Rc<RefCell<TreeNode>>>" == variables[idx][1]
+                                  and testcase[idx] is not None
+                                  and not isinstance(testcase[idx], list) for testcase in testcases):
+                            idx += 1
+                        if idx != i + 1:
+                            RustWriter._add_to_import_libs(import_libs, "use library::lib::tree_node::", "TreeNode")
+                            RustWriter._add_to_import_libs(import_libs, "use library::lib::tree_node::",
+                                                           "tree_to_array")
+                            RustWriter._add_to_import_libs(import_libs, "use library::lib::tree_node::",
+                                                           "array_to_tree_with_targets")
+                            solve_part.append(f"let input_vec{i}: Vec<Option<i32>> = serde_json::from_str("
+                                              f"&input_values[{i}]).expect(\"Failed to parse input\");")
+                            for j in range(i + 1, idx):
+                                solve_part.append(f"let {variables[j][0]}_val: i32 = serde_json::from_str("
+                                                  f"&input_values[{j}]).expect(\"Failed to parse input\");")
+                            solve_part.append(f"let nodes = array_to_tree_with_targets(&input_vec{i}, "
+                                              f"vec![{', '.join([f'{variables[j][0]}_val'
+                                                                 for j in range(i + 1, idx)])}]);")
+                            for j in range(i, idx):
+                                solve_part.append(f"let {variables[j][0]} = nodes[{j - i}].clone();")
+                            i = idx
+                            continue
+                    self.__parse_type(i, var_name, var_type, code_default, import_libs, solve_part, return_part)
+                    i += 1
                 if return_type:
-                    self.__parse_type(0, "", return_type,
+                    self.__parse_type(0, "", return_type, code_default,
                                       import_libs, solve_part, return_part, True)
                     return_part[-1] = return_part[-1].format(
                         "Solution::{}({})".format(function_name, ", ".join([v[0] for v in variables]))
@@ -87,14 +140,17 @@ class RustWriter(LanguageWriter):
                 else:
                     return_part.append("Solution::{}({});".format(function_name,
                                                                   ", ".join([v[0] for v in variables])))
-                    return_part.append(variables[0][0])
+                    return_part.append(f"json!({variables[0][0]})")
                 fn_count += 1
         if fn_count != 1:
             raise NotImplementedError("RustWriter does not support multiple functions yet!")
         solve_part.extend(return_part)
-        return SOLUTION_TEMPLATE_RUST.format("\n".join(import_libs), code, problem_id, "\n\t".join(solve_part))
+        return SOLUTION_TEMPLATE_RUST.format("\n".join(import_libs), "pub struct Solution;\n", code, problem_id,
+                                             "\n\t".join(solve_part))
 
-    def write_cargo_toml(self, dir_path, problem_id: str):
+    def write_cargo_toml(self, root_path, dir_path, problem_folder: str, problem_id: str):
+        root_cargo_path = os.path.join(root_path, self.cargo_file)
+        RustWriter.cargo_add_problems(root_cargo_path, [[problem_id, problem_folder]])
         cargo_file_path = os.path.join(dir_path, self.cargo_file)
         if not os.path.exists(cargo_file_path):
             with open(cargo_file_path, "w", encoding="utf-8") as f:
@@ -190,8 +246,8 @@ class RustWriter(LanguageWriter):
         return function_name, var_list, return_type
 
     @staticmethod
-    def __parse_type(var_idx: int, var_name: str, var_type: str, import_libs: List[str], solve_part: List[str],
-                     return_parts: List[str], is_return: bool = False):
+    def __parse_type(var_idx: int, var_name: str, var_type: str, code_default: str, import_libs: List[str],
+                     solve_part: List[str], return_parts: List[str], is_return: bool = False):
         """
         Parse variable type to get the corresponding Rust type
         :param var_idx: int
@@ -204,35 +260,10 @@ class RustWriter(LanguageWriter):
         """
         match var_type:
             case "Option<Box<ListNode>>" | "Vec<Option<Box<ListNode>>>":
-                idx = -1
-                for i, lib in enumerate(import_libs):
-                    if "use library::lib::list_node::" in lib:
-                        idx = i
-                        break
-                if idx != -1:
-                    before = import_libs[idx].split("::")[-1].split("}")[0].split(";")[0].split("{")[-1].split(",")
-                    if "ListNode" not in import_libs[idx]:
-                        before.insert(0, "ListNode")
-                    if not is_return and "int_array_to_list_node" not in import_libs[idx]:
-                        before.append("int_array_to_list_node")
-                    elif is_return and "list_node_to_int_array" not in import_libs[idx]:
-                        before.append("list_node_to_int_array")
-                    import_libs[idx] = "use library::lib::list_node::{" + ", ".join(before) + "};"
-                else:
-                    if not is_return:
-                        import_libs.append("use library::lib::list_node::{ListNode, int_array_to_list_node};")
-                    else:
-                        import_libs.append("use library::lib::list_node::{ListNode, list_node_to_int_array};")
-                if is_return:
-                    if var_type == "Vec<Option<Box<ListNode>>>":
-                        return_parts.append("let mut res = vec![];")
-                        return_parts.append("for node in " + var_name + " {")
-                        return_parts.append("\tres.push(list_node_to_int_array(&node));")
-                        return_parts.append("}")
-                        return_parts.append("json!(res)")
-                    else:
-                        return_parts.append("json!(list_node_to_int_array(&{}))")
-                else:
+                RustWriter._add_to_import_libs(import_libs, "use library::lib::list_node::", "ListNode")
+                if not is_return:
+                    RustWriter._add_to_import_libs(import_libs, "use library::lib::list_node::",
+                                                   "int_array_to_list_node")
                     if var_type == "Vec<Option<Box<ListNode>>>":
                         solve_part.append(f"let input_nums{var_idx}: Vec<Vec<i32>> = serde_json::from_str("
                                           f"&input_values[{var_idx}]).expect(\"Failed to parse input\");")
@@ -243,30 +274,22 @@ class RustWriter(LanguageWriter):
                                           f"&input_values[{var_idx}]).expect(\"Failed to parse input\");")
                         solve_part.append(f"let {var_name}: Option<Box<ListNode>> ="
                                           f" int_array_to_list_node(&input_nums{var_idx});")
+                else:
+                    RustWriter._add_to_import_libs(import_libs, "use library::lib::list_node::",
+                                                   "list_node_to_int_array")
+                    if var_type == "Vec<Option<Box<ListNode>>>":
+                        return_parts.append("let mut res = vec![];")
+                        return_parts.append("for node in " + var_name + " {")
+                        return_parts.append("\tres.push(list_node_to_int_array(&node));")
+                        return_parts.append("}")
+                        return_parts.append("json!(res)")
+                    else:
+                        return_parts.append("json!(list_node_to_int_array(&{}))")
 
             case "Option<Rc<RefCell<TreeNode>>>" | "Vec<Option<Rc<RefCell<TreeNode>>>>":
-                idx = -1
-                for i, lib in enumerate(import_libs):
-                    if "use library::lib::tree_node::" in lib:
-                        idx = i
-                        break
-                if idx != -1:
-                    before = import_libs[idx].split("::")[-1].split("}")[0].split(";")[0].split("{")[-1].split(",")
-                    if "TreeNode" not in import_libs[idx]:
-                        before.insert(0, "TreeNode")
-                    if not is_return and "array_to_tree" not in import_libs[idx]:
-                        before.append("array_to_tree")
-                    elif is_return and "tree_to_array" not in import_libs[idx]:
-                        before.append("tree_to_array")
-                    import_libs[idx] = "use library::lib::tree_node::{" + ", ".join(before) + "};"
-                else:
-                    if not is_return:
-                        import_libs.append("use library::lib::tree_node::{TreeNode, array_to_tree};")
-                    else:
-                        import_libs.append("use library::lib::tree_node::{TreeNode, tree_to_array};")
-                if is_return:
-                    return_parts.append("json!(tree_to_array(&{}))")
-                else:
+                RustWriter._add_to_import_libs(import_libs, "use library::lib::tree_node::", "TreeNode")
+                if not is_return:
+                    RustWriter._add_to_import_libs(import_libs, "use library::lib::tree_node::", "array_to_tree")
                     if var_type == "Vec<Option<Rc<RefCell<TreeNode>>>>":
                         solve_part.append(f"let input_values{var_idx}: Vec<String> = serde_json::from_str("
                                           f"&input_values[{var_idx}]).expect(\"Failed to parse input\");")
@@ -277,16 +300,70 @@ class RustWriter(LanguageWriter):
                                           f"&input_values[{var_idx}]).expect(\"Failed to parse input\");")
                         solve_part.append(f"let {var_name}: Option<Rc<RefCell<TreeNode>>> ="
                                           f" array_to_tree(&input_vec{var_idx});")
+                else:
+                    RustWriter._add_to_import_libs(import_libs, "use library::lib::tree_node::", "tree_to_array")
+                    return_parts.append("json!(tree_to_array(&{}))")
+            case "Option<Rc<RefCell<Node>>>":
+                if "left:" in code_default and "right:" in code_default and "next:" in code_default:
+                    RustWriter._add_to_import_libs(import_libs, "use library::lib::node_next::", "Node")
+                    if not is_return:
+                        RustWriter._add_to_import_libs(import_libs, "use library::lib::node_next::",
+                                                       "array_to_tree_next")
+                        solve_part.append(f"let input_vec{var_idx}: Vec<Option<i32>> = serde_json::from_str("
+                                          f"&input_values[{var_idx}]).expect(\"Failed to parse input\");")
+                        solve_part.append(f"let {var_name}: Option<Rc<RefCell<Node>>> ="
+                                          f" array_to_tree_next(&input_vec{var_idx});")
+                    else:
+                        RustWriter._add_to_import_libs(import_libs, "use library::lib::node_next::",
+                                                       "tree_next_to_array")
+                        return_parts.append("json!(tree_next_to_array(&{}))")
+                elif "neighbors:" in code_default:
+                    RustWriter._add_to_import_libs(import_libs, "use library::lib::node_neighbors::", "Node")
+                    if not is_return:
+                        RustWriter._add_to_import_libs(import_libs, "use library::lib::node_neighbors::",
+                                                       "array_to_node_neighbors")
+                        solve_part.append(f"let input_vec{var_idx}: Vec<Vec<i32>> = serde_json::from_str("
+                                          f"&input_values[{var_idx}]).expect(\"Failed to parse input\");")
+                        solve_part.append(f"let {var_name}: Option<Rc<RefCell<Node>>> ="
+                                          f" array_to_node_neighbors(&input_vec{var_idx});")
+                    else:
+                        RustWriter._add_to_import_libs(import_libs, "use library::lib::node_neighbors::",
+                                                       "node_neighbors_to_array")
+                        return_parts.append("json!(node_neighbors_to_array(&{}))")
+                elif "random:" in code_default:
+                    RustWriter._add_to_import_libs(import_libs, "use library::lib::node_random::", "Node")
+                    if not is_return:
+                        RustWriter._add_to_import_libs(import_libs, "use library::lib::node_random::",
+                                                       "array_to_node_random")
+                        solve_part.append(f"let input_vec{var_idx}: Vec<Vec<Option<i32>>> = serde_json::from_str("
+                                          f"&input_values[{var_idx}]).expect(\"Failed to parse input\");")
+                        solve_part.append(f"let {var_name}: Option<Rc<RefCell<Node>>> ="
+                                          f" array_to_node_random(&input_vec{var_idx});")
+                    else:
+                        RustWriter._add_to_import_libs(import_libs, "use library::lib::node_random::",
+                                                       "node_random_to_array")
+                        return_parts.append("json!(node_random_to_array(&{}))")
+                else:
+                    if is_return:
+                        return_parts.append("json!({})")
+                    logging.debug(f"Node struct not found in code, skip parsing, {code_default}")
             case _:
                 if is_return:
                     return_parts.append("json!({})")
                 else:
+                    clean_type = var_type
+                    if "mut " in var_type:
+                        clean_type = var_type.replace("mut ", "")
+                        var_name = "mut " + var_name
+                    if "&" in var_type:
+                        clean_type = clean_type.replace("&", "")
+                    logging.debug("var_name: %s, var_type: %s, Clean type: %s", var_name, var_type, clean_type)
                     solve_part.append("let {}: {} = serde_json::from_str(&input_values[{}])"
                                       ".expect(\"Failed to parse input\");"
-                                      .format(var_name, var_type, var_idx))
+                                      .format(var_name, clean_type, var_idx))
 
     @staticmethod
-    def __cargo_add_problems(file_path, problem_ids_folders: list):
+    def cargo_add_problems(file_path, problem_ids_folders: list):
         with open(file_path, "r", encoding="utf-8") as f:
             content = f.read()
         remain = set((problem_id, problem_folder) for problem_id, problem_folder in problem_ids_folders)
@@ -321,7 +398,7 @@ class RustWriter(LanguageWriter):
                 if dependencies_start:
                     if "path =" in line and "rust/" not in line:
                         pf = line.split("/")[0].split("\"")[-1].strip()
-                        pi = line.split("_")[-1].split("\"")[0].strip()
+                        pi = line.split(f"/{pf}_")[-1].split("\"")[0].strip()
                         if (pi, pf) in remain_dependencies:
                             remain_dependencies.remove((pi, pf))
                 if line_idx < len(splits) - 1 or line:
@@ -329,3 +406,96 @@ class RustWriter(LanguageWriter):
             for problem_id, problem_folder in remain_dependencies:
                 f.write(f"solution_{problem_id} = {{ path = \"{problem_folder}/{problem_folder}_{problem_id}\", "
                         f"features = [\"solution_{problem_id}\"] }}\n")
+
+    @staticmethod
+    def _add_to_import_libs(import_libs: list, crate: str, fn: str):
+        idx = -1
+        for i, lib in enumerate(import_libs):
+            if crate in lib:
+                idx = i
+                break
+        if idx != -1:
+            before = list(
+                map(str.strip, import_libs[idx].split("::")[-1].split("}")[0].split(";")[0].split("{")[-1].split(",")))
+            if fn in import_libs[idx]:
+                return
+            before.append(fn)
+            import_libs[idx] = f"{crate}{{{', '.join(before)}}};"
+        else:
+            import_libs.append(f"{crate}{{{fn}}};")
+
+    @staticmethod
+    def _parse_rust_structs(code: str) -> Dict[str, List[Tuple[str, str]]]:
+        # Regex to find all struct names and their methods
+        struct_matches = re.findall(r'struct\s+(\w+)\s*{', code)
+        methods = re.findall(r'impl\s+(\w+)\s*{([^}]*)}', code)
+
+        struct_methods = {}
+        for struct_name in struct_matches:
+            struct_methods[struct_name] = []
+
+        for struct_name, method_block in methods:
+            methods = re.findall(r'fn\s+(\w+)\s*\(([^)]*)\)\s*->\s*([^{]*)\s*{', code)
+            logging.debug("Regex methods: %s", methods)
+            struct_methods[struct_name].extend([(name, params.strip()) for name, params, _ in methods])
+
+        return struct_methods
+
+    @staticmethod
+    def _generate_solve_function(struct_methods: Dict[str, List[Tuple[str, str]]]) -> List[str]:
+        logging.debug(f"Struct methods: {struct_methods}")
+        solve_lines = ["let operators: Vec<String> = serde_json::from_str(&input_values[0])"
+                       ".expect(\"Failed to parse input\");",
+                       "let op_values: Vec<Vec<Value>> = serde_json::from_str(&input_values[1])"
+                       ".expect(\"Failed to parse input\");"]
+        for struct_name, methods in struct_methods.items():
+            method_param_names: List[Any] = []
+            for method, params in methods:
+                if method == "new":
+                    if not params:
+                        solve_lines.append(f"let mut obj = {struct_name}::new();")
+                        continue
+                    i = 0
+                    for param in params.split(","):
+                        if param == "&self" or param == "&mut self":
+                            continue
+                        if not param:
+                            logging.debug(f"Empty param in {struct_name} new method")
+                            continue
+                        param_name, param_type = param.split(':')
+                        solve_lines.append(f"let {param_name.strip()}_obj: {param_type.strip()} = serde_json::"
+                                           f"from_value(op_values[0][{i}].clone()).expect(\"Failed to parse input\");")
+                        i += 1
+                    solve_lines.append(f"let mut obj = {struct_name}::new({', '.join(
+                        [param.split(':')[0].strip() + '_obj' for param in params.split(',')])});")
+                    continue
+                method_param_names.append([method])
+                for param in params.split(","):
+                    if param == "&self" or param == "&mut self":
+                        continue
+                    if not param:
+                        logging.debug(f"Empty param in {struct_name} {method} method")
+                        continue
+                    param_name, param_type = param.split(':')
+                    method_param_names[-1].append((param_name.strip(), param_type.strip()))
+            solve_lines.append("let mut ans = vec![None];")
+            solve_lines.append("for i in 1..operators.len() {")
+            solve_lines.append("\tmatch operators[i].as_str() {")
+            for method_params in method_param_names:
+                method_name = method_params[0]
+                splits = method_name.split("_")
+                test_case_method_name = method_name
+                if len(splits) > 1:
+                    test_case_method_name = "".join([splits[0]] + [s.capitalize() for s in splits[1:]])
+                solve_lines.append(f"\t\t\"{test_case_method_name}\" => {{")
+                for j, (param_name, param_type) in enumerate(method_params[1:]):
+                    solve_lines.append(f"\t\t\tlet {param_name}: {param_type} = serde_json::"
+                                       f"from_value(op_values[i][{j}].clone()).expect(\"Failed to parse input\");")
+                solve_lines.append(
+                    f"\t\t\tans.push(Some(obj.{method_name}({', '.join([param[0] for param in method_params[1:]])})));")
+                solve_lines.append("\t\t},")
+            solve_lines.append("\t\t_ => ans.push(None),")
+            solve_lines.append("\t}")
+            solve_lines.append("}")
+            solve_lines.append("json!(ans)")
+        return solve_lines

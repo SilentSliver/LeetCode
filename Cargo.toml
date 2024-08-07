@@ -13,9 +13,40 @@ members = [
 	"problems/problems_3106",
 	"problems/problems_34",
 	"problems/problems_102",
+    "problems/problems_1379",
+    "problems/problems_236",
+	"problems/problems_116",
+	"problems/problems_117",
+	"problems/problems_133",
+	"problems/problems_138",
 	"problems/problems_699",
 	"problems/problems_39",
 	"problems/problems_215",
+	"problems/problems_682",
+	"problems/problems_56",
+	"problems/problems_2961",
+	"problems/problems_394",
+	"problems/problems_3111",
+	"problems/problems_5",
+	"problems/problems_LCP_40",
+	"problems/problems_169",
+	"problems/problems_3128",
+	"problems/problems_322",
+	"problems/problems_3143",
+	"problems/problems_21",
+	"problems/problems_108",
+	"problems/problems_572",
+	"problems/problems_33",
+	"problems/problems_98",
+	"problems/problems_2808",
+	"problems/problems_600",
+	"problems/problems_15",
+	"problems/problems_2398",
+	"problems/problems_3129",
+	"problems/problems_438",
+	"problems/problems_3130",
+	"problems/problems_48",
+	"problems/problems_950",
 ]
 
 [package]
@@ -52,6 +83,36 @@ solution_239 = { path = "problems/problems_239", features = ["solution_239"] }
 solution_3106 = { path = "problems/problems_3106", features = ["solution_3106"] }
 solution_34 = { path = "problems/problems_34", features = ["solution_34"] }
 solution_102 = { path = "problems/problems_102", features = ["solution_102"] }
+solution_1379 = { path = "problems/problems_1379", features = ["solution_1379"] }
+solution_236 = { path = "problems/problems_236", features = ["solution_236"] }
+solution_116 = { path = "problems/problems_116", features = ["solution_116"] }
+solution_117 = { path = "problems/problems_117", features = ["solution_117"] }
+solution_133 = { path = "problems/problems_133", features = ["solution_133"] }
+solution_138 = { path = "problems/problems_138", features = ["solution_138"] }
 solution_699 = { path = "problems/problems_699", features = ["solution_699"] }
 solution_39 = { path = "problems/problems_39", features = ["solution_39"] }
 solution_215 = { path = "problems/problems_215", features = ["solution_215"] }
+solution_682 = { path = "problems/problems_682", features = ["solution_682"] }
+solution_56 = { path = "problems/problems_56", features = ["solution_56"] }
+solution_2961 = { path = "problems/problems_2961", features = ["solution_2961"] }
+solution_394 = { path = "problems/problems_394", features = ["solution_394"] }
+solution_3111 = { path = "problems/problems_3111", features = ["solution_3111"] }
+solution_5 = { path = "problems/problems_5", features = ["solution_5"] }
+solution_169 = { path = "problems/problems_169", features = ["solution_169"] }
+solution_3128 = { path = "problems/problems_3128", features = ["solution_3128"] }
+solution_322 = { path = "problems/problems_322", features = ["solution_322"] }
+solution_3143 = { path = "problems/problems_3143", features = ["solution_3143"] }
+solution_21 = { path = "problems/problems_21", features = ["solution_21"] }
+solution_108 = { path = "problems/problems_108", features = ["solution_108"] }
+solution_572 = { path = "problems/problems_572", features = ["solution_572"] }
+solution_33 = { path = "problems/problems_33", features = ["solution_33"] }
+solution_98 = { path = "problems/problems_98", features = ["solution_98"] }
+solution_2808 = { path = "problems/problems_2808", features = ["solution_2808"] }
+solution_600 = { path = "problems/problems_600", features = ["solution_600"] }
+solution_15 = { path = "problems/problems_15", features = ["solution_15"] }
+solution_2398 = { path = "problems/problems_2398", features = ["solution_2398"] }
+solution_3129 = { path = "problems/problems_3129", features = ["solution_3129"] }
+solution_438 = { path = "problems/problems_438", features = ["solution_438"] }
+solution_3130 = { path = "problems/problems_3130", features = ["solution_3130"] }
+solution_48 = { path = "problems/problems_48", features = ["solution_48"] }
+solution_950 = { path = "problems/problems_950", features = ["solution_950"] }

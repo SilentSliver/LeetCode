@@ -32,7 +32,7 @@ TreeNode *JsonArrayToTreeNode(json arr) {
 
 vector<TreeNode *> JsonArrayToTreeNodeWithTargets(json arr, vector<int> targets) {
     if (arr.empty()) {
-        return vector<TreeNode *>(targets.size() + 1, nullptr);
+        return {targets.size() + 1, nullptr};
     }
     vector<TreeNode *> ans = vector<TreeNode *>(targets.size() + 1);
     auto root = new TreeNode(arr[0]);
@@ -80,7 +80,7 @@ std::vector<TreeNode*> JsonArrayToTreeNodeArray(json arr) {
         return {};
     }
     auto ans = std::vector<TreeNode*>(arr.size(), nullptr);
-    for (auto i = 0; i < arr.size(); i++) {
+    for (auto i = 0; i < static_cast<int>(arr.size()); i++) {
         ans[i] = JsonArrayToTreeNode(arr[i]);
     }
     return ans;
