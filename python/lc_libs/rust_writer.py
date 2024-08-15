@@ -131,15 +131,15 @@ class RustWriter(LanguageWriter):
                             continue
                     self.__parse_type(i, var_name, var_type, code_default, import_libs, solve_part, return_part)
                     i += 1
+                logging.debug("variables: %s", variables)
+                format_variables = ", ".join([f"{v[1].split(' ')[0]} {v[0]}" if "mut" in v[1] or "&" in v[1]
+                                              else v[0] for v in variables])
                 if return_type:
                     self.__parse_type(0, "", return_type, code_default,
                                       import_libs, solve_part, return_part, True)
-                    return_part[-1] = return_part[-1].format(
-                        "Solution::{}({})".format(function_name, ", ".join([v[0] for v in variables]))
-                    )
+                    return_part[-1] = return_part[-1].format(f"Solution::{function_name}({format_variables})")
                 else:
-                    return_part.append("Solution::{}({});".format(function_name,
-                                                                  ", ".join([v[0] for v in variables])))
+                    return_part.append(f"Solution::{function_name}({format_variables});")
                     return_part.append(f"json!({variables[0][0]})")
                 fn_count += 1
         if fn_count != 1:
@@ -176,8 +176,9 @@ class RustWriter(LanguageWriter):
         with open(file_path, 'r', encoding="utf-8") as f:
             content = f.read()
             start = False
+            is_obj_question = "object will be instantiated and called as such:" in content
             for line in content.split("\n"):
-                if "pub struct Solution;" in line:
+                if (is_obj_question and "use serde_json::{json, Value};" in line) or "pub struct Solution;" in line:
                     start = True
                     continue
                 if "#[cfg(feature = \"solution\")]" in line or f"#[cfg(feature = \"solution_{problem_id}\")]" in line:
@@ -425,7 +426,7 @@ class RustWriter(LanguageWriter):
             import_libs.append(f"{crate}{{{fn}}};")
 
     @staticmethod
-    def _parse_rust_structs(code: str) -> Dict[str, List[Tuple[str, str]]]:
+    def _parse_rust_structs(code: str) -> Dict[str, List[Tuple[str, str, str]]]:
         # Regex to find all struct names and their methods
         struct_matches = re.findall(r'struct\s+(\w+)\s*{', code)
         methods = re.findall(r'impl\s+(\w+)\s*{([^}]*)}', code)
@@ -435,14 +436,15 @@ class RustWriter(LanguageWriter):
             struct_methods[struct_name] = []
 
         for struct_name, method_block in methods:
-            methods = re.findall(r'fn\s+(\w+)\s*\(([^)]*)\)\s*->\s*([^{]*)\s*{', code)
-            logging.debug("Regex methods: %s", methods)
-            struct_methods[struct_name].extend([(name, params.strip()) for name, params, _ in methods])
+            matches = re.findall(r'fn\s+(\w+)\s*\(([^)]*)\)\s*(?:->\s*([^{]*))?\s*{', code)
+            logging.debug("Regex matches: %s", matches)
+            struct_methods[struct_name].extend(
+                [(name, params.strip(), return_type.strip()) for name, params, return_type in matches])
 
         return struct_methods
 
     @staticmethod
-    def _generate_solve_function(struct_methods: Dict[str, List[Tuple[str, str]]]) -> List[str]:
+    def _generate_solve_function(struct_methods: Dict[str, List[Tuple[str, str, str]]]) -> List[str]:
         logging.debug(f"Struct methods: {struct_methods}")
         solve_lines = ["let operators: Vec<String> = serde_json::from_str(&input_values[0])"
                        ".expect(\"Failed to parse input\");",
@@ -450,7 +452,7 @@ class RustWriter(LanguageWriter):
                        ".expect(\"Failed to parse input\");"]
         for struct_name, methods in struct_methods.items():
             method_param_names: List[Any] = []
-            for method, params in methods:
+            for method, params, return_type in methods:
                 if method == "new":
                     if not params:
                         solve_lines.append(f"let mut obj = {struct_name}::new();")
@@ -469,7 +471,7 @@ class RustWriter(LanguageWriter):
                     solve_lines.append(f"let mut obj = {struct_name}::new({', '.join(
                         [param.split(':')[0].strip() + '_obj' for param in params.split(',')])});")
                     continue
-                method_param_names.append([method])
+                method_param_names.append([method, return_type])
                 for param in params.split(","):
                     if param == "&self" or param == "&mut self":
                         continue
@@ -481,19 +483,28 @@ class RustWriter(LanguageWriter):
             solve_lines.append("let mut ans = vec![None];")
             solve_lines.append("for i in 1..operators.len() {")
             solve_lines.append("\tmatch operators[i].as_str() {")
+            logging.debug(f"Method param names: {method_param_names}")
             for method_params in method_param_names:
                 method_name = method_params[0]
+                return_type = method_params[1]
                 splits = method_name.split("_")
                 test_case_method_name = method_name
                 if len(splits) > 1:
                     test_case_method_name = "".join([splits[0]] + [s.capitalize() for s in splits[1:]])
                 solve_lines.append(f"\t\t\"{test_case_method_name}\" => {{")
-                for j, (param_name, param_type) in enumerate(method_params[1:]):
+                for j, (param_name, param_type) in enumerate(method_params[2:]):
                     solve_lines.append(f"\t\t\tlet {param_name}: {param_type} = serde_json::"
                                        f"from_value(op_values[i][{j}].clone()).expect(\"Failed to parse input\");")
-                solve_lines.append(
-                    f"\t\t\tans.push(Some(obj.{method_name}({', '.join([param[0] for param in method_params[1:]])})));")
-                solve_lines.append("\t\t},")
+                if return_type == "":
+                    solve_lines.append(f"\t\t\tobj.{method_name}("
+                                       f"{', '.join([param[0] for param in method_params[2:]])});")
+                    solve_lines.append("\t\t\tans.push(None);")
+                    solve_lines.append("\t\t},")
+                else:
+                    solve_lines.append(
+                        f"\t\t\tans.push(Some(obj.{method_name}("
+                        f"{', '.join([param[0] for param in method_params[2:]])})));")
+                    solve_lines.append("\t\t},")
             solve_lines.append("\t\t_ => ans.push(None),")
             solve_lines.append("\t}")
             solve_lines.append("}")

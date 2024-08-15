@@ -127,6 +127,17 @@ func compareGeneral(ast *assert.Assertions, want interface{}, resp interface{}) 
 				}
 			}
 		}
+	case []bool:
+		wantArray := want.([]interface{})
+		respBoolArray := resp.([]bool)
+		if !ast.Equalf(len(wantArray), len(respBoolArray), "Expected: [%v], actual: [%v]", want, resp) {
+			return false
+		}
+		for i := 0; i < len(respBoolArray); i++ {
+			if !ast.Equalf(wantArray[i], respBoolArray[i], "Expected: [%v], actual: [%v]", want, resp) {
+				return false
+			}
+		}
 	case []interface{}:
 		defer func() {
 			if recover() != nil {
@@ -180,6 +191,8 @@ func TestEach(t *testing.T, problemId string, problemFolder string, pkg func(inp
 	tests := processTestcase(fmt.Sprintf(TestcaseFolderFmt, problemFolder, problemFolder, problemId))
 	for j, testcase := range tests {
 		t.Run(fmt.Sprintf("%s/Testcase#%d", problemId, j), func(t *testing.T) {
+			fmt.Printf("Input: %v\n", testcase.input)
+			fmt.Printf("Expected: %v\n", testcase.want)
 			checkSolve(ast, testcase, pkg)
 		})
 	}

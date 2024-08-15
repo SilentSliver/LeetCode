@@ -1,7 +1,7 @@
 import logging
 import os.path
 from collections import deque
-from typing import Tuple
+from typing import Tuple, List
 
 from python.constants import (
     SOLUTION_TEMPLATE_GOLANG,
@@ -86,7 +86,7 @@ class GolangWriter(LanguageWriter):
                             tmp.endswith(f") {struct_name} {{")
                             or tmp.endswith(f") *{struct_name} {{")
                     ):
-                        tp0, tp1, tp2, tp3 = GolangWriter.__process_inputs(
+                        tp0, tp1, tp2, tp3, tp4 = GolangWriter.__process_inputs(
                             code_default,
                             tmp.split("(")[1].split(")")[0],
                             structs_map,
@@ -97,12 +97,13 @@ class GolangWriter(LanguageWriter):
                         structs_map[struct_name]["construct"] = (
                             tmp.split("(")[0].split("func ")[-1].strip(),
                             (tp0, tp1, tp2, tp3.replace("inputValues", "opValues[0]")),
+                            tp4.replace("inputValues", "opValues[0]"),
                             rt,
                         )
                     elif tmp.startswith("func (") and struct_name in tmp.split(")")[0]:
                         if "funcs" not in structs_map[struct_name]:
                             structs_map[struct_name]["funcs"] = []
-                        tp0, tp1, tp2, tp3 = GolangWriter.__process_inputs(
+                        tp0, tp1, tp2, tp3, tp4 = GolangWriter.__process_inputs(
                             code_default,
                             tmp.split("(")[2].split(")")[0],
                             structs_map,
@@ -118,6 +119,7 @@ class GolangWriter(LanguageWriter):
                                     tp1,
                                     tp2,
                                     tp3.replace("inputValues", "opValues[i]"),
+                                    tp4.replace("inputValues", "opValues[i]"),
                                 ),
                                 rt,
                             )
@@ -129,12 +131,14 @@ class GolangWriter(LanguageWriter):
                 for d in structs_map.values():
                     if "funcs" in d:
                         for name, its, rt in d["funcs"]:
+                            logging.debug("Function: %s, its: %s", name, its)
                             import_set.update(its[0])
                             func_loop += (
-                                '\t\tcase "{}", "{}":\n' "\t\t\t{}obj.{}({})\n"
+                                '\t\tcase "{}", "{}":\n' "\t\t\t{}{}obj.{}({})\n"
                             ).format(
                                 name[0].lower() + name[1:],
                                 name,
+                                its[4],
                                 "res = nil\n\t\t\t" if rt == "" else "res = ",
                                 name,
                                 its[3],
@@ -155,20 +159,18 @@ class GolangWriter(LanguageWriter):
                         + "\t}\n"
                         + "{}".format(
                     (
-                        "\tobj :=" + constructor[0] + f"({constructor[1][3]})\n"
+                        "\tobj := " + constructor[0] + f"({constructor[1][3]})\n"
                         if constructor is not None
                         else ""
-                    ),
-                    "",
+                    ), "",
                 )
                         + "\tans = append(ans, nil)\n"
                         + "\tfor i := 1; i < len(operators); i++ {\n"
                         + "\t\tvar res interface{}\n"
-                        + "{}".format(
-                    "\t\tswitch operators[i] {\n" + func_loop + "\t\tdefault:\n"
-                                                                "\t\t\tres = nil\n"
-                                                                "\t\t}\n"
-                )
+                        + "{}".format("\t\tswitch operators[i] {\n" + func_loop + "\t\tdefault:\n"
+                                                                                  "\t\t\tres = nil\n"
+                                                                                  "\t\t}\n"
+                                      )
                         + "\t\tans = append(ans, res)\n"
                           "\t}\n"
                 )
@@ -251,6 +253,7 @@ class GolangWriter(LanguageWriter):
                 return_func_var,
             )
         if rts[0] == "":
+            logging.debug("Modify in place, its: %s", its)
             return SOLUTION_TEMPLATE_GOLANG_MODIFY_IN_PLACE.format(
                 problem_id,
                 "\n".join(
@@ -266,7 +269,7 @@ class GolangWriter(LanguageWriter):
                 "\n".join(list(zip(*its))[2]),
                 func_names[0],
                 ", ".join(list(zip(*its))[3]),
-                its[0][3],
+                its[0][3].split(",")[0].strip()
             )
         return SOLUTION_TEMPLATE_GOLANG.format(
             problem_id,
@@ -336,13 +339,14 @@ class GolangWriter(LanguageWriter):
     @staticmethod
     def __process_inputs(
             code_default: str, input_str: str, struct_dict: dict, struct_func: bool, testcases=None
-    ) -> Tuple[set, str, str, str]:
+    ) -> Tuple[set, str, str, str, str]:
         res = []
         imports_libs = set()
         json_parse = []
         variables = []
+        extra = ""
         if input_str.strip() == "":
-            return set(), "", "", ""
+            return set(), "", "", "", extra
         splits = input_str.split(",")
         first = True
         list_type_vars = []
@@ -369,13 +373,16 @@ class GolangWriter(LanguageWriter):
                 res.append(tp)
                 res.append("\n")
                 first = True
-        list_type_vars_new = []
+        list_type_vars_new: List[List] = []
+        total_vars = 0
         for vars_type in list_type_vars:
             if list_type_vars_new and list_type_vars_new[-1][-1] == vars_type[-1]:
                 list_type_vars_new[-1] = list_type_vars_new[-1][:-1]
                 list_type_vars_new[-1].extend(vars_type)
             else:
                 list_type_vars_new.append(vars_type)
+            total_vars += len(vars_type) - 1
+        logging.debug("Total vars: %d", total_vars)
         list_type_vars = list_type_vars_new
         counts = 0
         if struct_func:
@@ -391,17 +398,25 @@ class GolangWriter(LanguageWriter):
                 imports_libs.add('\t"encoding/json"')
                 imports_libs.add('\t"log"')
                 for _ in vrs:
-                    (
-                        variables.append(f"inputValues[{counts}].({tp})")
-                        if tp != "int"
-                        else variables.append(f"int(inputValues[{counts}].(float64))")
-                    )
+                    match tp:
+                        case "int":
+                            variables.append(f"int(inputValues[{counts}].(float64))")
+                        case "[]string":
+                            extra = (f"var arr []string\n\t\t\tif v, ok := inputValues[{count}].([]string); ok {{\n"
+                                     f"\t\t\t\tarr = v\n\t\t\t}} else {{\n"
+                                     f"\t\t\t\tfor _, vi := range inputValues[{count}].([]interface{{}}) {{\n"
+                                     f"\t\t\t\t\tarr = append(arr, vi.(string))\n"
+                                     f"\t\t\t\t}}\n\t\t\t}}\n\t\t\t")
+                            variables.append("arr")
+                        case _:
+                            variables.append(f"inputValues[{counts}].({tp})")
                     counts += 1
             else:
                 match tp:
                     case "*ListNode":
                         if testcases:
-                            if len(testcases[0]) == len(vrs) + 1 and all(
+                            logging.debug(f"Testcases: {testcases}, variables: {vrs}")
+                            if len(testcases[0]) == total_vars + 1 and all(
                                     isinstance(testcase[0], list)
                                     and isinstance(testcase[1], int)
                                     for testcase in testcases):
@@ -425,7 +440,7 @@ class GolangWriter(LanguageWriter):
                                 imports_libs.add('\t"log"')
                                 count += 2
                                 continue
-                            elif (len(vrs) == 2 and len(testcases[0]) == 5
+                            elif (total_vars == 2 and len(testcases[0]) == 5
                                   and all(isinstance(testcase[0], int) and
                                           isinstance(testcase[1], list) and
                                           isinstance(testcase[2], list) and
@@ -464,7 +479,7 @@ class GolangWriter(LanguageWriter):
                                 imports_libs.add('\t"log"')
                                 count += 5
                                 continue
-                            elif len(vrs) != len(testcases[0]):
+                            elif total_vars != len(testcases[0]):
                                 logging.debug(f"Testcases: {testcases}, variables: {vrs}")
                         for j, var in enumerate(vrs):
                             json_parse.append(f"\tvar {var}IntArray []int\n")
@@ -500,7 +515,7 @@ class GolangWriter(LanguageWriter):
                     case "*TreeNode":
                         imports_libs.add('\t. "leetCode/golang/models"')
                         if testcases:
-                            if len(vrs) == len(testcases[0]) + 1:
+                            if total_vars == len(testcases[0]) + 1:
                                 imports_libs.add('\t"encoding/json"')
                                 imports_libs.add('\t"log"')
                                 json_parse.append("\tvar targetVal int\n")
@@ -514,8 +529,8 @@ class GolangWriter(LanguageWriter):
                                 json_parse.append(f"\t{vrs[1]} = ArrayToTree(inputValues[0])\n")
                                 count += len(vrs)
                                 continue
-                            elif len(vrs) > 1 and any(t is not None and not isinstance(t, list)
-                                                      for testcase in testcases for t in testcase):
+                            elif total_vars > 1 and any(t is not None and not isinstance(t, list)
+                                                        for testcase in testcases for t in testcase):
                                 imports_libs.add('\t"encoding/json"')
                                 imports_libs.add('\t"log"')
                                 j = last_idx = 0
@@ -671,4 +686,4 @@ class GolangWriter(LanguageWriter):
                         imports_libs.add('\t"log"')
             count += len(vrs)
         imports_libs.add('\t"strings"')
-        return imports_libs, "".join(res), "".join(json_parse), ", ".join(variables)
+        return imports_libs, "".join(res), "".join(json_parse), ", ".join(variables), extra
