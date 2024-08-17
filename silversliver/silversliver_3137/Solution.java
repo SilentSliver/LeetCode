@@ -7,7 +7,15 @@ import qubhjava.BaseSolution;
 
 public class Solution extends BaseSolution {
     public int minimumOperationsToMakeKPeriodic(String word, int k) {
-
+        int n = word.length();
+        int mx = 0;
+        HashMap<String, Integer> cnt = new HashMap<>();
+        for (int i = k; i <= n; i += k) {
+            String sub = word.substring(i - k, i);
+            int c = cnt.merge(sub, 1, Integer::sum); // c = ++cnt[sub]
+            mx = Math.max(mx, c);
+        }
+        return n / k - mx;
     }
 
     @Override
