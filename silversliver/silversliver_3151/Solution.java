@@ -7,7 +7,13 @@ import qubhjava.BaseSolution;
 
 public class Solution extends BaseSolution {
     public boolean isArraySpecial(int[] nums) {
-
+        var stat = 0;
+        for (var n: nums)
+            if (((n % 2 == 0) ? 1 : -1) != stat)
+                stat = (n % 2 == 0) ? 1 : -1;
+            else
+                return false;
+        return true;
     }
 
     @Override
