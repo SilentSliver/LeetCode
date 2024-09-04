@@ -41,6 +41,9 @@ func processTestcase(problemPath string) (tests []TestCase) {
 	for i, input := range inputs {
 		tests = append(tests, TestCase{input, outputs.([]interface{})[i]})
 	}
+	if len(inputs) == 0 {
+		log.Fatalf("[ERROR] No testcases found! ProblemPath: %s", problemPath)
+	}
 	return
 }
 
@@ -171,19 +174,21 @@ func compareGeneral(ast *assert.Assertions, want interface{}, resp interface{}) 
 	return true
 }
 
-func checkSolve(ast *assert.Assertions, testcase TestCase, pkg func(inputJsonValues string) interface{}) {
+func checkSolve(ast *assert.Assertions, testcase TestCase, pkg func(inputJsonValues string) interface{}) bool {
 	gotResp := pkg(testcase.input)
 	if !compareGeneral(ast, testcase.want, gotResp) {
 		secondResp := pkg(testcase.input)
 		if fmt.Sprintf("%v", gotResp) != fmt.Sprintf("%v", secondResp) {
 			for i := 0; i < 10000; i++ {
 				if compareGeneral(ast, testcase.want, secondResp) {
-					return
+					return true
 				}
 				secondResp = pkg(testcase.input)
 			}
 		}
+		return false
 	}
+	return true
 }
 
 func TestEach(t *testing.T, problemId string, problemFolder string, pkg func(inputJsonValues string) interface{}) {
@@ -193,7 +198,9 @@ func TestEach(t *testing.T, problemId string, problemFolder string, pkg func(inp
 		t.Run(fmt.Sprintf("%s/Testcase#%d", problemId, j), func(t *testing.T) {
 			fmt.Printf("Input: %v\n", testcase.input)
 			fmt.Printf("Expected: %v\n", testcase.want)
-			checkSolve(ast, testcase, pkg)
+			if !checkSolve(ast, testcase, pkg) {
+				t.FailNow()
+			}
 		})
 	}
 }

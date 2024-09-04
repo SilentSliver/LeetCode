@@ -146,11 +146,12 @@ def test_submit(args):
     if args.lang:
         languages = args.lang.split(",")
     else:
-        languages = ["python3", "golang", "java", "cpp", "typescript"]
+        languages = ["python3", "golang", "java", "cpp", "typescript", "rust"]
     cur_path = os.path.dirname(os.path.abspath(__file__))
     root_path = os.path.dirname(os.path.dirname(cur_path))
     problem_path = f"{root_path}/problems/problems_{args.problem}/"
     if not os.path.exists(problem_path):
+        logging.debug(f"Problem not found in problems folder, checking in premiums folder")
         problem_path = problem_path.replace("problems", "premiums")
         if not os.path.exists(problem_path):
             raise FileNotFoundError(
@@ -167,6 +168,9 @@ def test_submit(args):
         solution_file: str = obj.solution_file
         if not solution_file:
             continue
+        if not os.path.exists(f"{problem_path}/{solution_file}"):
+            logging.warning(f"Solution file not found for {lang} in {problem_path}")
+            continue
         code, _ = obj.get_solution_code(root_path, problem_folder, args.problem)
         tmp_sol = solution_file.split(".")
         with open(
@@ -175,6 +179,7 @@ def test_submit(args):
                 encoding="utf-8",
         ) as f:
             f.write(code)
+        logging.debug(code)
 
 
 if __name__ == "__main__":

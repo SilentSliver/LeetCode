@@ -69,6 +69,77 @@ members = [
 	"problems/problems_199",
 	"problems/problems_3148",
 	"problems/problems_739",
+	"problems/problems_3117",
+	"problems/problems_LCR_007",
+	"problems/problems_300",
+	"problems/problems_2578",
+	"problems/problems_LCP_40",
+	"problems/problems_3137",
+	"problems/problems_1143",
+	"problems/problems_31",
+	"problems/problems_LCR_014",
+	"problems/problems_LCR_036",
+	"problems/problems_551",
+	"problems/problems_79",
+	"problems/problems_25",
+	"problems/problems_LCR_059",
+	"problems/problems_LCR_062",
+	"problems/problems_552",
+	"problems/problems_LCR_074",
+	"problems/problems_128",
+	"problems/problems_3154",
+	"problems/problems_LCR_079",
+	"problems/problems_76",
+	"problems/problems_3007",
+	"problems/problems_LCR_088",
+	"problems/problems_114",
+	"problems/problems_3133",
+	"problems/problems_153",
+	"problems/problems_LCR_047",
+	"problems/problems_3145",
+	"problems/problems_295",
+	"problems/problems_LCR_021",
+	"problems/problems_3146",
+	"problems/problems_LCR_089",
+	"problems/problems_LCR_080",
+	"problems/problems_152",
+	"problems/problems_698",
+	"problems/problems_LCR_001",
+	"problems/problems_LCR_031",
+	"problems/problems_105",
+	"problems/problems_42",
+	"problems/problems_LCR_042",
+	"problems/problems_240",
+	"problems/problems_3134",
+	"problems/problems_LCR_068",
+	"problems/problems_208",
+	"problems/problems_3144",
+	"problems/problems_LCR_008",
+	"problems/problems_131",
+	"problems/problems_3142",
+	"problems/problems_LCR_015",
+	"problems/problems_45",
+	"problems/problems_3153",
+	"problems/problems_LCR_048",
+	"problems/problems_148",
+	"problems/problems_3127",
+	"problems/problems_LCR_105",
+	"problems/problems_LCR_090",
+	"problems/problems_437",
+	"problems/problems_238",
+	"problems/problems_1450",
+	"problems/problems_LCR_063",
+	"problems/problems_84",
+	"problems/problems_416",
+	"problems/problems_2024",
+	"problems/problems_LCR_037",
+	"problems/problems_72",
+	"problems/problems_2708",
+	"problems/problems_LCR_075",
+	"problems/problems_287",
+	"problems/problems_2860",
+	"problems/problems_LCR_081",
+	"problems/problems_4",
 ]
 
 [package]
@@ -160,3 +231,74 @@ solution_3152 = { path = "problems/problems_3152", features = ["solution_3152"] 
 solution_199 = { path = "problems/problems_199", features = ["solution_199"] }
 solution_3148 = { path = "problems/problems_3148", features = ["solution_3148"] }
 solution_739 = { path = "problems/problems_739", features = ["solution_739"] }
+solution_3117 = { path = "problems/problems_3117", features = ["solution_3117"] }
+solution_LCR_007 = { path = "problems/problems_LCR_007", features = ["solution_LCR_007"] }
+solution_300 = { path = "problems/problems_300", features = ["solution_300"] }
+solution_2578 = { path = "problems/problems_2578", features = ["solution_2578"] }
+solution_LCP_40 = { path = "problems/problems_LCP_40", features = ["solution_LCP_40"] }
+solution_3137 = { path = "problems/problems_3137", features = ["solution_3137"] }
+solution_1143 = { path = "problems/problems_1143", features = ["solution_1143"] }
+solution_31 = { path = "problems/problems_31", features = ["solution_31"] }
+solution_LCR_014 = { path = "problems/problems_LCR_014", features = ["solution_LCR_014"] }
+solution_LCR_036 = { path = "problems/problems_LCR_036", features = ["solution_LCR_036"] }
+solution_551 = { path = "problems/problems_551", features = ["solution_551"] }
+solution_79 = { path = "problems/problems_79", features = ["solution_79"] }
+solution_25 = { path = "problems/problems_25", features = ["solution_25"] }
+solution_LCR_059 = { path = "problems/problems_LCR_059", features = ["solution_LCR_059"] }
+solution_LCR_062 = { path = "problems/problems_LCR_062", features = ["solution_LCR_062"] }
+solution_552 = { path = "problems/problems_552", features = ["solution_552"] }
+solution_LCR_074 = { path = "problems/problems_LCR_074", features = ["solution_LCR_074"] }
+solution_128 = { path = "problems/problems_128", features = ["solution_128"] }
+solution_3154 = { path = "problems/problems_3154", features = ["solution_3154"] }
+solution_LCR_079 = { path = "problems/problems_LCR_079", features = ["solution_LCR_079"] }
+solution_76 = { path = "problems/problems_76", features = ["solution_76"] }
+solution_3007 = { path = "problems/problems_3007", features = ["solution_3007"] }
+solution_LCR_088 = { path = "problems/problems_LCR_088", features = ["solution_LCR_088"] }
+solution_114 = { path = "problems/problems_114", features = ["solution_114"] }
+solution_3133 = { path = "problems/problems_3133", features = ["solution_3133"] }
+solution_153 = { path = "problems/problems_153", features = ["solution_153"] }
+solution_LCR_047 = { path = "problems/problems_LCR_047", features = ["solution_LCR_047"] }
+solution_3145 = { path = "problems/problems_3145", features = ["solution_3145"] }
+solution_295 = { path = "problems/problems_295", features = ["solution_295"] }
+solution_LCR_021 = { path = "problems/problems_LCR_021", features = ["solution_LCR_021"] }
+solution_3146 = { path = "problems/problems_3146", features = ["solution_3146"] }
+solution_LCR_089 = { path = "problems/problems_LCR_089", features = ["solution_LCR_089"] }
+solution_LCR_080 = { path = "problems/problems_LCR_080", features = ["solution_LCR_080"] }
+solution_152 = { path = "problems/problems_152", features = ["solution_152"] }
+solution_698 = { path = "problems/problems_698", features = ["solution_698"] }
+solution_LCR_001 = { path = "problems/problems_LCR_001", features = ["solution_LCR_001"] }
+solution_LCR_031 = { path = "problems/problems_LCR_031", features = ["solution_LCR_031"] }
+solution_105 = { path = "problems/problems_105", features = ["solution_105"] }
+solution_42 = { path = "problems/problems_42", features = ["solution_42"] }
+solution_LCR_042 = { path = "problems/problems_LCR_042", features = ["solution_LCR_042"] }
+solution_240 = { path = "problems/problems_240", features = ["solution_240"] }
+solution_3134 = { path = "problems/problems_3134", features = ["solution_3134"] }
+solution_LCR_068 = { path = "problems/problems_LCR_068", features = ["solution_LCR_068"] }
+solution_208 = { path = "problems/problems_208", features = ["solution_208"] }
+solution_3144 = { path = "problems/problems_3144", features = ["solution_3144"] }
+solution_LCR_008 = { path = "problems/problems_LCR_008", features = ["solution_LCR_008"] }
+solution_131 = { path = "problems/problems_131", features = ["solution_131"] }
+solution_3142 = { path = "problems/problems_3142", features = ["solution_3142"] }
+solution_LCR_015 = { path = "problems/problems_LCR_015", features = ["solution_LCR_015"] }
+solution_45 = { path = "problems/problems_45", features = ["solution_45"] }
+solution_3153 = { path = "problems/problems_3153", features = ["solution_3153"] }
+solution_LCR_048 = { path = "problems/problems_LCR_048", features = ["solution_LCR_048"] }
+solution_148 = { path = "problems/problems_148", features = ["solution_148"] }
+solution_3127 = { path = "problems/problems_3127", features = ["solution_3127"] }
+solution_LCR_105 = { path = "problems/problems_LCR_105", features = ["solution_LCR_105"] }
+solution_LCR_090 = { path = "problems/problems_LCR_090", features = ["solution_LCR_090"] }
+solution_437 = { path = "problems/problems_437", features = ["solution_437"] }
+solution_238 = { path = "problems/problems_238", features = ["solution_238"] }
+solution_1450 = { path = "problems/problems_1450", features = ["solution_1450"] }
+solution_LCR_063 = { path = "problems/problems_LCR_063", features = ["solution_LCR_063"] }
+solution_84 = { path = "problems/problems_84", features = ["solution_84"] }
+solution_416 = { path = "problems/problems_416", features = ["solution_416"] }
+solution_2024 = { path = "problems/problems_2024", features = ["solution_2024"] }
+solution_LCR_037 = { path = "problems/problems_LCR_037", features = ["solution_LCR_037"] }
+solution_72 = { path = "problems/problems_72", features = ["solution_72"] }
+solution_2708 = { path = "problems/problems_2708", features = ["solution_2708"] }
+solution_LCR_075 = { path = "problems/problems_LCR_075", features = ["solution_LCR_075"] }
+solution_287 = { path = "problems/problems_287", features = ["solution_287"] }
+solution_2860 = { path = "problems/problems_2860", features = ["solution_2860"] }
+solution_LCR_081 = { path = "problems/problems_LCR_081", features = ["solution_LCR_081"] }
+solution_4 = { path = "problems/problems_4", features = ["solution_4"] }

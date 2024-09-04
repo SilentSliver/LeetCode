@@ -37,8 +37,8 @@ func Solve(inputJsonValues string) interface{{}} {{
 \tinputValues := strings.Split(inputJsonValues, "\\n")
 {}
 {}
-\treturn {}({})
-}}
+\t{}return {}
+}}{}
 """
 
 SOLUTION_TEMPLATE_GOLANG_MODIFY_IN_PLACE = """package problem{}
@@ -55,7 +55,7 @@ func Solve(inputJsonValues string) interface{{}} {{
 {}
 \t{}({})
 \treturn {}
-}}
+}}{}
 """
 
 TESTCASE_TEMPLATE_GOLANG = """package golang
@@ -85,7 +85,7 @@ public class Solution extends BaseSolution {{
         {}
         return JSON.toJSON({});
     }}
-}}
+}}{}
 """
 
 SOLUTION_TEMPLATE_CPP = """//go:build ignore
@@ -140,10 +140,10 @@ export function Solve(inputJsonElement: string): any {{
 \tconst inputValues: string[] = inputJsonElement.split(\"\\n\");
 {}
 \treturn {};
-}}
+}}{}
 """
 
-SOLUTION_TEMPLATE_RUST = """use serde_json::{{json, Value}};
+SOLUTION_TEMPLATE_RUST = """{}use serde_json::{{json, Value}};
 {}
 {}
 {}

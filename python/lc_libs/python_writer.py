@@ -92,38 +92,19 @@ class Python3Writer(LanguageWriter):
         file_path = os.path.join(root_path, problem_folder, f"{problem_folder}_{problem_id}", "solution.py")
         if not os.path.exists(file_path):
             return "", problem_id
-        final_codes = deque([])
-        solve_part = False
-        class_part = False
+        final_codes = []
         with open(file_path, "r", encoding="utf-8") as f:
             content = f.read()
             skip_solution = "from python.object_libs import " in content and " call_method" in content
-            lines = content.split("\n")
-            for line in lines:
-                if line.startswith("import") or line.startswith("from "):
-                    continue
-                if "class Solution(solution.Solution):" in line:
-                    if not skip_solution:
-                        final_codes.append("class Solution:")
-                    continue
-                if "class Node:" in line or "class ListNode:" in line or "class TreeNode" in line:
-                    class_part = True
-                    continue
-                if class_part:
-                    if line.strip() == '' or line.startswith("class"):
-                        class_part = False
-                    else:
-                        continue
-                if "def solve(self, test_input=None):" in line:
-                    solve_part = True
-                    continue
-                if solve_part:
-                    if "return " in line:
-                        solve_part = False
-                    continue
-                final_codes.append(line)
-        while final_codes and final_codes[0].strip() == '':
-            final_codes.popleft()
+            idx = content.find("def solve(self, test_input=None):")
+            idx = content.find("return ", idx)
+            idx = content.find("\n", idx) + 1
+            while idx < len(content) and content[idx] == "\n":
+                idx += 1
+            logging.debug("Start idx: %d", idx)
+            if not skip_solution:
+                final_codes.append("class Solution:")
+            final_codes.extend(content[idx:].split("\n"))
         return "\n".join(final_codes), problem_id
 
     @staticmethod
@@ -146,6 +127,12 @@ class Python3Writer(LanguageWriter):
 
     @staticmethod
     def write_testcase(testcases, outputs) -> str:
+        if len(testcases) == 0 or len(outputs) == 0:
+            logging.error("No testcases or outputs found, please check the problem."
+                          " Testcases: %s, Outputs: %s", testcases, outputs)
+        elif len(testcases) != len(outputs):
+            logging.warning("Testcases [%d] and outputs [%d] are not the same length, "
+                            "please check the testcases and outputs", len(testcases), len(outputs))
         res = ""
         for inputs, output in zip(testcases, outputs):
             res += (TESTCASE_TEMPLATE_PYTHON_TESTCASES
@@ -303,6 +290,7 @@ class Python3Writer(LanguageWriter):
         process_input = ""
         remain = ""
         inputs = ""
+        modify_in_place_inputs = ""
         is_first = True
         for k in list(parameters.keys()):
             if parameters[k].name == "self":
@@ -329,6 +317,9 @@ class Python3Writer(LanguageWriter):
                     process_input += "nums_arr"
                     remain += "        roots = [list_to_tree(nums) for nums in nums_arr]\n"
                     inputs += "roots"
+                    if modify_in_place and not modify_in_place_inputs:
+                        add_lib += ", tree_to_list" if exists else "from python.object_libs import tree_to_list"
+                        modify_in_place_inputs = "tree_to_list(roots[0])"
                 else:
                     if testcases:
                         if (len(p_values) == len(testcases[0]) + 1 and
@@ -362,6 +353,9 @@ class Python3Writer(LanguageWriter):
                     process_input += f"nums{idx}"
                     remain += f"        root{idx} = list_to_tree(nums{idx})\n"
                     inputs += f"root{idx}"
+                    if modify_in_place and not modify_in_place_inputs:
+                        add_lib += ", tree_to_list" if exists else "from python.object_libs import tree_to_list"
+                        modify_in_place_inputs = f"tree_to_list(root{idx})"
                     idx += 1
             elif "ListNode" in str(v.annotation):
                 exists = True
@@ -370,6 +364,9 @@ class Python3Writer(LanguageWriter):
                     process_input += "nums_arr"
                     remain += f"        heads = [list_to_linked_list(nums) for nums in nums_arr]\n"
                     inputs += "heads"
+                    if modify_in_place and not modify_in_place_inputs:
+                        add_lib += ", tree_to_list" if exists else "from python.object_libs import linked_list_to_list"
+                        modify_in_place_inputs = "linked_list_to_list(heads[0])"
                 else:
                     if testcases:
                         if len(testcases[0]) == len(p_values) + 1 and all(
@@ -381,6 +378,7 @@ class Python3Writer(LanguageWriter):
                             remain += f"        head{idx} = list_to_linked_list_cycle(nums{idx}, pos{idx})\n"
                             inputs += f"head{idx}"
                             idx += 2
+                            logging.debug(process_input)
                             continue
                         elif (len(p_values) == 2 and all("ListNode" in str(p.annotation) for p in p_values) and
                               len(testcases[0]) == 5 and all(isinstance(testcase[0], int) and
@@ -400,6 +398,9 @@ class Python3Writer(LanguageWriter):
                     process_input += f"nums{idx}"
                     remain += f"        head{idx} = list_to_linked_list(nums{idx})\n"
                     inputs += f"head{idx}"
+                    if modify_in_place and not modify_in_place_inputs:
+                        add_lib += ", tree_to_list" if exists else "from python.object_libs import linked_list_to_list"
+                        modify_in_place_inputs = f"linked_list_to_list(head{idx})"
                     idx += 1
             elif "Node" in str(v.annotation) and "Node" in cs_map and "neighbors" in cs_map["Node"][0][1]:
                 # special handle Neighbour Nodes
@@ -431,6 +432,8 @@ class Python3Writer(LanguageWriter):
             else:
                 process_input += v.name
                 inputs += v.name
+                if modify_in_place and not modify_in_place_inputs:
+                    modify_in_place_inputs = v.name
                 idx += 1
 
         if len(parameters) > 0:
@@ -445,14 +448,20 @@ class Python3Writer(LanguageWriter):
                 remain += ("        res = self.{}({})\n        return tree_to_list(res)"
                            .format(func_name, inputs))
         elif "ListNode" in str(return_anno):
-            add_lib += ", linked_list_to_list" if exists else \
-                "from python.object_libs import linked_list_to_list"
-            if "List[" in str(return_anno):
-                remain += ("res = self.{}({})\n        return [linked_list_to_list(head) for head in "
-                           "res]").format(func_name, inputs)
-            else:
-                remain += ("        res = self.{}({})\n        return linked_list_to_list(res)"
+            if "list_to_linked_list_cycle" in add_lib:
+                logging.debug("Cycle linked list return")
+                remain += ("        res = self.{}({})\n        return res.val if res else None"
                            .format(func_name, inputs))
+            else:
+                add_lib += ", linked_list_to_list" if exists else \
+                    "from python.object_libs import linked_list_to_list"
+                if "List[" in str(return_anno):
+                    remain += ("res = self.{}({})\n        return [linked_list_to_list(head) for head in "
+                               "res]").format(func_name, inputs)
+                else:
+                    remain += ("        res = self.{}({})\n        return linked_list_to_list(res)"
+                               .format(func_name, inputs))
+            logging.debug(remain)
         elif "Node" in str(return_anno) and "Node" in cs_map and "neighbors" in cs_map["Node"][0][1]:
             # special handle Neighbour Nodes
             add_lib += ", node_neigh_to_list_relation" if exists else \
@@ -480,7 +489,8 @@ class Python3Writer(LanguageWriter):
             if not modify_in_place:
                 remain += "        return self.{}({})".format(func_name, inputs)
             else:
-                remain += "        self.{}({})\n        return {}".format(func_name, inputs, inputs)
+                logging.debug("Modify in place complex: func_name [%s], inputs [%s], ", func_name, inputs)
+                remain += "        self.{}({})\n        return {}".format(func_name, inputs, modify_in_place_inputs)
         import_libs.append(add_lib + "\n")
 
         process_input += remain

@@ -8,8 +8,10 @@ import org.junit.jupiter.api.TestFactory;
 import org.junit.jupiter.api.Timeout;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import problems.problems_2860.Solution;
 // import problems.problems_3148.Solution;
-// import premiums.premiums_1056.Solution;
+
 
 import org.testng.util.Strings;
 import silversliver.silversliver_2860.Solution;

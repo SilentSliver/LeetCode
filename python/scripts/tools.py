@@ -81,13 +81,17 @@ def back_fill_ratings(args):
 def lucky(args):
     def process_problem(root_path, question: dict, langs) -> bool:
         question_id = format_question_id(question["frontendQuestionId"])
+        if question.get("paidOnly", False):
+            logging.warning("Paid problem: %s", question_id)
+            return False
         dir_path = os.path.join(root_path, problem_folder, f"{problem_folder}_{question_id}")
         if not os.path.exists(dir_path):
             logging.info("Found: %s", question_id)
             os.makedirs(dir_path, exist_ok=True)
-            write_question(root_path, dir_path, problem_folder, question_id, question["title"],
-                           question["titleSlug"], langs)
-            for lang in languages:
+            success_languages = write_question(root_path, dir_path, problem_folder,
+                                               question_id, question["title"], question["titleSlug"], langs)
+            logging.debug("Success languages: %s", success_languages)
+            for lang in success_languages:
                 cls = getattr(lc_libs, f"{lang.capitalize()}Writer", None)
                 if not cls:
                     continue
@@ -156,9 +160,10 @@ def remain(args):
         logging.warning("Folder already exists: %s", dir_path)
         return
     os.makedirs(dir_path, exist_ok=True)
-    write_question(root_path, dir_path, problem_folder, question_id, pick["title"], pick["titleSlug"],
-                   langs)
+    results = write_question(root_path, dir_path, problem_folder, question_id,
+                             pick["title"], pick["titleSlug"], langs)
     logging.info("Problem created: %s", question_id)
+    logging.debug("Success languages: %s", results)
 
 
 if __name__ == '__main__':
@@ -178,6 +183,6 @@ if __name__ == '__main__':
     rm.add_argument("-s", "--status", required=False, choices=["TRIED", "AC", "NOT_STARTED"],
                     default="TRIED", help="Add specified problem status only.")
     rm.set_defaults(func=remain)
-    args = parser.parse_args()
-    args.func(args)
+    arguments = parser.parse_args()
+    arguments.func(arguments)
     sys.exit()

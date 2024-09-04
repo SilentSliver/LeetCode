@@ -2450,5 +2450,732 @@
                 "code": "(define/contract (rotate nums k)\n  (-> (listof exact-integer?) exact-integer? void?)\n\n  )"
             }
         ]
+    },
+    {
+        "703": [
+            {
+                "lang": "C++",
+                "langSlug": "cpp",
+                "code": "class KthLargest {\npublic:\n    KthLargest(int k, vector<int>& nums) {\n\n    }\n    \n    int add(int val) {\n\n    }\n};\n\n/**\n * Your KthLargest object will be instantiated and called as such:\n * KthLargest* obj = new KthLargest(k, nums);\n * int param_1 = obj->add(val);\n */"
+            },
+            {
+                "lang": "Java",
+                "langSlug": "java",
+                "code": "class KthLargest {\n\n    public KthLargest(int k, int[] nums) {\n\n    }\n    \n    public int add(int val) {\n\n    }\n}\n\n/**\n * Your KthLargest object will be instantiated and called as such:\n * KthLargest obj = new KthLargest(k, nums);\n * int param_1 = obj.add(val);\n */"
+            },
+            {
+                "lang": "Python",
+                "langSlug": "python",
+                "code": "class KthLargest(object):\n\n    def __init__(self, k, nums):\n        \"\"\"\n        :type k: int\n        :type nums: List[int]\n        \"\"\"\n\n\n    def add(self, val):\n        \"\"\"\n        :type val: int\n        :rtype: int\n        \"\"\"\n\n\n\n# Your KthLargest object will be instantiated and called as such:\n# obj = KthLargest(k, nums)\n# param_1 = obj.add(val)"
+            },
+            {
+                "lang": "Python3",
+                "langSlug": "python3",
+                "code": "class KthLargest:\n\n    def __init__(self, k: int, nums: List[int]):\n\n\n    def add(self, val: int) -> int:\n\n\n\n# Your KthLargest object will be instantiated and called as such:\n# obj = KthLargest(k, nums)\n# param_1 = obj.add(val)"
+            },
+            {
+                "lang": "C",
+                "langSlug": "c",
+                "code": "\n\n\ntypedef struct {\n    \n} KthLargest;\n\n\nKthLargest* kthLargestCreate(int k, int* nums, int numsSize) {\n    \n}\n\nint kthLargestAdd(KthLargest* obj, int val) {\n    \n}\n\nvoid kthLargestFree(KthLargest* obj) {\n    \n}\n\n/**\n * Your KthLargest struct will be instantiated and called as such:\n * KthLargest* obj = kthLargestCreate(k, nums, numsSize);\n * int param_1 = kthLargestAdd(obj, val);\n \n * kthLargestFree(obj);\n*/"
+            },
+            {
+                "lang": "C#",
+                "langSlug": "csharp",
+                "code": "public class KthLargest {\n\n    public KthLargest(int k, int[] nums) {\n\n    }\n    \n    public int Add(int val) {\n\n    }\n}\n\n/**\n * Your KthLargest object will be instantiated and called as such:\n * KthLargest obj = new KthLargest(k, nums);\n * int param_1 = obj.Add(val);\n */"
+            },
+            {
+                "lang": "JavaScript",
+                "langSlug": "javascript",
+                "code": "/**\n * @param {number} k\n * @param {number[]} nums\n */\nvar KthLargest = function(k, nums) {\n\n};\n\n/** \n * @param {number} val\n * @return {number}\n */\nKthLargest.prototype.add = function(val) {\n\n};\n\n/**\n * Your KthLargest object will be instantiated and called as such:\n * var obj = new KthLargest(k, nums)\n * var param_1 = obj.add(val)\n */"
+            },
+            {
+                "lang": "TypeScript",
+                "langSlug": "typescript",
+                "code": "class KthLargest {\n    constructor(k: number, nums: number[]) {\n        \n    }\n\n    add(val: number): number {\n        \n    }\n}\n\n/**\n * Your KthLargest object will be instantiated and called as such:\n * var obj = new KthLargest(k, nums)\n * var param_1 = obj.add(val)\n */"
+            },
+            {
+                "lang": "PHP",
+                "langSlug": "php",
+                "code": "class KthLargest {\n    /**\n     * @param Integer $k\n     * @param Integer[] $nums\n     */\n    function __construct($k, $nums) {\n\n    }\n\n    /**\n     * @param Integer $val\n     * @return Integer\n     */\n    function add($val) {\n\n    }\n}\n\n/**\n * Your KthLargest object will be instantiated and called as such:\n * $obj = KthLargest($k, $nums);\n * $ret_1 = $obj->add($val);\n */"
+            },
+            {
+                "lang": "Swift",
+                "langSlug": "swift",
+                "code": "\nclass KthLargest {\n\n    init(_ k: Int, _ nums: [Int]) {\n\n    }\n    \n    func add(_ val: Int) -> Int {\n\n    }\n}\n\n/**\n * Your KthLargest object will be instantiated and called as such:\n * let obj = KthLargest(k, nums)\n * let ret_1: Int = obj.add(val)\n */"
+            },
+            {
+                "lang": "Kotlin",
+                "langSlug": "kotlin",
+                "code": "class KthLargest(k: Int, nums: IntArray) {\n\n    fun add(`val`: Int): Int {\n\n    }\n\n}\n\n/**\n * Your KthLargest object will be instantiated and called as such:\n * var obj = KthLargest(k, nums)\n * var param_1 = obj.add(`val`)\n */"
+            },
+            {
+                "lang": "Dart",
+                "langSlug": "dart",
+                "code": "class KthLargest {\n\n  KthLargest(int k, List<int> nums) {\n    \n  }\n  \n  int add(int val) {\n    \n  }\n}\n\n/**\n * Your KthLargest object will be instantiated and called as such:\n * KthLargest obj = KthLargest(k, nums);\n * int param1 = obj.add(val);\n */"
+            },
+            {
+                "lang": "Go",
+                "langSlug": "golang",
+                "code": "type KthLargest struct {\n\n}\n\n\nfunc Constructor(k int, nums []int) KthLargest {\n\n}\n\n\nfunc (this *KthLargest) Add(val int) int {\n\n}\n\n\n/**\n * Your KthLargest object will be instantiated and called as such:\n * obj := Constructor(k, nums);\n * param_1 := obj.Add(val);\n */"
+            },
+            {
+                "lang": "Ruby",
+                "langSlug": "ruby",
+                "code": "class KthLargest\n\n=begin\n    :type k: Integer\n    :type nums: Integer[]\n=end\n    def initialize(k, nums)\n\n    end\n\n\n=begin\n    :type val: Integer\n    :rtype: Integer\n=end\n    def add(val)\n\n    end\n\n\nend\n\n# Your KthLargest object will be instantiated and called as such:\n# obj = KthLargest.new(k, nums)\n# param_1 = obj.add(val)"
+            },
+            {
+                "lang": "Scala",
+                "langSlug": "scala",
+                "code": "class KthLargest(_k: Int, _nums: Array[Int]) {\n\n    def add(`val`: Int): Int = {\n        \n    }\n\n}\n\n/**\n * Your KthLargest object will be instantiated and called as such:\n * val obj = new KthLargest(k, nums)\n * val param_1 = obj.add(`val`)\n */"
+            },
+            {
+                "lang": "Rust",
+                "langSlug": "rust",
+                "code": "struct KthLargest {\n\n}\n\n\n/**\n * `&self` means the method takes an immutable reference.\n * If you need a mutable reference, change it to `&mut self` instead.\n */\nimpl KthLargest {\n\n    fn new(k: i32, nums: Vec<i32>) -> Self {\n\n    }\n    \n    fn add(&self, val: i32) -> i32 {\n\n    }\n}\n\n/**\n * Your KthLargest object will be instantiated and called as such:\n * let obj = KthLargest::new(k, nums);\n * let ret_1: i32 = obj.add(val);\n */"
+            },
+            {
+                "lang": "Racket",
+                "langSlug": "racket",
+                "code": "(define kth-largest%\n  (class object%\n    (super-new)\n    \n    ; k : exact-integer?\n    ; nums : (listof exact-integer?)\n    (init-field\n      k\n      nums)\n    \n    ; add : exact-integer? -> exact-integer?\n    (define/public (add val)\n      )))\n\n;; Your kth-largest% object will be instantiated and called as such:\n;; (define obj (new kth-largest% [k k] [nums nums]))\n;; (define param_1 (send obj add val))"
+            },
+            {
+                "lang": "Erlang",
+                "langSlug": "erlang",
+                "code": "-spec kth_largest_init_(K :: integer(), Nums :: [integer()]) -> any().\nkth_largest_init_(K, Nums) ->\n  .\n\n-spec kth_largest_add(Val :: integer()) -> integer().\nkth_largest_add(Val) ->\n  .\n\n\n%% Your functions will be called as such:\n%% kth_largest_init_(K, Nums),\n%% Param_1 = kth_largest_add(Val),\n\n%% kth_largest_init_ will be called before every test case, in which you can do some necessary initializations."
+            },
+            {
+                "lang": "Elixir",
+                "langSlug": "elixir",
+                "code": "defmodule KthLargest do\n  @spec init_(k :: integer, nums :: [integer]) :: any\n  def init_(k, nums) do\n    \n  end\n\n  @spec add(val :: integer) :: integer\n  def add(val) do\n    \n  end\nend\n\n# Your functions will be called as such:\n# KthLargest.init_(k, nums)\n# param_1 = KthLargest.add(val)\n\n# KthLargest.init_ will be called before every test case, in which you can do some necessary initializations."
+            }
+        ]
+    },
+    {
+        "114": [
+            {
+                "lang": "C++",
+                "langSlug": "cpp",
+                "code": "/**\n * Definition for a binary tree node.\n * struct TreeNode {\n *     int val;\n *     TreeNode *left;\n *     TreeNode *right;\n *     TreeNode() : val(0), left(nullptr), right(nullptr) {}\n *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}\n *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}\n * };\n */\nclass Solution {\npublic:\n    void flatten(TreeNode* root) {\n\n    }\n};"
+            },
+            {
+                "lang": "Java",
+                "langSlug": "java",
+                "code": "/**\n * Definition for a binary tree node.\n * public class TreeNode {\n *     int val;\n *     TreeNode left;\n *     TreeNode right;\n *     TreeNode() {}\n *     TreeNode(int val) { this.val = val; }\n *     TreeNode(int val, TreeNode left, TreeNode right) {\n *         this.val = val;\n *         this.left = left;\n *         this.right = right;\n *     }\n * }\n */\nclass Solution {\n    public void flatten(TreeNode root) {\n\n    }\n}"
+            },
+            {
+                "lang": "Python",
+                "langSlug": "python",
+                "code": "# Definition for a binary tree node.\n# class TreeNode(object):\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\nclass Solution(object):\n    def flatten(self, root):\n        \"\"\"\n        :type root: TreeNode\n        :rtype: None Do not return anything, modify root in-place instead.\n        \"\"\"\n        "
+            },
+            {
+                "lang": "Python3",
+                "langSlug": "python3",
+                "code": "# Definition for a binary tree node.\n# class TreeNode:\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\nclass Solution:\n    def flatten(self, root: Optional[TreeNode]) -> None:\n        \"\"\"\n        Do not return anything, modify root in-place instead.\n        \"\"\""
+            },
+            {
+                "lang": "C",
+                "langSlug": "c",
+                "code": "/**\n * Definition for a binary tree node.\n * struct TreeNode {\n *     int val;\n *     struct TreeNode *left;\n *     struct TreeNode *right;\n * };\n */\nvoid flatten(struct TreeNode* root) {\n    \n}"
+            },
+            {
+                "lang": "C#",
+                "langSlug": "csharp",
+                "code": "/**\n * Definition for a binary tree node.\n * public class TreeNode {\n *     public int val;\n *     public TreeNode left;\n *     public TreeNode right;\n *     public TreeNode(int val=0, TreeNode left=null, TreeNode right=null) {\n *         this.val = val;\n *         this.left = left;\n *         this.right = right;\n *     }\n * }\n */\npublic class Solution {\n    public void Flatten(TreeNode root) {\n\n    }\n}"
+            },
+            {
+                "lang": "JavaScript",
+                "langSlug": "javascript",
+                "code": "/**\n * Definition for a binary tree node.\n * function TreeNode(val, left, right) {\n *     this.val = (val===undefined ? 0 : val)\n *     this.left = (left===undefined ? null : left)\n *     this.right = (right===undefined ? null : right)\n * }\n */\n/**\n * @param {TreeNode} root\n * @return {void} Do not return anything, modify root in-place instead.\n */\nvar flatten = function(root) {\n\n};"
+            },
+            {
+                "lang": "TypeScript",
+                "langSlug": "typescript",
+                "code": "/**\n * Definition for a binary tree node.\n * class TreeNode {\n *     val: number\n *     left: TreeNode | null\n *     right: TreeNode | null\n *     constructor(val?: number, left?: TreeNode | null, right?: TreeNode | null) {\n *         this.val = (val===undefined ? 0 : val)\n *         this.left = (left===undefined ? null : left)\n *         this.right = (right===undefined ? null : right)\n *     }\n * }\n */\n\n/**\n Do not return anything, modify root in-place instead.\n */\nfunction flatten(root: TreeNode | null): void {\n    \n};"
+            },
+            {
+                "lang": "PHP",
+                "langSlug": "php",
+                "code": "/**\n * Definition for a binary tree node.\n * class TreeNode {\n *     public $val = null;\n *     public $left = null;\n *     public $right = null;\n *     function __construct($val = 0, $left = null, $right = null) {\n *         $this->val = $val;\n *         $this->left = $left;\n *         $this->right = $right;\n *     }\n * }\n */\nclass Solution {\n\n    /**\n     * @param TreeNode $root\n     * @return NULL\n     */\n    function flatten($root) {\n\n    }\n}"
+            },
+            {
+                "lang": "Swift",
+                "langSlug": "swift",
+                "code": "/**\n * Definition for a binary tree node.\n * public class TreeNode {\n *     public var val: Int\n *     public var left: TreeNode?\n *     public var right: TreeNode?\n *     public init() { self.val = 0; self.left = nil; self.right = nil; }\n *     public init(_ val: Int) { self.val = val; self.left = nil; self.right = nil; }\n *     public init(_ val: Int, _ left: TreeNode?, _ right: TreeNode?) {\n *         self.val = val\n *         self.left = left\n *         self.right = right\n *     }\n * }\n */\nclass Solution {\n    func flatten(_ root: TreeNode?) {\n\n    }\n}"
+            },
+            {
+                "lang": "Kotlin",
+                "langSlug": "kotlin",
+                "code": "/**\n * Example:\n * var ti = TreeNode(5)\n * var v = ti.`val`\n * Definition for a binary tree node.\n * class TreeNode(var `val`: Int) {\n *     var left: TreeNode? = null\n *     var right: TreeNode? = null\n * }\n */\nclass Solution {\n    fun flatten(root: TreeNode?): Unit {\n\n    }\n}"
+            },
+            {
+                "lang": "Dart",
+                "langSlug": "dart",
+                "code": "/**\n * Definition for a binary tree node.\n * class TreeNode {\n *   int val;\n *   TreeNode? left;\n *   TreeNode? right;\n *   TreeNode([this.val = 0, this.left, this.right]);\n * }\n */\nclass Solution {\n  void flatten(TreeNode? root) {\n    \n  }\n}"
+            },
+            {
+                "lang": "Go",
+                "langSlug": "golang",
+                "code": "/**\n * Definition for a binary tree node.\n * type TreeNode struct {\n *     Val int\n *     Left *TreeNode\n *     Right *TreeNode\n * }\n */\nfunc flatten(root *TreeNode)  {\n\n}"
+            },
+            {
+                "lang": "Ruby",
+                "langSlug": "ruby",
+                "code": "# Definition for a binary tree node.\n# class TreeNode\n#     attr_accessor :val, :left, :right\n#     def initialize(val = 0, left = nil, right = nil)\n#         @val = val\n#         @left = left\n#         @right = right\n#     end\n# end\n# @param {TreeNode} root\n# @return {Void} Do not return anything, modify root in-place instead.\ndef flatten(root)\n\nend"
+            },
+            {
+                "lang": "Scala",
+                "langSlug": "scala",
+                "code": "/**\n * Definition for a binary tree node.\n * class TreeNode(_value: Int = 0, _left: TreeNode = null, _right: TreeNode = null) {\n *   var value: Int = _value\n *   var left: TreeNode = _left\n *   var right: TreeNode = _right\n * }\n */\nobject Solution {\n    def flatten(root: TreeNode): Unit = {\n\n    }\n}"
+            },
+            {
+                "lang": "Rust",
+                "langSlug": "rust",
+                "code": "// Definition for a binary tree node.\n// #[derive(Debug, PartialEq, Eq)]\n// pub struct TreeNode {\n//   pub val: i32,\n//   pub left: Option<Rc<RefCell<TreeNode>>>,\n//   pub right: Option<Rc<RefCell<TreeNode>>>,\n// }\n//\n// impl TreeNode {\n//   #[inline]\n//   pub fn new(val: i32) -> Self {\n//     TreeNode {\n//       val,\n//       left: None,\n//       right: None\n//     }\n//   }\n// }\nuse std::rc::Rc;\nuse std::cell::RefCell;\nimpl Solution {\n    pub fn flatten(root: &mut Option<Rc<RefCell<TreeNode>>>) {\n\n    }\n}"
+            },
+            {
+                "lang": "Racket",
+                "langSlug": "racket",
+                "code": "; Definition for a binary tree node.\n#|\n\n; val : integer?\n; left : (or/c tree-node? #f)\n; right : (or/c tree-node? #f)\n(struct tree-node\n  (val left right) #:mutable #:transparent)\n\n; constructor\n(define (make-tree-node [val 0])\n  (tree-node val #f #f))\n\n|#\n\n(define/contract (flatten root)\n  (-> (or/c tree-node? #f) void?)\n  )"
+            }
+        ]
+    },
+    {
+        "3145": [
+            {
+                "lang": "C++",
+                "langSlug": "cpp",
+                "code": "class Solution {\npublic:\n    vector<int> findProductsOfElements(vector<vector<long long>>& queries) {\n        \n    }\n};"
+            },
+            {
+                "lang": "Java",
+                "langSlug": "java",
+                "code": "class Solution {\n    public int[] findProductsOfElements(long[][] queries) {\n\n    }\n}"
+            },
+            {
+                "lang": "Python",
+                "langSlug": "python",
+                "code": "class Solution(object):\n    def findProductsOfElements(self, queries):\n        \"\"\"\n        :type queries: List[List[int]]\n        :rtype: List[int]\n        \"\"\""
+            },
+            {
+                "lang": "Python3",
+                "langSlug": "python3",
+                "code": "class Solution:\n    def findProductsOfElements(self, queries: List[List[int]]) -> List[int]:"
+            },
+            {
+                "lang": "C",
+                "langSlug": "c",
+                "code": "/**\n * Note: The returned array must be malloced, assume caller calls free().\n */\nint* findProductsOfElements(long long** queries, int queriesSize, int* queriesColSize, int* returnSize) {\n    \n}"
+            },
+            {
+                "lang": "C#",
+                "langSlug": "csharp",
+                "code": "public class Solution {\n    public int[] FindProductsOfElements(long[][] queries) {\n\n    }\n}"
+            },
+            {
+                "lang": "JavaScript",
+                "langSlug": "javascript",
+                "code": "/**\n * @param {number[][]} queries\n * @return {number[]}\n */\nvar findProductsOfElements = function(queries) {\n\n};"
+            },
+            {
+                "lang": "TypeScript",
+                "langSlug": "typescript",
+                "code": "function findProductsOfElements(queries: number[][]): number[] {\n    \n};"
+            },
+            {
+                "lang": "PHP",
+                "langSlug": "php",
+                "code": "class Solution {\n\n    /**\n     * @param Integer[][] $queries\n     * @return Integer[]\n     */\n    function findProductsOfElements($queries) {\n\n    }\n}"
+            },
+            {
+                "lang": "Swift",
+                "langSlug": "swift",
+                "code": "class Solution {\n    func findProductsOfElements(_ queries: [[Int]]) -> [Int] {\n\n    }\n}"
+            },
+            {
+                "lang": "Kotlin",
+                "langSlug": "kotlin",
+                "code": "class Solution {\n    fun findProductsOfElements(queries: Array<LongArray>): IntArray {\n\n    }\n}"
+            },
+            {
+                "lang": "Dart",
+                "langSlug": "dart",
+                "code": "class Solution {\n  List<int> findProductsOfElements(List<List<int>> queries) {\n    \n  }\n}"
+            },
+            {
+                "lang": "Go",
+                "langSlug": "golang",
+                "code": "func findProductsOfElements(queries [][]int64) []int {\n\n}"
+            },
+            {
+                "lang": "Ruby",
+                "langSlug": "ruby",
+                "code": "# @param {Integer[][]} queries\n# @return {Integer[]}\ndef find_products_of_elements(queries)\n\nend"
+            },
+            {
+                "lang": "Scala",
+                "langSlug": "scala",
+                "code": "object Solution {\n    def findProductsOfElements(queries: Array[Array[Long]]): Array[Int] = {\n        \n    }\n}"
+            },
+            {
+                "lang": "Rust",
+                "langSlug": "rust",
+                "code": "impl Solution {\n    pub fn find_products_of_elements(queries: Vec<Vec<i64>>) -> Vec<i32> {\n\n    }\n}"
+            },
+            {
+                "lang": "Racket",
+                "langSlug": "racket",
+                "code": "(define/contract (find-products-of-elements queries)\n  (-> (listof (listof exact-integer?)) (listof exact-integer?))\n  )"
+            },
+            {
+                "lang": "Erlang",
+                "langSlug": "erlang",
+                "code": "-spec find_products_of_elements(Queries :: [[integer()]]) -> [integer()].\nfind_products_of_elements(Queries) ->\n  ."
+            },
+            {
+                "lang": "Elixir",
+                "langSlug": "elixir",
+                "code": "defmodule Solution do\n  @spec find_products_of_elements(queries :: [[integer]]) :: [integer]\n  def find_products_of_elements(queries) do\n    \n  end\nend"
+            }
+        ]
+    },
+    {
+        "105": [
+            {
+                "lang": "C++",
+                "langSlug": "cpp",
+                "code": "/**\n * Definition for a binary tree node.\n * struct TreeNode {\n *     int val;\n *     TreeNode *left;\n *     TreeNode *right;\n *     TreeNode() : val(0), left(nullptr), right(nullptr) {}\n *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}\n *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}\n * };\n */\nclass Solution {\npublic:\n    TreeNode* buildTree(vector<int>& preorder, vector<int>& inorder) {\n\n    }\n};"
+            },
+            {
+                "lang": "Java",
+                "langSlug": "java",
+                "code": "/**\n * Definition for a binary tree node.\n * public class TreeNode {\n *     int val;\n *     TreeNode left;\n *     TreeNode right;\n *     TreeNode() {}\n *     TreeNode(int val) { this.val = val; }\n *     TreeNode(int val, TreeNode left, TreeNode right) {\n *         this.val = val;\n *         this.left = left;\n *         this.right = right;\n *     }\n * }\n */\nclass Solution {\n    public TreeNode buildTree(int[] preorder, int[] inorder) {\n\n    }\n}"
+            },
+            {
+                "lang": "Python",
+                "langSlug": "python",
+                "code": "# Definition for a binary tree node.\n# class TreeNode(object):\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\nclass Solution(object):\n    def buildTree(self, preorder, inorder):\n        \"\"\"\n        :type preorder: List[int]\n        :type inorder: List[int]\n        :rtype: TreeNode\n        \"\"\"\n        "
+            },
+            {
+                "lang": "Python3",
+                "langSlug": "python3",
+                "code": "# Definition for a binary tree node.\n# class TreeNode:\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\nclass Solution:\n    def buildTree(self, preorder: List[int], inorder: List[int]) -> Optional[TreeNode]:"
+            },
+            {
+                "lang": "C",
+                "langSlug": "c",
+                "code": "/**\n * Definition for a binary tree node.\n * struct TreeNode {\n *     int val;\n *     struct TreeNode *left;\n *     struct TreeNode *right;\n * };\n */\nstruct TreeNode* buildTree(int* preorder, int preorderSize, int* inorder, int inorderSize) {\n    \n}"
+            },
+            {
+                "lang": "C#",
+                "langSlug": "csharp",
+                "code": "/**\n * Definition for a binary tree node.\n * public class TreeNode {\n *     public int val;\n *     public TreeNode left;\n *     public TreeNode right;\n *     public TreeNode(int val=0, TreeNode left=null, TreeNode right=null) {\n *         this.val = val;\n *         this.left = left;\n *         this.right = right;\n *     }\n * }\n */\npublic class Solution {\n    public TreeNode BuildTree(int[] preorder, int[] inorder) {\n\n    }\n}"
+            },
+            {
+                "lang": "JavaScript",
+                "langSlug": "javascript",
+                "code": "/**\n * Definition for a binary tree node.\n * function TreeNode(val, left, right) {\n *     this.val = (val===undefined ? 0 : val)\n *     this.left = (left===undefined ? null : left)\n *     this.right = (right===undefined ? null : right)\n * }\n */\n/**\n * @param {number[]} preorder\n * @param {number[]} inorder\n * @return {TreeNode}\n */\nvar buildTree = function(preorder, inorder) {\n\n};"
+            },
+            {
+                "lang": "TypeScript",
+                "langSlug": "typescript",
+                "code": "/**\n * Definition for a binary tree node.\n * class TreeNode {\n *     val: number\n *     left: TreeNode | null\n *     right: TreeNode | null\n *     constructor(val?: number, left?: TreeNode | null, right?: TreeNode | null) {\n *         this.val = (val===undefined ? 0 : val)\n *         this.left = (left===undefined ? null : left)\n *         this.right = (right===undefined ? null : right)\n *     }\n * }\n */\n\nfunction buildTree(preorder: number[], inorder: number[]): TreeNode | null {\n    \n};"
+            },
+            {
+                "lang": "PHP",
+                "langSlug": "php",
+                "code": "/**\n * Definition for a binary tree node.\n * class TreeNode {\n *     public $val = null;\n *     public $left = null;\n *     public $right = null;\n *     function __construct($val = 0, $left = null, $right = null) {\n *         $this->val = $val;\n *         $this->left = $left;\n *         $this->right = $right;\n *     }\n * }\n */\nclass Solution {\n\n    /**\n     * @param Integer[] $preorder\n     * @param Integer[] $inorder\n     * @return TreeNode\n     */\n    function buildTree($preorder, $inorder) {\n\n    }\n}"
+            },
+            {
+                "lang": "Swift",
+                "langSlug": "swift",
+                "code": "/**\n * Definition for a binary tree node.\n * public class TreeNode {\n *     public var val: Int\n *     public var left: TreeNode?\n *     public var right: TreeNode?\n *     public init() { self.val = 0; self.left = nil; self.right = nil; }\n *     public init(_ val: Int) { self.val = val; self.left = nil; self.right = nil; }\n *     public init(_ val: Int, _ left: TreeNode?, _ right: TreeNode?) {\n *         self.val = val\n *         self.left = left\n *         self.right = right\n *     }\n * }\n */\nclass Solution {\n    func buildTree(_ preorder: [Int], _ inorder: [Int]) -> TreeNode? {\n\n    }\n}"
+            },
+            {
+                "lang": "Kotlin",
+                "langSlug": "kotlin",
+                "code": "/**\n * Example:\n * var ti = TreeNode(5)\n * var v = ti.`val`\n * Definition for a binary tree node.\n * class TreeNode(var `val`: Int) {\n *     var left: TreeNode? = null\n *     var right: TreeNode? = null\n * }\n */\nclass Solution {\n    fun buildTree(preorder: IntArray, inorder: IntArray): TreeNode? {\n\n    }\n}"
+            },
+            {
+                "lang": "Dart",
+                "langSlug": "dart",
+                "code": "/**\n * Definition for a binary tree node.\n * class TreeNode {\n *   int val;\n *   TreeNode? left;\n *   TreeNode? right;\n *   TreeNode([this.val = 0, this.left, this.right]);\n * }\n */\nclass Solution {\n  TreeNode? buildTree(List<int> preorder, List<int> inorder) {\n    \n  }\n}"
+            },
+            {
+                "lang": "Go",
+                "langSlug": "golang",
+                "code": "/**\n * Definition for a binary tree node.\n * type TreeNode struct {\n *     Val int\n *     Left *TreeNode\n *     Right *TreeNode\n * }\n */\nfunc buildTree(preorder []int, inorder []int) *TreeNode {\n\n}"
+            },
+            {
+                "lang": "Ruby",
+                "langSlug": "ruby",
+                "code": "# Definition for a binary tree node.\n# class TreeNode\n#     attr_accessor :val, :left, :right\n#     def initialize(val = 0, left = nil, right = nil)\n#         @val = val\n#         @left = left\n#         @right = right\n#     end\n# end\n# @param {Integer[]} preorder\n# @param {Integer[]} inorder\n# @return {TreeNode}\ndef build_tree(preorder, inorder)\n\nend"
+            },
+            {
+                "lang": "Scala",
+                "langSlug": "scala",
+                "code": "/**\n * Definition for a binary tree node.\n * class TreeNode(_value: Int = 0, _left: TreeNode = null, _right: TreeNode = null) {\n *   var value: Int = _value\n *   var left: TreeNode = _left\n *   var right: TreeNode = _right\n * }\n */\nobject Solution {\n    def buildTree(preorder: Array[Int], inorder: Array[Int]): TreeNode = {\n\n    }\n}"
+            },
+            {
+                "lang": "Rust",
+                "langSlug": "rust",
+                "code": "// Definition for a binary tree node.\n// #[derive(Debug, PartialEq, Eq)]\n// pub struct TreeNode {\n//   pub val: i32,\n//   pub left: Option<Rc<RefCell<TreeNode>>>,\n//   pub right: Option<Rc<RefCell<TreeNode>>>,\n// }\n//\n// impl TreeNode {\n//   #[inline]\n//   pub fn new(val: i32) -> Self {\n//     TreeNode {\n//       val,\n//       left: None,\n//       right: None\n//     }\n//   }\n// }\nuse std::rc::Rc;\nuse std::cell::RefCell;\nimpl Solution {\n    pub fn build_tree(preorder: Vec<i32>, inorder: Vec<i32>) -> Option<Rc<RefCell<TreeNode>>> {\n\n    }\n}"
+            },
+            {
+                "lang": "Racket",
+                "langSlug": "racket",
+                "code": "; Definition for a binary tree node.\n#|\n\n; val : integer?\n; left : (or/c tree-node? #f)\n; right : (or/c tree-node? #f)\n(struct tree-node\n  (val left right) #:mutable #:transparent)\n\n; constructor\n(define (make-tree-node [val 0])\n  (tree-node val #f #f))\n\n|#\n\n(define/contract (build-tree preorder inorder)\n  (-> (listof exact-integer?) (listof exact-integer?) (or/c tree-node? #f))\n  )"
+            },
+            {
+                "lang": "Erlang",
+                "langSlug": "erlang",
+                "code": "%% Definition for a binary tree node.\n%%\n%% -record(tree_node, {val = 0 :: integer(),\n%%                     left = null  :: 'null' | #tree_node{},\n%%                     right = null :: 'null' | #tree_node{}}).\n\n-spec build_tree(Preorder :: [integer()], Inorder :: [integer()]) -> #tree_node{} | null.\nbuild_tree(Preorder, Inorder) ->\n  ."
+            },
+            {
+                "lang": "Elixir",
+                "langSlug": "elixir",
+                "code": "# Definition for a binary tree node.\n#\n# defmodule TreeNode do\n#   @type t :: %__MODULE__{\n#           val: integer,\n#           left: TreeNode.t() | nil,\n#           right: TreeNode.t() | nil\n#         }\n#   defstruct val: 0, left: nil, right: nil\n# end\n\ndefmodule Solution do\n  @spec build_tree(preorder :: [integer], inorder :: [integer]) :: TreeNode.t | nil\n  def build_tree(preorder, inorder) do\n    \n  end\nend"
+            }
+        ]
+    },
+    {
+        "146": [
+            {
+                "lang": "C++",
+                "langSlug": "cpp",
+                "code": "class LRUCache {\npublic:\n    LRUCache(int capacity) {\n\n    }\n    \n    int get(int key) {\n\n    }\n    \n    void put(int key, int value) {\n\n    }\n};\n\n/**\n * Your LRUCache object will be instantiated and called as such:\n * LRUCache* obj = new LRUCache(capacity);\n * int param_1 = obj->get(key);\n * obj->put(key,value);\n */"
+            },
+            {
+                "lang": "Java",
+                "langSlug": "java",
+                "code": "class LRUCache {\n\n    public LRUCache(int capacity) {\n\n    }\n    \n    public int get(int key) {\n\n    }\n    \n    public void put(int key, int value) {\n\n    }\n}\n\n/**\n * Your LRUCache object will be instantiated and called as such:\n * LRUCache obj = new LRUCache(capacity);\n * int param_1 = obj.get(key);\n * obj.put(key,value);\n */"
+            },
+            {
+                "lang": "Python",
+                "langSlug": "python",
+                "code": "class LRUCache(object):\n\n    def __init__(self, capacity):\n        \"\"\"\n        :type capacity: int\n        \"\"\"\n\n\n    def get(self, key):\n        \"\"\"\n        :type key: int\n        :rtype: int\n        \"\"\"\n\n\n    def put(self, key, value):\n        \"\"\"\n        :type key: int\n        :type value: int\n        :rtype: None\n        \"\"\"\n\n\n\n# Your LRUCache object will be instantiated and called as such:\n# obj = LRUCache(capacity)\n# param_1 = obj.get(key)\n# obj.put(key,value)"
+            },
+            {
+                "lang": "Python3",
+                "langSlug": "python3",
+                "code": "class LRUCache:\n\n    def __init__(self, capacity: int):\n\n\n    def get(self, key: int) -> int:\n\n\n    def put(self, key: int, value: int) -> None:\n\n\n\n# Your LRUCache object will be instantiated and called as such:\n# obj = LRUCache(capacity)\n# param_1 = obj.get(key)\n# obj.put(key,value)"
+            },
+            {
+                "lang": "C",
+                "langSlug": "c",
+                "code": "\n\n\ntypedef struct {\n    \n} LRUCache;\n\n\nLRUCache* lRUCacheCreate(int capacity) {\n    \n}\n\nint lRUCacheGet(LRUCache* obj, int key) {\n    \n}\n\nvoid lRUCachePut(LRUCache* obj, int key, int value) {\n    \n}\n\nvoid lRUCacheFree(LRUCache* obj) {\n    \n}\n\n/**\n * Your LRUCache struct will be instantiated and called as such:\n * LRUCache* obj = lRUCacheCreate(capacity);\n * int param_1 = lRUCacheGet(obj, key);\n \n * lRUCachePut(obj, key, value);\n \n * lRUCacheFree(obj);\n*/"
+            },
+            {
+                "lang": "C#",
+                "langSlug": "csharp",
+                "code": "public class LRUCache {\n\n    public LRUCache(int capacity) {\n\n    }\n    \n    public int Get(int key) {\n\n    }\n    \n    public void Put(int key, int value) {\n\n    }\n}\n\n/**\n * Your LRUCache object will be instantiated and called as such:\n * LRUCache obj = new LRUCache(capacity);\n * int param_1 = obj.Get(key);\n * obj.Put(key,value);\n */"
+            },
+            {
+                "lang": "JavaScript",
+                "langSlug": "javascript",
+                "code": "/**\n * @param {number} capacity\n */\nvar LRUCache = function(capacity) {\n\n};\n\n/** \n * @param {number} key\n * @return {number}\n */\nLRUCache.prototype.get = function(key) {\n\n};\n\n/** \n * @param {number} key \n * @param {number} value\n * @return {void}\n */\nLRUCache.prototype.put = function(key, value) {\n\n};\n\n/**\n * Your LRUCache object will be instantiated and called as such:\n * var obj = new LRUCache(capacity)\n * var param_1 = obj.get(key)\n * obj.put(key,value)\n */"
+            },
+            {
+                "lang": "TypeScript",
+                "langSlug": "typescript",
+                "code": "class LRUCache {\n    constructor(capacity: number) {\n        \n    }\n\n    get(key: number): number {\n        \n    }\n\n    put(key: number, value: number): void {\n        \n    }\n}\n\n/**\n * Your LRUCache object will be instantiated and called as such:\n * var obj = new LRUCache(capacity)\n * var param_1 = obj.get(key)\n * obj.put(key,value)\n */"
+            },
+            {
+                "lang": "PHP",
+                "langSlug": "php",
+                "code": "class LRUCache {\n    /**\n     * @param Integer $capacity\n     */\n    function __construct($capacity) {\n\n    }\n\n    /**\n     * @param Integer $key\n     * @return Integer\n     */\n    function get($key) {\n\n    }\n\n    /**\n     * @param Integer $key\n     * @param Integer $value\n     * @return NULL\n     */\n    function put($key, $value) {\n\n    }\n}\n\n/**\n * Your LRUCache object will be instantiated and called as such:\n * $obj = LRUCache($capacity);\n * $ret_1 = $obj->get($key);\n * $obj->put($key, $value);\n */"
+            },
+            {
+                "lang": "Swift",
+                "langSlug": "swift",
+                "code": "\nclass LRUCache {\n\n    init(_ capacity: Int) {\n\n    }\n    \n    func get(_ key: Int) -> Int {\n\n    }\n    \n    func put(_ key: Int, _ value: Int) {\n\n    }\n}\n\n/**\n * Your LRUCache object will be instantiated and called as such:\n * let obj = LRUCache(capacity)\n * let ret_1: Int = obj.get(key)\n * obj.put(key, value)\n */"
+            },
+            {
+                "lang": "Kotlin",
+                "langSlug": "kotlin",
+                "code": "class LRUCache(capacity: Int) {\n\n    fun get(key: Int): Int {\n\n    }\n\n    fun put(key: Int, value: Int) {\n\n    }\n\n}\n\n/**\n * Your LRUCache object will be instantiated and called as such:\n * var obj = LRUCache(capacity)\n * var param_1 = obj.get(key)\n * obj.put(key,value)\n */"
+            },
+            {
+                "lang": "Dart",
+                "langSlug": "dart",
+                "code": "class LRUCache {\n\n  LRUCache(int capacity) {\n    \n  }\n  \n  int get(int key) {\n    \n  }\n  \n  void put(int key, int value) {\n    \n  }\n}\n\n/**\n * Your LRUCache object will be instantiated and called as such:\n * LRUCache obj = LRUCache(capacity);\n * int param1 = obj.get(key);\n * obj.put(key,value);\n */"
+            },
+            {
+                "lang": "Go",
+                "langSlug": "golang",
+                "code": "type LRUCache struct {\n\n}\n\n\nfunc Constructor(capacity int) LRUCache {\n\n}\n\n\nfunc (this *LRUCache) Get(key int) int {\n\n}\n\n\nfunc (this *LRUCache) Put(key int, value int)  {\n\n}\n\n\n/**\n * Your LRUCache object will be instantiated and called as such:\n * obj := Constructor(capacity);\n * param_1 := obj.Get(key);\n * obj.Put(key,value);\n */"
+            },
+            {
+                "lang": "Ruby",
+                "langSlug": "ruby",
+                "code": "class LRUCache\n\n=begin\n    :type capacity: Integer\n=end\n    def initialize(capacity)\n\n    end\n\n\n=begin\n    :type key: Integer\n    :rtype: Integer\n=end\n    def get(key)\n\n    end\n\n\n=begin\n    :type key: Integer\n    :type value: Integer\n    :rtype: Void\n=end\n    def put(key, value)\n\n    end\n\n\nend\n\n# Your LRUCache object will be instantiated and called as such:\n# obj = LRUCache.new(capacity)\n# param_1 = obj.get(key)\n# obj.put(key, value)"
+            },
+            {
+                "lang": "Scala",
+                "langSlug": "scala",
+                "code": "class LRUCache(_capacity: Int) {\n\n    def get(key: Int): Int = {\n        \n    }\n\n    def put(key: Int, value: Int): Unit = {\n        \n    }\n\n}\n\n/**\n * Your LRUCache object will be instantiated and called as such:\n * val obj = new LRUCache(capacity)\n * val param_1 = obj.get(key)\n * obj.put(key,value)\n */"
+            },
+            {
+                "lang": "Rust",
+                "langSlug": "rust",
+                "code": "struct LRUCache {\n\n}\n\n\n/**\n * `&self` means the method takes an immutable reference.\n * If you need a mutable reference, change it to `&mut self` instead.\n */\nimpl LRUCache {\n\n    fn new(capacity: i32) -> Self {\n\n    }\n    \n    fn get(&self, key: i32) -> i32 {\n\n    }\n    \n    fn put(&self, key: i32, value: i32) {\n\n    }\n}\n\n/**\n * Your LRUCache object will be instantiated and called as such:\n * let obj = LRUCache::new(capacity);\n * let ret_1: i32 = obj.get(key);\n * obj.put(key, value);\n */"
+            },
+            {
+                "lang": "Racket",
+                "langSlug": "racket",
+                "code": "(define lru-cache%\n  (class object%\n    (super-new)\n    \n    ; capacity : exact-integer?\n    (init-field\n      capacity)\n    \n    ; get : exact-integer? -> exact-integer?\n    (define/public (get key)\n      )\n    ; put : exact-integer? exact-integer? -> void?\n    (define/public (put key value)\n      )))\n\n;; Your lru-cache% object will be instantiated and called as such:\n;; (define obj (new lru-cache% [capacity capacity]))\n;; (define param_1 (send obj get key))\n;; (send obj put key value)"
+            },
+            {
+                "lang": "Erlang",
+                "langSlug": "erlang",
+                "code": "-spec lru_cache_init_(Capacity :: integer()) -> any().\nlru_cache_init_(Capacity) ->\n  .\n\n-spec lru_cache_get(Key :: integer()) -> integer().\nlru_cache_get(Key) ->\n  .\n\n-spec lru_cache_put(Key :: integer(), Value :: integer()) -> any().\nlru_cache_put(Key, Value) ->\n  .\n\n\n%% Your functions will be called as such:\n%% lru_cache_init_(Capacity),\n%% Param_1 = lru_cache_get(Key),\n%% lru_cache_put(Key, Value),\n\n%% lru_cache_init_ will be called before every test case, in which you can do some necessary initializations."
+            },
+            {
+                "lang": "Elixir",
+                "langSlug": "elixir",
+                "code": "defmodule LRUCache do\n  @spec init_(capacity :: integer) :: any\n  def init_(capacity) do\n    \n  end\n\n  @spec get(key :: integer) :: integer\n  def get(key) do\n    \n  end\n\n  @spec put(key :: integer, value :: integer) :: any\n  def put(key, value) do\n    \n  end\nend\n\n# Your functions will be called as such:\n# LRUCache.init_(capacity)\n# param_1 = LRUCache.get(key)\n# LRUCache.put(key, value)\n\n# LRUCache.init_ will be called before every test case, in which you can do some necessary initializations."
+            }
+        ]
+    },
+    {
+        "690": [
+            {
+                "lang": "C++",
+                "langSlug": "cpp",
+                "code": "/*\n// Definition for Employee.\nclass Employee {\npublic:\n    int id;\n    int importance;\n    vector<int> subordinates;\n};\n*/\n\nclass Solution {\npublic:\n    int getImportance(vector<Employee*> employees, int id) {\n        \n    }\n};"
+            },
+            {
+                "lang": "Java",
+                "langSlug": "java",
+                "code": "/*\n// Definition for Employee.\nclass Employee {\n    public int id;\n    public int importance;\n    public List<Integer> subordinates;\n};\n*/\n\nclass Solution {\n    public int getImportance(List<Employee> employees, int id) {\n        \n    }\n}"
+            },
+            {
+                "lang": "Python",
+                "langSlug": "python",
+                "code": "\"\"\"\n# Definition for Employee.\nclass Employee(object):\n    def __init__(self, id, importance, subordinates):\n    \t#################\n        :type id: int\n        :type importance: int\n        :type subordinates: List[int]\n        #################\n        self.id = id\n        self.importance = importance\n        self.subordinates = subordinates\n\"\"\"\n\nclass Solution(object):\n    def getImportance(self, employees, id):\n        \"\"\"\n        :type employees: List[Employee]\n        :type id: int\n        :rtype: int\n        \"\"\"\n        "
+            },
+            {
+                "lang": "Python3",
+                "langSlug": "python3",
+                "code": "\"\"\"\n# Definition for Employee.\nclass Employee:\n    def __init__(self, id: int, importance: int, subordinates: List[int]):\n        self.id = id\n        self.importance = importance\n        self.subordinates = subordinates\n\"\"\"\n\nclass Solution:\n    def getImportance(self, employees: List['Employee'], id: int) -> int:\n        "
+            },
+            {
+                "lang": "C#",
+                "langSlug": "csharp",
+                "code": "/*\n// Definition for Employee.\nclass Employee {\n    public int id;\n    public int importance;\n    public IList<int> subordinates;\n}\n*/\n\nclass Solution {\n    public int GetImportance(IList<Employee> employees, int id) {\n        \n    }\n}"
+            },
+            {
+                "lang": "JavaScript",
+                "langSlug": "javascript",
+                "code": "/**\n * Definition for Employee.\n * function Employee(id, importance, subordinates) {\n *     this.id = id;\n *     this.importance = importance;\n *     this.subordinates = subordinates;\n * }\n */\n\n/**\n * @param {Employee[]} employees\n * @param {number} id\n * @return {number}\n */\nvar GetImportance = function(employees, id) {\n    \n};"
+            },
+            {
+                "lang": "TypeScript",
+                "langSlug": "typescript",
+                "code": "/**\n * Definition for Employee.\n * class Employee {\n *     id: number\n *     importance: number\n *     subordinates: number[]\n *     constructor(id: number, importance: number, subordinates: number[]) {\n *         this.id = (id === undefined) ? 0 : id;\n *         this.importance = (importance === undefined) ? 0 : importance;\n *         this.subordinates = (subordinates === undefined) ? [] : subordinates;\n *     }\n * }\n */\n\nfunction getImportance(employees: Employee[], id: number): number {\n\t\n};"
+            },
+            {
+                "lang": "PHP",
+                "langSlug": "php",
+                "code": "/**\n * Definition for Employee.\n * class Employee {\n *     public $id = null;\n *     public $importance = null;\n *     public $subordinates = array();\n *     function __construct($id, $importance, $subordinates) {\n *         $this->id = $id;\n *         $this->importance = $importance;\n *         $this->subordinates = $subordinates;\n *     }\n * }\n */\n\nclass Solution {\n    /**\n     * @param Employee[] $employees\n     * @param Integer $id\n     * @return Integer\n     */\n    function getImportance($employees, $id) {\n        \n    }\n}"
+            },
+            {
+                "lang": "Swift",
+                "langSlug": "swift",
+                "code": "/**\n * Definition for Employee.\n * public class Employee {\n *     public var id: Int\n *     public var importance: Int\n *     public var subordinates: [Int]\n *     public init(_ id: Int, _ importance: Int, _ subordinates: [Int]) {\n *         self.id = id\n *         self.importance = importance\n *         self.subordinates = subordinates\n *     }\n * }\n */\n\nclass Solution {\n    func getImportance(_ employees: [Employee], _ id: Int) -> Int {\n        \n    }\n}"
+            },
+            {
+                "lang": "Kotlin",
+                "langSlug": "kotlin",
+                "code": "/*\n *\t// Definition for Employee.\n *\tclass Employee {\n *\t\tvar id:Int = 0\n *\t\tvar importance:Int = 0\n *\t\tvar subordinates:List<Int> = listOf()\n *\t}\n */\n\nclass Solution {\n    fun getImportance(employees: List<Employee?>, id: Int): Int {\n        \n    }\n}"
+            },
+            {
+                "lang": "Go",
+                "langSlug": "golang",
+                "code": "/**\n * Definition for Employee.\n * type Employee struct {\n *     Id int\n *     Importance int\n *     Subordinates []int\n * }\n */\n\nfunc getImportance(employees []*Employee, id int) int {\n    \n}"
+            },
+            {
+                "lang": "Ruby",
+                "langSlug": "ruby",
+                "code": "=begin\n# Definition for Employee.\nclass Employee\n    attr_accessor :id, :importance, :subordinates\n    def initialize( id, importance, subordinates)\n        @id = id\n        @importance = importance\n        @subordinates = subordinates\n    end\nend\n=end\n\n# @param {Employee} employees\n# @param {Integer} id\n# @return {Integer}\ndef get_importance(employees, id)\n    \nend"
+            },
+            {
+                "lang": "Scala",
+                "langSlug": "scala",
+                "code": "/*\n// Definition for Employee.\nclass Employee() {\n    var id: Int = 0\n    var importance: Int = 0\n    var subordinates: List[Int] = List()\n};\n*/\n\nobject Solution {\n    def getImportance(employees: List[Employee], id: Int): Int = {\n        \n    }\n}"
+            }
+        ]
+    },
+    {
+        "437": [
+            {
+                "lang": "C++",
+                "langSlug": "cpp",
+                "code": "/**\n * Definition for a binary tree node.\n * struct TreeNode {\n *     int val;\n *     TreeNode *left;\n *     TreeNode *right;\n *     TreeNode() : val(0), left(nullptr), right(nullptr) {}\n *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}\n *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}\n * };\n */\nclass Solution {\npublic:\n    int pathSum(TreeNode* root, int targetSum) {\n\n    }\n};"
+            },
+            {
+                "lang": "Java",
+                "langSlug": "java",
+                "code": "/**\n * Definition for a binary tree node.\n * public class TreeNode {\n *     int val;\n *     TreeNode left;\n *     TreeNode right;\n *     TreeNode() {}\n *     TreeNode(int val) { this.val = val; }\n *     TreeNode(int val, TreeNode left, TreeNode right) {\n *         this.val = val;\n *         this.left = left;\n *         this.right = right;\n *     }\n * }\n */\nclass Solution {\n    public int pathSum(TreeNode root, int targetSum) {\n\n    }\n}"
+            },
+            {
+                "lang": "Python",
+                "langSlug": "python",
+                "code": "# Definition for a binary tree node.\n# class TreeNode(object):\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\nclass Solution(object):\n    def pathSum(self, root, targetSum):\n        \"\"\"\n        :type root: TreeNode\n        :type targetSum: int\n        :rtype: int\n        \"\"\"\n        "
+            },
+            {
+                "lang": "Python3",
+                "langSlug": "python3",
+                "code": "# Definition for a binary tree node.\n# class TreeNode:\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\nclass Solution:\n    def pathSum(self, root: Optional[TreeNode], targetSum: int) -> int:"
+            },
+            {
+                "lang": "C",
+                "langSlug": "c",
+                "code": "/**\n * Definition for a binary tree node.\n * struct TreeNode {\n *     int val;\n *     struct TreeNode *left;\n *     struct TreeNode *right;\n * };\n */\nint pathSum(struct TreeNode* root, int targetSum) {\n    \n}"
+            },
+            {
+                "lang": "C#",
+                "langSlug": "csharp",
+                "code": "/**\n * Definition for a binary tree node.\n * public class TreeNode {\n *     public int val;\n *     public TreeNode left;\n *     public TreeNode right;\n *     public TreeNode(int val=0, TreeNode left=null, TreeNode right=null) {\n *         this.val = val;\n *         this.left = left;\n *         this.right = right;\n *     }\n * }\n */\npublic class Solution {\n    public int PathSum(TreeNode root, int targetSum) {\n\n    }\n}"
+            },
+            {
+                "lang": "JavaScript",
+                "langSlug": "javascript",
+                "code": "/**\n * Definition for a binary tree node.\n * function TreeNode(val, left, right) {\n *     this.val = (val===undefined ? 0 : val)\n *     this.left = (left===undefined ? null : left)\n *     this.right = (right===undefined ? null : right)\n * }\n */\n/**\n * @param {TreeNode} root\n * @param {number} targetSum\n * @return {number}\n */\nvar pathSum = function(root, targetSum) {\n\n};"
+            },
+            {
+                "lang": "TypeScript",
+                "langSlug": "typescript",
+                "code": "/**\n * Definition for a binary tree node.\n * class TreeNode {\n *     val: number\n *     left: TreeNode | null\n *     right: TreeNode | null\n *     constructor(val?: number, left?: TreeNode | null, right?: TreeNode | null) {\n *         this.val = (val===undefined ? 0 : val)\n *         this.left = (left===undefined ? null : left)\n *         this.right = (right===undefined ? null : right)\n *     }\n * }\n */\n\nfunction pathSum(root: TreeNode | null, targetSum: number): number {\n    \n};"
+            },
+            {
+                "lang": "PHP",
+                "langSlug": "php",
+                "code": "/**\n * Definition for a binary tree node.\n * class TreeNode {\n *     public $val = null;\n *     public $left = null;\n *     public $right = null;\n *     function __construct($val = 0, $left = null, $right = null) {\n *         $this->val = $val;\n *         $this->left = $left;\n *         $this->right = $right;\n *     }\n * }\n */\nclass Solution {\n\n    /**\n     * @param TreeNode $root\n     * @param Integer $targetSum\n     * @return Integer\n     */\n    function pathSum($root, $targetSum) {\n\n    }\n}"
+            },
+            {
+                "lang": "Swift",
+                "langSlug": "swift",
+                "code": "/**\n * Definition for a binary tree node.\n * public class TreeNode {\n *     public var val: Int\n *     public var left: TreeNode?\n *     public var right: TreeNode?\n *     public init() { self.val = 0; self.left = nil; self.right = nil; }\n *     public init(_ val: Int) { self.val = val; self.left = nil; self.right = nil; }\n *     public init(_ val: Int, _ left: TreeNode?, _ right: TreeNode?) {\n *         self.val = val\n *         self.left = left\n *         self.right = right\n *     }\n * }\n */\nclass Solution {\n    func pathSum(_ root: TreeNode?, _ targetSum: Int) -> Int {\n\n    }\n}"
+            },
+            {
+                "lang": "Kotlin",
+                "langSlug": "kotlin",
+                "code": "/**\n * Example:\n * var ti = TreeNode(5)\n * var v = ti.`val`\n * Definition for a binary tree node.\n * class TreeNode(var `val`: Int) {\n *     var left: TreeNode? = null\n *     var right: TreeNode? = null\n * }\n */\nclass Solution {\n    fun pathSum(root: TreeNode?, targetSum: Int): Int {\n\n    }\n}"
+            },
+            {
+                "lang": "Dart",
+                "langSlug": "dart",
+                "code": "/**\n * Definition for a binary tree node.\n * class TreeNode {\n *   int val;\n *   TreeNode? left;\n *   TreeNode? right;\n *   TreeNode([this.val = 0, this.left, this.right]);\n * }\n */\nclass Solution {\n  int pathSum(TreeNode? root, int targetSum) {\n    \n  }\n}"
+            },
+            {
+                "lang": "Go",
+                "langSlug": "golang",
+                "code": "/**\n * Definition for a binary tree node.\n * type TreeNode struct {\n *     Val int\n *     Left *TreeNode\n *     Right *TreeNode\n * }\n */\nfunc pathSum(root *TreeNode, targetSum int) int {\n\n}"
+            },
+            {
+                "lang": "Ruby",
+                "langSlug": "ruby",
+                "code": "# Definition for a binary tree node.\n# class TreeNode\n#     attr_accessor :val, :left, :right\n#     def initialize(val = 0, left = nil, right = nil)\n#         @val = val\n#         @left = left\n#         @right = right\n#     end\n# end\n# @param {TreeNode} root\n# @param {Integer} target_sum\n# @return {Integer}\ndef path_sum(root, target_sum)\n    \nend"
+            },
+            {
+                "lang": "Scala",
+                "langSlug": "scala",
+                "code": "/**\n * Definition for a binary tree node.\n * class TreeNode(_value: Int = 0, _left: TreeNode = null, _right: TreeNode = null) {\n *   var value: Int = _value\n *   var left: TreeNode = _left\n *   var right: TreeNode = _right\n * }\n */\nobject Solution {\n    def pathSum(root: TreeNode, targetSum: Int): Int = {\n        \n    }\n}"
+            },
+            {
+                "lang": "Rust",
+                "langSlug": "rust",
+                "code": "// Definition for a binary tree node.\n// #[derive(Debug, PartialEq, Eq)]\n// pub struct TreeNode {\n//   pub val: i32,\n//   pub left: Option<Rc<RefCell<TreeNode>>>,\n//   pub right: Option<Rc<RefCell<TreeNode>>>,\n// }\n//\n// impl TreeNode {\n//   #[inline]\n//   pub fn new(val: i32) -> Self {\n//     TreeNode {\n//       val,\n//       left: None,\n//       right: None\n//     }\n//   }\n// }\nuse std::rc::Rc;\nuse std::cell::RefCell;\nimpl Solution {\n    pub fn path_sum(root: Option<Rc<RefCell<TreeNode>>>, target_sum: i32) -> i32 {\n\n    }\n}"
+            },
+            {
+                "lang": "Racket",
+                "langSlug": "racket",
+                "code": "; Definition for a binary tree node.\n#|\n\n; val : integer?\n; left : (or/c tree-node? #f)\n; right : (or/c tree-node? #f)\n(struct tree-node\n  (val left right) #:mutable #:transparent)\n\n; constructor\n(define (make-tree-node [val 0])\n  (tree-node val #f #f))\n\n|#\n\n(define/contract (path-sum root targetSum)\n  (-> (or/c tree-node? #f) exact-integer? exact-integer?)\n  )"
+            },
+            {
+                "lang": "Erlang",
+                "langSlug": "erlang",
+                "code": "%% Definition for a binary tree node.\n%%\n%% -record(tree_node, {val = 0 :: integer(),\n%%                     left = null  :: 'null' | #tree_node{},\n%%                     right = null :: 'null' | #tree_node{}}).\n\n-spec path_sum(Root :: #tree_node{} | null, TargetSum :: integer()) -> integer().\npath_sum(Root, TargetSum) ->\n  ."
+            },
+            {
+                "lang": "Elixir",
+                "langSlug": "elixir",
+                "code": "# Definition for a binary tree node.\n#\n# defmodule TreeNode do\n#   @type t :: %__MODULE__{\n#           val: integer,\n#           left: TreeNode.t() | nil,\n#           right: TreeNode.t() | nil\n#         }\n#   defstruct val: 0, left: nil, right: nil\n# end\n\ndefmodule Solution do\n  @spec path_sum(root :: TreeNode.t | nil, target_sum :: integer) :: integer\n  def path_sum(root, target_sum) do\n    \n  end\nend"
+            }
+        ]
+    },
+    {
+        "142": [
+            {
+                "lang": "C++",
+                "langSlug": "cpp",
+                "code": "/**\n * Definition for singly-linked list.\n * struct ListNode {\n *     int val;\n *     ListNode *next;\n *     ListNode(int x) : val(x), next(NULL) {}\n * };\n */\nclass Solution {\npublic:\n    ListNode *detectCycle(ListNode *head) {\n        \n    }\n};"
+            },
+            {
+                "lang": "Java",
+                "langSlug": "java",
+                "code": "/**\n * Definition for singly-linked list.\n * class ListNode {\n *     int val;\n *     ListNode next;\n *     ListNode(int x) {\n *         val = x;\n *         next = null;\n *     }\n * }\n */\npublic class Solution {\n    public ListNode detectCycle(ListNode head) {\n        \n    }\n}"
+            },
+            {
+                "lang": "Python",
+                "langSlug": "python",
+                "code": "# Definition for singly-linked list.\n# class ListNode(object):\n#     def __init__(self, x):\n#         self.val = x\n#         self.next = None\n\nclass Solution(object):\n    def detectCycle(self, head):\n        \"\"\"\n        :type head: ListNode\n        :rtype: ListNode\n        \"\"\"\n        "
+            },
+            {
+                "lang": "Python3",
+                "langSlug": "python3",
+                "code": "# Definition for singly-linked list.\n# class ListNode:\n#     def __init__(self, x):\n#         self.val = x\n#         self.next = None\n\nclass Solution:\n    def detectCycle(self, head: Optional[ListNode]) -> Optional[ListNode]:\n        "
+            },
+            {
+                "lang": "C",
+                "langSlug": "c",
+                "code": "/**\n * Definition for singly-linked list.\n * struct ListNode {\n *     int val;\n *     struct ListNode *next;\n * };\n */\nstruct ListNode *detectCycle(struct ListNode *head) {\n    \n}"
+            },
+            {
+                "lang": "C#",
+                "langSlug": "csharp",
+                "code": "/**\n * Definition for singly-linked list.\n * public class ListNode {\n *     public int val;\n *     public ListNode next;\n *     public ListNode(int x) {\n *         val = x;\n *         next = null;\n *     }\n * }\n */\npublic class Solution {\n    public ListNode DetectCycle(ListNode head) {\n        \n    }\n}"
+            },
+            {
+                "lang": "JavaScript",
+                "langSlug": "javascript",
+                "code": "/**\n * Definition for singly-linked list.\n * function ListNode(val) {\n *     this.val = val;\n *     this.next = null;\n * }\n */\n\n/**\n * @param {ListNode} head\n * @return {ListNode}\n */\nvar detectCycle = function(head) {\n    \n};"
+            },
+            {
+                "lang": "TypeScript",
+                "langSlug": "typescript",
+                "code": "/**\n * Definition for singly-linked list.\n * class ListNode {\n *     val: number\n *     next: ListNode | null\n *     constructor(val?: number, next?: ListNode | null) {\n *         this.val = (val===undefined ? 0 : val)\n *         this.next = (next===undefined ? null : next)\n *     }\n * }\n */\n\nfunction detectCycle(head: ListNode | null): ListNode | null {\n    \n};"
+            },
+            {
+                "lang": "PHP",
+                "langSlug": "php",
+                "code": "/**\n * Definition for a singly-linked list.\n * class ListNode {\n *     public $val = 0;\n *     public $next = null;\n *     function __construct($val) { $this->val = $val; }\n * }\n */\n\nclass Solution {\n    /**\n     * @param ListNode $head\n     * @return ListNode\n     */\n    function detectCycle($head) {\n        \n    }\n}"
+            },
+            {
+                "lang": "Swift",
+                "langSlug": "swift",
+                "code": "/**\n * Definition for singly-linked list.\n * public class ListNode {\n *     public var val: Int\n *     public var next: ListNode?\n *     public init(_ val: Int) {\n *         self.val = val\n *         self.next = nil\n *     }\n * }\n */\n\nclass Solution {\n    func detectCycle(_ head: ListNode?) -> ListNode? {\n        \n    }\n}"
+            },
+            {
+                "lang": "Kotlin",
+                "langSlug": "kotlin",
+                "code": "/**\n * Example:\n * var li = ListNode(5)\n * var v = li.`val`\n * Definition for singly-linked list.\n * class ListNode(var `val`: Int) {\n *     var next: ListNode? = null\n * }\n */\n\nclass Solution {\n    fun detectCycle(head: ListNode?): ListNode? {\n        \n    }\n}"
+            },
+            {
+                "lang": "Go",
+                "langSlug": "golang",
+                "code": "/**\n * Definition for singly-linked list.\n * type ListNode struct {\n *     Val int\n *     Next *ListNode\n * }\n */\nfunc detectCycle(head *ListNode) *ListNode {\n    \n}"
+            },
+            {
+                "lang": "Ruby",
+                "langSlug": "ruby",
+                "code": "# Definition for singly-linked list.\n# class ListNode\n#     attr_accessor :val, :next\n#     def initialize(val)\n#         @val = val\n#         @next = nil\n#     end\n# end\n\n# @param {ListNode} head\n# @return {ListNode}\ndef detectCycle(head)\n    \nend"
+            },
+            {
+                "lang": "Scala",
+                "langSlug": "scala",
+                "code": "/**\n * Definition for singly-linked list.\n * class ListNode(var _x: Int = 0) {\n *   var next: ListNode = null\n *   var x: Int = _x\n * }\n */\n\nobject Solution {\n    def detectCycle(head: ListNode): ListNode = {\n        \n    }\n}"
+            }
+        ]
     }
 ]

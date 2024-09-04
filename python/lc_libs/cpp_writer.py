@@ -1,7 +1,7 @@
 import logging
 import os.path
 import re
-from typing import Tuple
+from typing import Optional, Tuple
 from python.constants import SOLUTION_TEMPLATE_CPP, TESTCASE_TEMPLATE_CPP
 from collections import deque
 
@@ -82,7 +82,7 @@ class CppWriter(LanguageWriter):
             problem_id: str = "",
             problem_folder: str = "",
     ) -> str:
-        code = code if code else code_default
+        code = code or code_default
         is_solution_code = "class Solution" in code
         functions = CppWriter._extract_functions(code_default)
         testcases = LanguageWriter.get_test_cases(problem_folder, problem_id)
@@ -109,11 +109,14 @@ class CppWriter(LanguageWriter):
             ret_type = functions[0].get("ret_type", "").strip()
             func_name = functions[0].get("name", "")
             variables = [
-                sp.strip().split(" ") for sp in functions[0].get("args", "").split(",")
+                [" ".join(sp.strip().split(" ")[:-1]), sp.strip().split(" ")[-1]]
+                for sp in functions[0].get("args", "").split(",")
             ]
             process_variables.append("\tSolution solution;")
-            CppWriter._process_variables(variables, process_variables, include_libs, code_default, testcases)
-            CppWriter._process_return_part(ret_type, func_name, variables, code_default, return_part, include_libs)
+            if_modify_in_place = CppWriter._process_variables(variables, process_variables, include_libs, code_default,
+                                                              testcases)
+            CppWriter._process_return_part(ret_type, func_name, variables, code_default, return_part, include_libs,
+                                           if_modify_in_place, process_variables)
         elif len(functions) > 1:
             process_variables.append(
                 "\tvector<string> operators = json::parse(inputArray[0]);"
@@ -128,13 +131,23 @@ class CppWriter(LanguageWriter):
                 if name and name[0].isupper() and f.get("ret_type", "") == "":
                     cur = f"auto obj{i} = make_shared<{name}>("
                     variables = (
-                        [sp.strip().split(" ") for sp in f.get("args", "").split(",")]
+                        [[" ".join(sp.strip().split(" ")[:-1]), sp.strip().split(" ")[-1]]
+                         for sp in f.get("args", "").split(",")]
                         if f.get("args", "")
                         else []
                     )
+                    logging.debug("variables: %s", variables)
                     tmp_vars = []
-                    for j, _ in enumerate(variables):
-                        tmp_vars.append(f"op_values[{i}][{j}]")
+                    for j, (var_tp, var_nm) in enumerate(variables):
+                        rt = CppWriter._simplify_variable_type([var_tp])
+                        logging.debug("Processing variable: \"%s\", return type: \"%s\"", var_tp, rt)
+                        match rt:
+                            case "vector<int>":
+                                process_variables.insert(2, f"vector<int> {var_nm}_array"
+                                                            f" = op_values[{i}][{j}].get<vector<int>>();")
+                                tmp_vars.append(f"{var_nm}_array")
+                            case _:
+                                tmp_vars.append(f"op_values[{i}][{j}]")
                     cur += ", ".join(tmp_vars)
                     cur += ");"
                     process_variables.append(cur)
@@ -204,20 +217,12 @@ class CppWriter(LanguageWriter):
             return "", problem_id
         final_codes = deque([])
         with open(file_path, "r", encoding="utf-8") as f:
-            lines = f.read().split("\n")
-            for line in lines:
-                if line.startswith("//"):
-                    continue
-                if line.startswith("#include "):
-                    continue
-                if line.startswith("using "):
-                    continue
-                if (
-                        "json leetcode::qubh::Solve(string input)" in line
-                        or "json leetcode::qubh::Solve(string input_json_values)" in line
-                ):
-                    break
-                final_codes.append(line)
+            content = f.read()
+            end_index = content.find("json leetcode::qubh::Solve(string ")
+            start_index = content.find("using json = nlohmann::json;")
+            start_index = content.find("\n", start_index) + 1
+            logging.debug("start_index: %d, end_index: %d", start_index, end_index)
+            final_codes.extend(content[start_index:end_index].strip().split("\n"))
         while final_codes and final_codes[0].strip() == "":
             final_codes.popleft()
         return "\n".join(final_codes), problem_id
@@ -255,8 +260,11 @@ class CppWriter(LanguageWriter):
         return functions
 
     @staticmethod
-    def _process_variables(variables, process_variables: list, include_libs: list, code_default: str, testcases=None):
+    def _process_variables(variables, process_variables: list, include_libs: list, code_default: str, testcases=None) -> \
+            Optional[str]:
         i = 0
+        if_modify_in_place = None
+        extra_parts = []
         while i < len(variables):
             variable = variables[i]
             rt = CppWriter._simplify_variable_type(variable)
@@ -289,11 +297,14 @@ class CppWriter(LanguageWriter):
                             variables[0][-1] = variables[0][-1][1:]
                             variables[1][-1] = variables[1][-1][1:]
                             process_variables.append(f"int iv = json::parse(inputArray.at({i}));")
-                            process_variables.append(f"std::vector<int> {variables[0][1]}_array = json::parse(inputArray.at({i + 1}));")
-                            process_variables.append(f"std::vector<int> {variables[1][1]}_array = json::parse(inputArray.at({i + 2}));")
+                            process_variables.append(
+                                f"std::vector<int> {variables[0][1]}_array = json::parse(inputArray.at({i + 1}));")
+                            process_variables.append(
+                                f"std::vector<int> {variables[1][1]}_array = json::parse(inputArray.at({i + 2}));")
                             process_variables.append(f"int skip_a = json::parse(inputArray.at({i + 3}));")
                             process_variables.append(f"int skip_b = json::parse(inputArray.at({i + 4}));")
-                            process_variables.append(f"auto tp = IntArrayToIntersectionListNode(iv, {variables[0][1]}_array, {variables[1][1]}_array, skip_a, skip_b);")
+                            process_variables.append(
+                                f"auto tp = IntArrayToIntersectionListNode(iv, {variables[0][1]}_array, {variables[1][1]}_array, skip_a, skip_b);")
                             process_variables.append(f"ListNode *{variables[0][1]} = get<0>(tp);")
                             process_variables.append(f"ListNode *{variables[1][1]} = get<1>(tp);")
                             i += 5
@@ -312,6 +323,8 @@ class CppWriter(LanguageWriter):
                         + variable[-1]
                         + f" = IntArrayToListNode({variable[1]}_array);"
                     )
+                    if not if_modify_in_place:
+                        if_modify_in_place = f"ListNodeToIntArray({variable[-1]})"
                 case "vector<ListNode*>":
                     if '#include "cpp/models/ListNode.h"' not in include_libs:
                         include_libs.append('#include "cpp/models/ListNode.h"')
@@ -335,6 +348,8 @@ class CppWriter(LanguageWriter):
                         + "_arrays[i]);"
                     )
                     process_variables.append("}")
+                    if not if_modify_in_place:
+                        if_modify_in_place = f"ListNodeToIntArray({variable[-1]}[0])"
                 case "TreeNode":
                     if '#include "cpp/models/TreeNode.h"' not in include_libs:
                         include_libs.append('#include "cpp/models/TreeNode.h"')
@@ -383,6 +398,8 @@ class CppWriter(LanguageWriter):
                         + variable[-1]
                         + f" = JsonArrayToTreeNode({variable[-1]}_array);"
                     )
+                    if not if_modify_in_place:
+                        if_modify_in_place = f"TreeNodeToJsonArray({variable[-1]})"
                 case "vector<TreeNode*>":
                     if '#include "cpp/models/TreeNode.h"' not in include_libs:
                         include_libs.append('#include "cpp/models/TreeNode.h"')
@@ -398,6 +415,8 @@ class CppWriter(LanguageWriter):
                         + variable[-1]
                         + f" = JsonArrayToTreeNodeArray({variable[-1]}_array);"
                     )
+                    if not if_modify_in_place:
+                        if_modify_in_place = f"TreeNodeToJsonArray({variable[-1]}_array[0])"
                 case "char":
                     process_variables.append(
                         f"string {variable[-1]}_string = json::parse(inputArray.at({i}));"
@@ -480,25 +499,64 @@ class CppWriter(LanguageWriter):
                     else:
                         logging.debug(f"Unhandled Node Type variable: {variable}, code: [{code_default}]")
                 case _:
-                    process_variables.append(
-                        rt
-                        + " "
-                        + variable[-1]
-                        + f" = json::parse(inputArray.at({i}));"
-                    )
+                    logging.debug("Unhandled variable type: %s", rt)
+                    found_defination = False
+                    mit = re.finditer(r"// Definition for (\w+).", code_default)
+                    for m in mit:
+                        if m.group(1) in rt:
+                            class_name = m.group(1)
+                            logging.debug("Match custom Class at %d-%d, %s", m.start(), m.end(), class_name)
+                            start_index = m.start()
+                            end_index = code_default.find("*/")
+                            logging.debug("Add extra class code:\n%s", code_default[start_index:end_index])
+                            extra_parts.extend(code_default[start_index:end_index].split("\n"))
+                            extra_parts.append("")
+                            extra_parts.append(f"static {class_name}* {class_name.lower()}_from_input(json input) {{")
+                            extra_parts.append("\treturn nullptr;")
+                            extra_parts.append("}")
+                            found_defination = True
+                            process_variables.append(f"{rt} {variable[-1]};")
+                            if "vector" in rt:
+                                process_variables.append(f"vector<json> {variable[-1]}_input = json::parse(inputArray.at({i}));")
+                                process_variables.append(f"for (json ipt: {variable[-1]}_input) {{")
+                                process_variables.append(f"\t{variable[-1]}.emplace_back({class_name.lower()}_from_input(ipt));")
+                                process_variables.append("}")
+                            else:
+                                process_variables.append(f"{variable[-1]} = {class_name.lower()}_from_input(inputArray.at({i}))")
+                    if not found_defination:
+                        process_variables.append(
+                            rt
+                            + " "
+                            + variable[-1]
+                            + f" = json::parse(inputArray.at({i}));"
+                        )
             i += 1
+        if extra_parts:
+            include_libs.append("")
+            include_libs.extend(extra_parts)
+        return if_modify_in_place
 
     @staticmethod
     def _process_return_part(ret_type: str, func_name: str, variables: list, code_default: str, return_part: list,
-                             include_libs: list):
+                             include_libs: list, if_modify_in_place: Optional[str], process_variables: list):
         if "ListNode" in ret_type:
-            if '#include "cpp/models/ListNode.h"' not in include_libs:
-                include_libs.append('#include "cpp/models/ListNode.h"')
-            return_part.append(
-                "\treturn ListNodeToIntArray(solution.{}({}));".format(
-                    func_name, ", ".join([v[-1] for v in variables])
+            # IntArrayToListNodeCycle
+            logging.debug(f"Process variables: {process_variables}")
+            if any("IntArrayToListNodeCycle" in pv for pv in process_variables):
+                return_part.append(
+                    "\tListNode *res = solution.{}({});".format(
+                        func_name, ", ".join([v[-1] for v in variables])
+                    )
                 )
-            )
+                return_part.append("return res ? res->val : nullptr;")
+            else:
+                if '#include "cpp/models/ListNode.h"' not in include_libs:
+                    include_libs.append('#include "cpp/models/ListNode.h"')
+                return_part.append(
+                    "\treturn ListNodeToIntArray(solution.{}({}));".format(
+                        func_name, ", ".join([v[-1] for v in variables])
+                    )
+                )
         elif "TreeNode" in ret_type:
             if '#include "cpp/models/TreeNode.h"' not in include_libs:
                 include_libs.append('#include "cpp/models/TreeNode.h"')
@@ -543,7 +601,7 @@ class CppWriter(LanguageWriter):
         elif ret_type == "void":
             return_part.append(
                 "\tsolution.{}({});\n\treturn {};".format(
-                    func_name, ", ".join([v[-1] for v in variables]), variables[0][1]
+                    func_name, ", ".join([v[-1] for v in variables]), if_modify_in_place or variables[0][1]
                 )
             )
         else:
@@ -555,6 +613,7 @@ class CppWriter(LanguageWriter):
 
     @staticmethod
     def _simplify_variable_type(variable: list[str]) -> str:
+        logging.debug("Simplifying variable type: \"%s\"", variable)
         if len(variable) > 2:
             return " ".join(variable[:-1])
         return variable[0] if not variable[0].endswith("&") and not variable[0].endswith("*") else variable[0][:-1]

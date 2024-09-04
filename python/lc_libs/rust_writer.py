@@ -62,11 +62,15 @@ class RustWriter(LanguageWriter):
             problem_id: str = "",
             problem_folder: str = "",
     ) -> str:
+        add_title = ""
+        if not RustWriter.is_snake_case(f"{problem_folder}_{problem_id}"):
+            add_title = f"#![allow(non_snake_case)]\n"
         code = code or code_default
         if "object will be instantiated and called as such:" in code:
             struct_map = RustWriter._parse_rust_structs(code)
             solve_part = RustWriter._generate_solve_function(struct_map)
-            return SOLUTION_TEMPLATE_RUST.format("\n".join([]), "", code, problem_id, "\n\t".join(solve_part))
+            return SOLUTION_TEMPLATE_RUST.format(add_title, "\n".join([]), "",
+                                                 code, problem_id, "\n\t".join(solve_part))
 
         if "impl Solution" not in code:
             raise NotImplementedError("RustWriter does not support problem without Solution yet!")
@@ -77,7 +81,7 @@ class RustWriter(LanguageWriter):
         return_part = []
         fn_count = 0
         testcases = LanguageWriter.get_test_cases(problem_folder, problem_id)
-        for line in code.split("\n"):
+        for line in code_default.split("\n"):
             if line.startswith("//"):
                 continue
             if "fn " in line:
@@ -140,13 +144,20 @@ class RustWriter(LanguageWriter):
                     return_part[-1] = return_part[-1].format(f"Solution::{function_name}({format_variables})")
                 else:
                     return_part.append(f"Solution::{function_name}({format_variables});")
-                    return_part.append(f"json!({variables[0][0]})")
+                    if "TreeNode" in variables[0][1]:
+                        RustWriter._add_to_import_libs(import_libs, "use library::lib::tree_node::", "tree_to_array")
+                        return_part.append(f"json!(tree_to_array({variables[0][0]}))")
+                    elif "ListNode" in variables[0][1]:
+                        RustWriter._add_to_import_libs(import_libs, "use library::lib::tree_node::", "list_node_to_int_array")
+                        return_part.append(f"json!(list_node_to_int_array({variables[0][0]}))")
+                    else:
+                        return_part.append(f"json!({variables[0][0]})")
                 fn_count += 1
         if fn_count != 1:
             raise NotImplementedError("RustWriter does not support multiple functions yet!")
         solve_part.extend(return_part)
-        return SOLUTION_TEMPLATE_RUST.format("\n".join(import_libs), "pub struct Solution;\n", code, problem_id,
-                                             "\n\t".join(solve_part))
+        return SOLUTION_TEMPLATE_RUST.format(add_title, "\n".join(import_libs), "pub struct Solution;\n", code,
+                                             problem_id, "\n\t".join(solve_part))
 
     def write_cargo_toml(self, root_path, dir_path, problem_folder: str, problem_id: str):
         root_cargo_path = os.path.join(root_path, self.cargo_file)
@@ -175,16 +186,23 @@ class RustWriter(LanguageWriter):
         final_codes = deque([])
         with open(file_path, 'r', encoding="utf-8") as f:
             content = f.read()
-            start = False
-            is_obj_question = "object will be instantiated and called as such:" in content
-            for line in content.split("\n"):
-                if (is_obj_question and "use serde_json::{json, Value};" in line) or "pub struct Solution;" in line:
-                    start = True
-                    continue
-                if "#[cfg(feature = \"solution\")]" in line or f"#[cfg(feature = \"solution_{problem_id}\")]" in line:
-                    break
-                if start:
-                    final_codes.append(line)
+            # start = False
+            # is_obj_question = "object will be instantiated and called as such:" in content
+            # for line in content.split("\n"):
+            #     if (is_obj_question and "use serde_json::{json, Value};" in line) or "pub struct Solution;" in line:
+            #         start = True
+            #         continue
+            #     if "#[cfg(feature = \"solution\")]" in line or f"#[cfg(feature = \"solution_{problem_id}\")]" in line:
+            #         break
+            #     if start:
+            #         final_codes.append(line)
+            start_idx = content.find("pub struct Solution;")
+            if start_idx == -1:
+                start_idx = content.find("use serde_json::{json, Value};")
+            start_idx = content.find("\n", start_idx) + 1
+            logging.debug("start idx: %s", start_idx)
+            end_idx = content.find("#[cfg(feature = \"solution", start_idx)
+            final_codes.extend(content[start_idx:end_idx].split("\n"))
         while final_codes and final_codes[0].strip() == '':
             final_codes.popleft()
         while final_codes and final_codes[-1].strip() == '':
@@ -260,7 +278,7 @@ class RustWriter(LanguageWriter):
         :param is_return: bool
         """
         match var_type:
-            case "Option<Box<ListNode>>" | "Vec<Option<Box<ListNode>>>":
+            case "Option<Box<ListNode>>" | "Vec<Option<Box<ListNode>>>" | "&mut Option<Box<ListNode>>":
                 RustWriter._add_to_import_libs(import_libs, "use library::lib::list_node::", "ListNode")
                 if not is_return:
                     RustWriter._add_to_import_libs(import_libs, "use library::lib::list_node::",
@@ -287,7 +305,7 @@ class RustWriter(LanguageWriter):
                     else:
                         return_parts.append("json!(list_node_to_int_array(&{}))")
 
-            case "Option<Rc<RefCell<TreeNode>>>" | "Vec<Option<Rc<RefCell<TreeNode>>>>":
+            case "Option<Rc<RefCell<TreeNode>>>" | "Vec<Option<Rc<RefCell<TreeNode>>>>" | "&mut Option<Rc<RefCell<TreeNode>>>":
                 RustWriter._add_to_import_libs(import_libs, "use library::lib::tree_node::", "TreeNode")
                 if not is_return:
                     RustWriter._add_to_import_libs(import_libs, "use library::lib::tree_node::", "array_to_tree")
@@ -387,7 +405,7 @@ class RustWriter(LanguageWriter):
                         continue
                     if "rust/" not in line:
                         pf = line.split("/")[0].split("\"")[-1].strip()
-                        pi = line.split("_")[-1].split("\"")[0].strip()
+                        pi = "_".join(line.split("_")[1:]).split("\"")[0].strip()
                         if (pi, pf) in remain:
                             remain.remove((pi, pf))
                     f.write(line + "\n")
@@ -510,3 +528,8 @@ class RustWriter(LanguageWriter):
             solve_lines.append("}")
             solve_lines.append("json!(ans)")
         return solve_lines
+
+    @staticmethod
+    def is_snake_case(s: str) -> bool:
+        pattern = r'^[a-z0-9]+(_[a-z0-9]+)*$'
+        return bool(re.match(pattern, s))
