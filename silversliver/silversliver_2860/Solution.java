@@ -7,6 +7,14 @@ import qubhjava.BaseSolution;
 
 public class Solution extends BaseSolution {
     public int countWays(List<Integer> nums) {
+        Collections.sort(nums);
+        var n = nums.size();
+        var ans = 0;
+        for (var i = 0; i <= n; i++)
+            if ((i == 0 || nums.get(i - 1) < i) && (i == n || nums.get(i) > i))
+                ans++;
+
+        return ans;
 
     }
 
