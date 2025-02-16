@@ -6,8 +6,24 @@ import qubhjava.BaseSolution;
 
 
 public class Solution extends BaseSolution {
-    public int[] findBall(int[][] grid) {
-        
+    private int[][] grid;
+    private int m;
+    private int n;
+
+    public int[] findBall(int[][] _grid) {
+        grid = _grid;
+        m = grid.length;
+        n = grid[0].length;
+        var ans = new int[n];
+        for(var i = 0; i < n; i++) ans[i] = getVal(i);
+        return ans;
+    }
+
+    public int dfs(int x, int y){
+        if (y == m) return x;
+        if ((x == n - 1 && grid[y][x] == 1) || (x == 0 && grid[y][x] == -1)) return -1;
+        if (grid[y][x] != grid[y][x + grid[y][x]]) return -1;
+        return dfs(x + grid[y][x], y + 1);
     }
 
     @Override
