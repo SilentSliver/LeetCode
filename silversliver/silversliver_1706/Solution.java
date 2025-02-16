@@ -6,16 +6,16 @@ import qubhjava.BaseSolution;
 
 
 public class Solution extends BaseSolution {
-    private int[][] grid;
-    private int m;
-    private int n;
+    int[][] grid;
+    int m, n;
 
     public int[] findBall(int[][] _grid) {
         grid = _grid;
         m = grid.length;
         n = grid[0].length;
         var ans = new int[n];
-        for(var i = 0; i < n; i++) ans[i] = getVal(i);
+        for(var i = 0; i < n; i++)
+            ans[i] = dfs(i, 0);
         return ans;
     }
 
