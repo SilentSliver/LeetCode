@@ -7,7 +7,11 @@ import qubhjava.BaseSolution;
 
 public class Solution extends BaseSolution {
     public int findSpecialInteger(int[] arr) {
-        
+        var n = arr.length;
+        for (int i = 0; i < n; i++)
+            if (arr[i] == (arr[i + (n >> 2)]))
+                return arr[i];
+        return -1;
     }
 
     @Override
