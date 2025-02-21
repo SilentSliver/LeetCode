@@ -12,7 +12,7 @@ logging.basicConfig(level=logging.INFO, format=constants.LOGGING_FORMAT, datefmt
 
 # Question ID that wants to test, modify here as passing arguments
 
-QUESTION = "2209"
+QUESTION = "2506"
 
 # QUESTION = "Interview/10_02"
 # QUESTION = "LCP/07"
