@@ -8,10 +8,10 @@ import org.junit.jupiter.api.TestFactory;
 import org.junit.jupiter.api.Timeout;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import problems.problems_2502.Solution;
+// import problems.problems_2502.Solution;
 // import premiums.premiums_1056.Solution;
 import org.testng.util.Strings;
-import silversliver.silversliver_2502.Solution;
+import silversliver.silversliver_1472.Solution;
 import qubhjava.Testcase;
 
 import java.io.IOException;
@@ -23,7 +23,7 @@ import java.util.List;
 public class TestMain {
 
     private static final Logger log = LoggerFactory.getLogger(TestMain.class);
-    private static final String PROBLEM_ID = "2502";
+    private static final String PROBLEM_ID = "1472";
 
     private Testcase[] loadTestcases() throws IOException {
         String problemFolder = null;
