@@ -7,7 +7,16 @@ import qubhjava.BaseSolution;
 
 public class Solution extends BaseSolution {
     public int similarPairs(String[] words) {
-        
+        int ans = 0;
+        var cnt = new HashMap<Integer, Integer>();
+        for (var s : words) {
+            int x = 0;
+            for (char c : s.toCharArray()) {
+                x |= 1 << (c - 'a');
+            }
+            ans += cnt.merge(x, 1, Integer::sum) - 1;
+        }
+        return ans;
     }
 
     @Override

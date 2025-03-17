@@ -10,6 +10,7 @@ class Testcase(testcase.Testcase):
 		self.testcases.append(case(Input="][][", Output=1))
 		self.testcases.append(case(Input="]]][[[", Output=2))
 		self.testcases.append(case(Input="[]", Output=0))
+		self.testcases.append(case(Input="][][", Output=1))
 
 	def get_testcases(self):
 		return self.testcases

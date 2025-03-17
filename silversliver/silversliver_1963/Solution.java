@@ -7,7 +7,19 @@ import qubhjava.BaseSolution;
 
 public class Solution extends BaseSolution {
     public int minSwaps(String s) {
-        
+        var ans = 0;
+        var cnt = 0;
+        for (char c: s.toCharArray()){
+            if (c == '[')
+                c++;
+            else if (c > 0)
+                c--;
+            else {
+                ans++;
+                c++;
+            }
+        }
+        return ans;
     }
 
     @Override
