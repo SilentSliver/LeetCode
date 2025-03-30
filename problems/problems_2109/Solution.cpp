@@ -7,17 +7,8 @@ using json = nlohmann::json;
 
 class Solution {
 public:
-    int minimizedStringLength(string s) {
-        int explored = 0, ans = 0;
-		for (auto c: s) {
-			int cur = c - 'a';
-			if ((explored >> cur) & 1) {
-				continue;
-			}
-			ans++;
-			explored |= 1 << cur;
-		}
-		return ans;
+    string addSpaces(string s, vector<int>& spaces) {
+        
     }
 };
 
@@ -33,5 +24,6 @@ json leetcode::qubh::Solve(string input_json_values) {
 
 	Solution solution;
 	string s = json::parse(inputArray.at(0));
-	return solution.minimizedStringLength(s);
+	vector<int> spaces = json::parse(inputArray.at(1));
+	return solution.addSpaces(s, spaces);
 }

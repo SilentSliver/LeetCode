@@ -1,4 +1,4 @@
-package problem2716
+package problem2109
 
 import (
 	"encoding/json"
@@ -6,25 +6,21 @@ import (
 	"strings"
 )
 
-func minimizedStringLength(s string) (ans int) {
-	explored := map[rune]bool{}
-	for _, c := range s {
-		if _, val := explored[c]; val {
-			continue
-		}
-		explored[c] = true
-		ans++
-	}
-	return
+func addSpaces(s string, spaces []int) string {
+    
 }
 
 func Solve(inputJsonValues string) interface{} {
 	inputValues := strings.Split(inputJsonValues, "\n")
 	var s string
+	var spaces []int
 
 	if err := json.Unmarshal([]byte(inputValues[0]), &s); err != nil {
 		log.Fatal(err)
 	}
+	if err := json.Unmarshal([]byte(inputValues[1]), &spaces); err != nil {
+		log.Fatal(err)
+	}
 
-	return minimizedStringLength(s)
+	return addSpaces(s, spaces)
 }
