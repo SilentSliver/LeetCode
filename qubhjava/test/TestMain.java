@@ -8,6 +8,9 @@ import org.junit.jupiter.api.TestFactory;
 import org.junit.jupiter.api.Timeout;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import problems.problems_1399.Solution;
+
 import org.testng.util.Strings;
 import silversliver.silversliver_1399.Solution;
 import qubhjava.Testcase;
