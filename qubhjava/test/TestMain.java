@@ -9,11 +9,11 @@ import org.junit.jupiter.api.Timeout;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import problems.problems_2799.Solution;
+// import problems.problems_2799.Solution;
 // import premiums.premiums_1056.Solution;
 
 import org.testng.util.Strings;
-import silversliver.silversliver_2799.Solution;
+import silversliver.silversliver_2845.Solution;
 import qubhjava.Testcase;
 
 import java.io.IOException;
@@ -25,7 +25,7 @@ import java.util.List;
 public class TestMain {
 
     private static final Logger log = LoggerFactory.getLogger(TestMain.class);
-    private static final String PROBLEM_ID = "2799";
+    private static final String PROBLEM_ID = "2845";
 
     private Testcase[] loadTestcases() throws IOException {
         String problemFolder = null;
