@@ -13,7 +13,6 @@ logging.basicConfig(level=logging.INFO, format=constants.LOGGING_FORMAT, datefmt
 # Question ID that wants to test, modify here as passing arguments
 QUESTION = "2444"
 
-
 class Test(unittest.TestCase):
     def test(self):
         @timeout()
