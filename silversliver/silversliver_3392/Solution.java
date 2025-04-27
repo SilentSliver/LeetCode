@@ -7,7 +7,12 @@ import qubhjava.BaseSolution;
 
 public class Solution extends BaseSolution {
     public int countSubarrays(int[] nums) {
-        
+        var ans = 0;
+        var n = nums.length;
+        for (var i = 0; i < n - 2; i++)
+            if ((nums[i] * 2 + nums[i + 2] * 2) == nums[i + 1])
+                ans++;
+        return ans;
     }
 
     @Override
