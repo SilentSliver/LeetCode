@@ -268,6 +268,11 @@ members = [
 	"problems/problems_LCR_026",
 	"problems/problems_2444",
 	"problems/problems_LCR_054",
+	"problems/problems_LCR_061",
+	"problems/problems_LCR_066",
+	"problems/problems_3392",
+	"problems/problems_LCR_085",
+	"problems/problems_1456",
 ]
 
 [package]
@@ -558,3 +563,8 @@ solution_2845 = { path = "problems/problems_2845", features = ["solution_2845"] 
 solution_LCR_026 = { path = "problems/problems_LCR_026", features = ["solution_LCR_026"] }
 solution_2444 = { path = "problems/problems_2444", features = ["solution_2444"] }
 solution_LCR_054 = { path = "problems/problems_LCR_054", features = ["solution_LCR_054"] }
+solution_LCR_061 = { path = "problems/problems_LCR_061", features = ["solution_LCR_061"] }
+solution_LCR_066 = { path = "problems/problems_LCR_066", features = ["solution_LCR_066"] }
+solution_3392 = { path = "problems/problems_3392", features = ["solution_3392"] }
+solution_LCR_085 = { path = "problems/problems_LCR_085", features = ["solution_LCR_085"] }
+solution_1456 = { path = "problems/problems_1456", features = ["solution_1456"] }
