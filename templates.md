@@ -3,7 +3,9 @@
 # 目录
 
 1. [二分查找](#二分查找)
+    - [带重复元素的旋转数组](#带重复元素的旋转数组)
 2. [堆](#堆)
+    - [优先队列](#优先队列)
 3. [字典树](#trie)
 4. [单调栈](#单调栈)
 5. [滑动窗口](#滑动窗口)
@@ -13,10 +15,12 @@
 9. [拓扑排序](#拓扑排序)
 10. [二进制](#二进制)
 11. [动态规划](#动态规划)
+    - [回文串切割](#回文串切割)
 12. [并查集](#并查集)
 13. [树状数组](#树状数组)
 14. [线段树](#线段树)
 15. [数学](#数学)
+    - [费马平方和定理](#费马平方和定理)
 16. [链表](#链表)
 17. [二叉树](二叉树)
 18. [字符串](#字符串)
@@ -27,8 +31,11 @@
         - [重复元素全排列](#重复元素全排列)
         - [组合](#组合)
         - [重复元素组合](#重复元素组合)
+        - [重复元素子集](#重复元素子集)
 
 # 二分查找
+
+**「二分」的本质是二段性，并非单调性。只要一段满足某个性质，另外一段不满足某个性质，就可以用「二分」。**
 
 ```python3
 # bisect.bisect_left
@@ -61,6 +68,54 @@ func BinarySearch(arr []int, target int) int {
         }
     }
     return -1
+}
+```
+
+## 带重复元素的旋转数组
+
+```go
+// 这里的二段性是一段满足<target，另一段不满足
+func binarySearch(nums []int, left, right, target int) int {
+	l, r := left, right
+	for l < r {
+		mid := l + (r-l)/2
+		if nums[mid] < target {
+			l = mid + 1
+		} else {
+			r = mid
+		}
+	}
+	if nums[r] == target {
+		return r
+	}
+	return -1
+}
+
+func search(nums []int, target int) bool {
+	n := len(nums)
+	left, right := 0, n-1
+	// 恢复二段性
+	for left < right && nums[right] == nums[left] {
+		right--
+	}
+	// 这里的二段性是一段满足>=nums[0]，另一段不满足
+	for left < right {
+		mid := left + (right-left+1)/2
+		if nums[mid] >= nums[0] {
+			left = mid
+		} else {
+			right = mid - 1
+		}
+	}
+	idx := n
+	if nums[right] >= nums[0] && right < n-1 {
+		idx = right + 1
+	}
+	if target >= nums[0] {
+		return binarySearch(nums, 0, idx-1, target) != -1
+	} else {
+		return binarySearch(nums, idx, n-1, target) != -1
+	}
 }
 ```
 
@@ -109,6 +164,145 @@ func (h *IntHeap) Pop() interface{} {
     x := old[n-1]
     *h = old[0 : n-1]
     return x
+}
+```
+
+```go
+package main
+
+import (
+    "container/heap"
+    "math"
+)
+
+// 632 最小区间
+func smallestRange(nums [][]int) []int {
+	h := make(hp, len(nums))
+	r := math.MinInt
+	for i, arr := range nums {
+		h[i] = tuple{arr[0], i, 0} // 把每个列表的第一个元素入堆
+		r = max(r, arr[0])
+	}
+	heap.Init(&h)
+
+	ansL, ansR := h[0].x, r            // 第一个合法区间的左右端点
+	for h[0].j+1 < len(nums[h[0].i]) { // 堆顶列表有下一个元素
+		x := nums[h[0].i][h[0].j+1] // 堆顶列表的下一个元素
+		r = max(r, x)               // 更新合法区间的右端点
+		h[0].x = x                  // 替换堆顶
+		h[0].j++
+		heap.Fix(&h, 0)
+		l := h[0].x // 当前合法区间的左端点
+		if r-l < ansR-ansL {
+			ansL, ansR = l, r
+		}
+	}
+	return []int{ansL, ansR}
+}
+
+type tuple struct{ x, i, j int }
+type hp []tuple
+
+func (h hp) Len() int           { return len(h) }
+func (h hp) Less(i, j int) bool { return h[i].x < h[j].x }
+func (h hp) Swap(i, j int)      { h[i], h[j] = h[j], h[i] }
+func (hp) Push(any)             {} // 没用到，可以不写
+func (hp) Pop() (_ any)         { return }
+```
+
+## 优先队列
+```go
+// This example demonstrates a priority queue built using the heap interface.
+package main
+
+import (
+	"container/heap"
+	"fmt"
+)
+
+// An Item is something we manage in a priority queue.
+type Item struct {
+	value    string // The value of the item; arbitrary.
+	priority int    // The priority of the item in the queue.
+	// The index is needed by update and is maintained by the heap.Interface methods.
+	index int // The index of the item in the heap.
+}
+
+// A PriorityQueue implements heap.Interface and holds Items.
+type PriorityQueue []*Item
+
+func (pq PriorityQueue) Len() int { return len(pq) }
+
+func (pq PriorityQueue) Less(i, j int) bool {
+	// We want Pop to give us the highest, not lowest, priority so we use greater than here.
+	return pq[i].priority > pq[j].priority
+}
+
+func (pq PriorityQueue) Swap(i, j int) {
+	pq[i], pq[j] = pq[j], pq[i]
+	pq[i].index = i
+	pq[j].index = j
+}
+
+func (pq *PriorityQueue) Push(x any) {
+	n := len(*pq)
+	item := x.(*Item)
+	item.index = n
+	*pq = append(*pq, item)
+}
+
+func (pq *PriorityQueue) Pop() any {
+	old := *pq
+	n := len(old)
+	item := old[n-1]
+	old[n-1] = nil  // don't stop the GC from reclaiming the item eventually
+	item.index = -1 // for safety
+	*pq = old[0 : n-1]
+	return item
+}
+
+// update modifies the priority and value of an Item in the queue.
+func (pq *PriorityQueue) update(item *Item, value string, priority int) {
+	item.value = value
+	item.priority = priority
+	heap.Fix(pq, item.index)
+}
+
+// This example creates a PriorityQueue with some items, adds and manipulates an item,
+// and then removes the items in priority order.
+func main() {
+	// Some items and their priorities.
+	items := map[string]int{
+		"banana": 3, "apple": 2, "pear": 4,
+	}
+
+	// Create a priority queue, put the items in it, and
+	// establish the priority queue (heap) invariants.
+	pq := make(PriorityQueue, len(items))
+	i := 0
+	for value, priority := range items {
+		pq[i] = &Item{
+			value:    value,
+			priority: priority,
+			index:    i,
+		}
+		i++
+	}
+	heap.Init(&pq)
+
+	// Insert a new item and then modify its priority.
+	item := &Item{
+		value:    "orange",
+		priority: 1,
+	}
+	heap.Push(&pq, item)
+	pq.update(item, item.value, 5)
+
+	// Take the items out; they arrive in decreasing priority order.
+	for pq.Len() > 0 {
+		item := heap.Pop(&pq).(*Item)
+		fmt.Printf("%.2d:%s ", item.priority, item.value)
+	}
 }
 ```
 
@@ -285,6 +479,66 @@ def maxSlidingWindow(nums []int, k int) (ans []int) {
 
 # 动态规划
 
+## 回文串切割
+```python
+def minCut(s):
+    """
+    :type s: str
+    :rtype: int
+    """
+
+    n = len(s)
+
+    is_palindrome = [[True for _ in range(n)] for _ in range(n)]
+    for i in range(n):
+        for j in range(i):
+            is_palindrome[j][i] = s[j] == s[i] and is_palindrome[j + 1][i - 1]
+
+    dp = [i for i in range(n)]
+    for i in range(n):
+        if is_palindrome[0][i]:
+            dp[i] = 0
+        else:
+            for j in range(1, i + 1):
+                if is_palindrome[j][i]:
+                    dp[i] = min(dp[i], dp[j - 1] + 1)
+
+    return dp[-1]
+
+```
+```go
+package main
+
+func minCut(s string) int {
+	n := len(s)
+	isPalindrome := make([][]bool, n)
+	for i := 0; i < n; i++ {
+		isPalindrome[i] = make([]bool, n)
+	}
+	for i := 0; i < n; i++ {
+		for j := i; j >= 0; j-- {
+			if s[j] == s[i] && (i-j <= 1 || isPalindrome[j+1][i-1]) {
+				isPalindrome[j][i] = true
+			}
+		}
+	}
+	dp := make([]int, n)
+	for i := 1; i < n; i++ {
+		dp[i] = i
+		if isPalindrome[0][i] {
+			dp[i] = 0
+		} else {
+			for j := 1; j <= i; j++ {
+				if isPalindrome[j][i] {
+					dp[i] = min(dp[i], dp[j-1]+1)
+				}
+			}
+		}
+	}
+	return dp[n-1]
+}
+```
+
 # 并查集
 
 ```python
@@ -377,6 +631,24 @@ func (uf *UnionFind) IsConnected(x, y int) bool {
 # 线段树
 
 # 数学
+
+## 费马平方和定理
+
+### 定理内容
+
+一个奇素数$`p`$, 可以表示为两个整数的平方和（即$`p = x^2 + y^2`$），当且仅当$$p \equiv 1 \pmod{4}$$
+
+### 证明思路（简述）
+如果$`p \equiv 1 \pmod{4}`$，可以通过数论方法证明$`p`$可以表示为两个平方数之和。
+如果$`p \equiv 3 \pmod{4}`$，则$`p`$无法表示为两个平方数之和。
+
+### 示例
+$`5 = 2^2 + 1^2`$，且$`5 \equiv 1 \pmod{4}`$
+
+$`13 = 3^2 + 2^2`$，且$`13 \equiv 1 \pmod{4}`$
+
+$`7`$无法表示为两个平方数之和，因为$`7 \equiv 3 \pmod{4}`$
+
 
 # 链表
 
@@ -654,6 +926,36 @@ func combinationSum2(candidates []int, target int) (ans [][]int) {
 		backtrack(nxt, remain, path)
 	}
 	backtrack(0, target, make([]int, 0))
+	return
+}
+```
+
+#### 重复元素子集
+
+```go
+func subsetsWithDup(nums []int) (ans [][]int) {
+	sort.Ints(nums)
+	n := len(nums)
+	path := []int{}
+
+	var backtrack func(idx int)
+	backtrack = func(idx int) {
+		if idx == n {
+			cp := make([]int, len(path))
+			copy(cp, path)
+			ans = append(ans, cp)
+			return
+		}
+		path = append(path, nums[idx])
+		backtrack(idx + 1)
+		path = path[:len(path)-1]
+		nxt := idx + 1
+		for nxt < n && nums[nxt] == nums[idx] {
+			nxt++
+		}
+		backtrack(nxt)
+	}
+	backtrack(0)
 	return
 }
 ```
