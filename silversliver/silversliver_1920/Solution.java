@@ -7,7 +7,9 @@ import qubhjava.BaseSolution;
 
 public class Solution extends BaseSolution {
     public int[] buildArray(int[] nums) {
-        
+        for(var i = 0; i < nums.length; i++)
+            nums[i] = nums[nums[i]];
+        return nums;
     }
 
     @Override
