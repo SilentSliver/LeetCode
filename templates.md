@@ -47,6 +47,7 @@
     - [异或](#异或)
 - [动态规划](#动态规划)
     - [回文串切割](#回文串切割)
+    - [数位DP](#数位dp)
 - [数学](#数学)
     - [费马平方和定理](#费马平方和定理)
 - [字符串](#字符串)
@@ -2172,7 +2173,7 @@ func main() {
 ```
 
 ### **跳表（Skip List）核心原理**
-跳表是一种**多层链表结构**，通过建立多级索引实现快速查询（时间复杂度 \(O(\log n)\)），常用于代替平衡树。Redis 的有序集合（Sorted Set）底层即使用跳表。
+跳表是一种**多层链表结构**，通过建立多级索引实现快速查询（时间复杂度 $`O(\log n)`$），常用于代替平衡树。Redis 的有序集合（Sorted Set）底层即使用跳表。
 
 #### **核心特性**
 1. **多层结构**：包含多个层级的链表，底层链表包含所有元素，上层链表作为索引。
@@ -2182,9 +2183,9 @@ func main() {
 #### **时间复杂度**
 | 操作    | 时间复杂度   |
 |---------|-------------|
-| 查找    | \(O(\log n)\) |
-| 插入    | \(O(\log n)\) |
-| 删除    | \(O(\log n)\) |
+| 查找    | $`O(\log n)`$ |
+| 插入    | $`O(\log n)`$ |
+| 删除    | $`O(\log n)`$ |
 
 ### **关键操作解析**
 | 操作       | 步骤                                                                 |
@@ -2223,9 +2224,113 @@ $`13 = 3^2 + 2^2`$，且$`13 \equiv 1 \pmod{4}`$
 
 $`7`$无法表示为两个平方数之和，因为$`7 \equiv 3 \pmod{4}`$
 
+## 组合数
+
+### **组合数求和公式**
+
+#### **1. 全部组合数求和**
+**公式**：
+$$
+\sum_{k=0}^n \binom{n}{k} = 2^n
+$$
+
+**解释**：
+- **二项式定理**：根据二项式展开式，令 $` x = 1 `$：
+  $`
+  (1 + 1)^n = \sum_{k=0}^n \binom{n}{k} 1^k 1^{n-k} = \sum_{k=0}^n \binom{n}{k}.
+  `$
+  因此，和为 $` 2^n `$。
+
+- **组合意义**：从 $` n `$ 个元素中选取任意多个元素（包括选 0 个或全选），总共有 $` 2^n `$ 种方式。
+
+**示例**：
+- 当 $` n = 3 `$ 时：
+  $`
+  \binom{3}{0} + \binom{3}{1} + \binom{3}{2} + \binom{3}{3} = 1 + 3 + 3 + 1 = 8 = 2^3.
+  `$
+
+#### **2. 带权组合数求和（每个组合乘以其元素个数）**
+**公式**：
+$$
+\sum_{k=0}^n k \binom{n}{k} = n \cdot 2^{n-1}
+$$
+
+**解释**：
+- **代数推导**：利用二项式定理的导数：
+  $`
+  \frac{d}{dx} \left( (1+x)^n \right) = n(1+x)^{n-1} = \sum_{k=0}^n k \binom{n}{k} x^{k-1}.
+  `$
+  两边乘以 $` x `$，再令 $` x = 1 `$，得：
+  $`
+  \sum_{k=0}^n k \binom{n}{k} = n \cdot 2^{n-1}.
+  `$
+
+- **组合意义**：从 $` n `$ 人中选一个委员会（任意大小），再选一个主席。总共有两种方式：
+  1. 先选主席（$` n `$ 种选择），再从剩余 $` n-1 `$ 人中任意选成员（$` 2^{n-1} `$ 种）。
+  2. 先选 $` k `$ 人（$` \binom{n}{k} `$ 种），再从 $` k `$ 人中选主席（$` k `$ 种），总数为 $` \sum_{k=0}^n k \binom{n}{k} `$。
+
+**示例**：
+- 当 $` n = 4 `$ 时：
+  $`
+  0\binom{4}{0} + 1\binom{4}{1} + 2\binom{4}{2} + 3\binom{4}{3} + 4\binom{4}{4} = 0 + 4 + 12 + 12 + 4 = 32 = 4 \cdot 2^{3}.
+  `$
+
+#### **3. 奇数、偶数组合数的和**
+**公式**:
+$$
+\sum_{k=1}^{\lceil (n-1)/2 \rceil} \binom{n}{2k+1} = \sum_{k=0}^{\lceil (n-1)/2 \rceil} \binom{n}{2k} = 2^{n-1}
+$$
+
+由二项式展开可证
+
+### **其他常见组合数求和公式**
+1. **平方和公式**：
+   $`
+   \sum_{k=0}^n \binom{n}{k}^2 = \binom{2n}{n}.
+   `$
+   **解释**：从 $` 2n `$ 个元素中选 $` n `$ 个，等价于分成两组各 $` n `$ 个，并选 $` k `$ 个从第一组、$` n−k `$ 个从第二组。
+
+2. **交替符号和**：
+   $`
+   \sum_{k=0}^n (-1)^k \binom{n}{k} = 0 \quad (n \geq 1).
+   `$
+   **解释**：由二项式定理 $` (1 - 1)^n = 0 `$。
+
+### **总结**
+| 求和类型                  | 公式                    | 核心推导工具       |
+|---------------------------|-------------------------|--------------------|
+| 全部组合数求和            | $` 2^n `$               | 二项式定理         |
+| 带权组合数求和（元素个数） | $` n \cdot 2^{n-1} `$   | 导数或组合解释     |
+| 平方和                    | $` \binom{2n}{n} `$     | 组合恒等式         |
+| 交替符号和                | $` 0 `$（当 $` n \geq 1 `$） | 二项式定理代入负值 |
+
+这些公式在概率论、组合优化和算法分析中有广泛应用，例如动态规划中的状态转移计数。
+
 ---
 
 # 字符串
+
+## 回文串
+
+预处理
+
+```go
+package main
+
+func handle(s string) [][]bool:
+	n := len(s)
+	isPalindrome := make([][]bool, n)
+	for i := range isPalindrome {
+		isPalindrome[i] = make([]bool, n)
+		isPalindrome[i][i] = true
+	}
+	for i := n - 1; i >= 0; i-- {
+		for j := i + 1; j < n; j++ {
+			isPalindrome[i][j] = s[i] == s[j] && (i+2 >= j || isPalindrome[i+1][j-1])
+		}
+	}
+    return isPalindrome
+```
 
 ## KMP算法模板
 ```python
@@ -2794,6 +2899,218 @@ func minCut(s string) int {
 }
 ```
 
+## 数位dp
+
+数位DP用于解决数字各位相关的计数问题，例如统计区间内满足特定条件的数字数量。其核心是通过动态规划逐位处理数字，利用记忆化技术避免重复计算。
+
+#### **核心思想**
+1. **拆解数位**：将数字转换为字符数组，逐位处理。
+2. **状态记录**：记录当前位置、是否受上界限制、前导零状态及其他条件。
+3. **记忆化搜索**：缓存已计算的状态，优化时间复杂度。
+
+### **通用步骤**
+1. **预处理数位**：将数字转换为字符串或数组。
+2. **递归处理每一位**：
+   - **限制条件**：当前位是否受上界限制。
+   - **前导零处理**：标记是否处于前导零状态。
+   - **状态转移**：根据当前位选择更新状态。
+3. **边界处理**：处理完所有位后返回结果。
+
+### **Python 模板（以统计无重复数字为例）**
+```python
+from functools import lru_cache
+
+def count_special_numbers(n: int) -> int:
+    s = str(n)
+    
+    @lru_cache(maxsize=None)
+    def dp(pos: int, mask: int, tight: bool, lead: bool) -> int:
+        if pos == len(s):
+            return 0 if lead else 1
+        
+        limit = int(s[pos]) if tight else 9
+        total = 0
+        
+        for d in range(0, limit + 1):
+            new_tight = tight and (d == limit)
+            new_lead = lead and (d == 0)
+            
+            if new_lead:
+                total += dp(pos + 1, mask, new_tight, new_lead)
+            else:
+                if (mask & (1 << d)) == 0:
+                    new_mask = mask | (1 << d)
+                    total += dp(pos + 1, new_mask, new_tight, new_lead)
+        
+        return total
+    
+    return dp(0, 0, True, True)
+
+# 示例：统计1到n中无重复数字的数目
+print(count_special_numbers(20))  # 输出19（1-20中除11外都符合）
+```
+
+```go
+package main
+
+import (
+	"fmt"
+	"strconv"
+)
+
+func countSpecialNumbers(n int) int {
+    s := strconv.Itoa(n)
+    m := len(s)
+    memo := make([][1 << 10]int, m)
+    for i := range memo {
+        for j := range memo[i] {
+            memo[i][j] = -1 // -1 表示没有计算过
+        }
+    }
+    var dfs func(int, int, bool, bool) int
+    dfs = func(i, mask int, isLimit, isNum bool) (res int) {
+        if i == m {
+            if isNum {
+                return 1 // 得到了一个合法数字
+            }
+            return
+        }
+        if !isLimit && isNum {
+            p := &memo[i][mask]
+            if *p >= 0 { // 之前计算过
+                return *p
+            }
+            defer func() { *p = res }() // 记忆化
+        }
+        if !isNum { // 可以跳过当前数位
+            res += dfs(i+1, mask, false, false)
+        }
+        d := 0
+        if !isNum {
+            d = 1 // 如果前面没有填数字，必须从 1 开始（因为不能有前导零）
+        }
+        up := 9
+        if isLimit {
+            up = int(s[i] - '0') // 如果前面填的数字都和 n 的一样，那么这一位至多填数字 s[i]（否则就超过 n 啦）
+        }
+        for ; d <= up; d++ { // 枚举要填入的数字 d
+            if mask>>d&1 == 0 { // d 不在 mask 中，说明之前没有填过 d
+                res += dfs(i+1, mask|1<<d, isLimit && d == up, true)
+            }
+        }
+        return
+    }
+    return dfs(0, 0, true, false)
+}
+```
+
+### **关键参数解释**
+| 参数    | 说明                                                                 |
+|---------|--------------------------------------------------------------------|
+| `pos`   | 当前处理的数位位置（从高位到低位）。                                      |
+| `mask`  | 状态掩码，记录已使用的数字（例如用位掩码表示）。                             |
+| `tight` | 是否受上界限制（如处理到第`i`位时，前`i-1`位是否与上界相同）。                 |
+| `lead`  | 是否处于前导零状态（前导零不计入已使用数字）。                              |
+
+
+### **适用场景**
+1. **无重复数字计数**：如示例所示。
+2. **数位和限制**：统计数位和等于特定值的数字。
+3. **特定模式匹配**：如包含/不包含某些子序列。
+
+
+通过合理设计状态转移和记忆化策略，数位DP能高效解决复杂的数位计数问题。模板可根据具体问题调整状态定义和转移逻辑。
+
+### 模板 2.0
+
+```python
+from functools import cache
+
+class Solution:
+    def numberOfPowerfulInt(self, start: int, finish: int, limit: int, s: str) -> int:
+        high = list(map(int, str(finish)))  # 避免在 dfs 中频繁调用 int()
+        n = len(high)
+        low = list(map(int, str(start).zfill(n)))  # 补前导零，和 high 对齐
+        diff = n - len(s)
+
+        @cache
+        def dfs(i: int, limit_low: bool, limit_high: bool) -> int:
+            if i == n:
+                return 1
+
+            # 第 i 个数位可以从 lo 枚举到 hi
+            # 如果对数位还有其它约束，应当只在下面的 for 循环做限制，不应修改 lo 或 hi
+            lo = low[i] if limit_low else 0
+            hi = high[i] if limit_high else 9
+
+            res = 0
+            if i < diff:  # 枚举这个数位填什么
+                for d in range(lo, min(hi, limit) + 1):
+                    res += dfs(i + 1, limit_low and d == lo, limit_high and d == hi)
+            else:  # 这个数位只能填 s[i-diff]
+                x = int(s[i - diff])
+                if lo <= x <= hi:  # 题目保证 x <= limit，无需判断
+                    res = dfs(i + 1, limit_low and x == lo, limit_high and x == hi)
+            return res
+
+        return dfs(0, True, True)
+```
+
+```go
+package main
+
+func numberOfPowerfulInt(start, finish int64, limit int, s string) int64 {
+	low := strconv.FormatInt(start, 10)
+	high := strconv.FormatInt(finish, 10)
+	n := len(high)
+	low = strings.Repeat("0", n-len(low)) + low // 补前导零，和 high 对齐
+	diff := n - len(s)
+
+	memo := make([]int64, n)
+	for i := range memo {
+		memo[i] = -1
+	}
+	var dfs func(int, bool, bool) int64
+	dfs = func(i int, limitLow, limitHigh bool) (res int64) {
+		if i == n {
+			return 1
+		}
+		
+		if !limitLow && !limitHigh {
+			p := &memo[i]
+			if *p >= 0 {
+				return *p
+			}
+			defer func() { *p = res }()
+		}
+
+		// 第 i 个数位可以从 lo 枚举到 hi
+		// 如果对数位还有其它约束，应当只在下面的 for 循环做限制，不应修改 lo 或 hi
+		lo := 0
+		if limitLow {
+			lo = int(low[i] - '0')
+		}
+		hi := 9
+		if limitHigh {
+			hi = int(high[i] - '0')
+		}
+
+		if i < diff { // 枚举这个数位填什么
+			for d := lo; d <= min(hi, limit); d++ {
+				res += dfs(i+1, limitLow && d == lo, limitHigh && d == hi)
+			}
+		} else { // 这个数位只能填 s[i-diff]
+			x := int(s[i-diff] - '0')
+			if lo <= x && x <= hi { // 题目保证 x <= limit，无需判断
+				res += dfs(i+1, limitLow && x == lo, limitHigh && x == hi)
+			}
+		}
+		return
+	}
+	return dfs(0, true, true)
+}
+```
+
 ---
 
 # 回溯
@@ -3113,39 +3430,24 @@ func subsetsWithDup(nums []int) (ans [][]int) {
 
 ### **倍增的核心原理**
 1. **二进制分解**  
-   将问题分解为多个**按指数递增的步长**（如 \(2^0, 2^1, 2^2, \dots\)）来处理。例如，跳转表中存储从每个位置出发，经过 \(2^k\) 步后的结果。
+   将问题分解为多个**按指数递增的步长**（如 $`2^0, 2^1, 2^2, \dots`$）来处理。例如，跳转表中存储从每个位置出发，经过 $`2^k`$ 步后的结果。
    
 2. **预处理跳转表**  
-   构建一个二维数组 `dp[k][i]`，表示从位置 `i` 出发，跳转 \(2^k\) 步后的目标位置或计算结果。例如：
-   - `dp[0][i]` 表示跳转 1 步（\(2^0 = 1\)）后的结果。
+   构建一个二维数组 `dp[k][i]`，表示从位置 `i` 出发，跳转 $`2^k`$ 步后的目标位置或计算结果。例如：
+   - `dp[0][i]` 表示跳转 1 步（$`2^0 = 1`$）后的结果。
    - `dp[k][i] = dp[k-1][ dp[k-1][i] ]`，即通过递归方式构建跳转表。
 
 3. **快速查询**  
-   将目标步长分解为二进制形式，按位累加跳转步长。例如，跳转 13 步（二进制 `1101`）时，分解为 \(8 + 4 + 1\) 步，依次跳转 \(2^3, 2^2, 2^0\) 步。
+   将目标步长分解为二进制形式，按位累加跳转步长。例如，跳转 13 步（二进制 `1101`）时，分解为 $`8 + 4 + 1`$ 步，依次跳转 $`2^3, 2^2, 2^0`$ 步。
 
 ### **典型应用场景**
 #### 1. **最近公共祖先（LCA）**
    - **问题**：在树中快速找到两个节点的最近公共祖先。
    - **倍增实现**：
-     1. 预处理每个节点的 \(2^k\) 级祖先（`up[k][u]`）。
+     1. 预处理每个节点的 $`2^k`$ 级祖先（`up[k][u]`）。
      2. 先将两个节点调整到同一深度，再同时向上跳转，直到找到公共祖先。
-   - **时间复杂度**：预处理 \(O(n \log n)\)，查询 \(O(\log n)\)。
+   - **时间复杂度**：预处理 $`O(n \log n)`$，查询 $`O(\log n)`$。
 
-#### 2. **区间最值查询（RMQ）**
-   - **问题**：多次查询数组某个区间的最小值/最大值。
-   - **倍增实现**：
-     1. 构建稀疏表 `st[k][i]`，表示从 `i` 开始长度为 \(2^k\) 的区间最值。
-     2. 查询区间 `[L, R]` 时，取最大的 \(k\) 使得 \(2^k \leq R-L+1\)，比较 `st[k][L]` 和 `st[k][R-2^k+1]`。
-   - **时间复杂度**：预处理 \(O(n \log n)\)，查询 \(O(1)\)。
-
-#### 3. **快速幂**
-   - **问题**：高效计算 \(a^b \mod p\)。
-   - **倍增实现**：
-     1. 将指数 \(b\) 分解为二进制形式。
-     2. 通过累乘 \(a^{2^k}\) 快速计算结果。
-   - **时间复杂度**：\(O(\log b)\)。
-
-### **示例：倍增法求最近公共祖先（LCA）**
 ```python
 from typing import List
 
@@ -3266,9 +3568,75 @@ func (t *TreeAncestor) GetLCA(x, y int) int {
 }
 ```
 
+#### 2. **区间最值查询（RMQ）**
+   - **问题**：多次查询数组某个区间的最小值/最大值。
+   - **倍增实现**：
+     1. 构建稀疏表 `st[k][i]`，表示从 `i` 开始长度为 $`2^k`$ 的区间最值。
+     2. 查询区间 `[L, R]` 时，取最大的 $`k`$ 使得 $`2^k \leq R-L+1`$，比较 `st[k][L]` 和 `st[k][R-2^k+1]`。
+   - **时间复杂度**：预处理 $`O(n \log n)`$，查询 $`O(1)`$。
+
+#### 3. **快速幂**
+   - **问题**：高效计算 $`a^b \mod p`$。
+   - **倍增实现**：
+     1. 将指数 $`b`$ 分解为二进制形式。
+     2. 通过累乘 $`a^{2^k}`$ 快速计算结果。
+   - **时间复杂度**：$`O(\log b)`$。
+
+快速幂算法用于高效计算大整数幂或幂取模，时间复杂度为 $`O(\log n)`$。
+
+#### **Python 模板**
+```python
+def fast_power(a: int, b: int, mod: int = None) -> int:
+    """
+    计算 a^b 或 (a^b) % mod
+    :param a: 底数
+    :param b: 指数（非负整数）
+    :param mod: 可选模数
+    :return: a^b 或 (a^b) % mod
+    """
+    result = 1
+    a = a % mod if mod else a  # 初始取模（若提供mod）
+    while b > 0:
+        if b % 2 == 1:  # 当前二进制位为1
+            result = result * a
+            if mod: result %= mod
+        a = a * a       # 基数平方
+        if mod: a %= mod
+        b //= 2         # 右移一位
+    return result
+
+# 示例
+print(fast_power(2, 10))          # 输出 1024
+print(fast_power(2, 10, 1000))    # 输出 24 (1024 % 1000)
+```
+
+```go
+package main
+
+import "fmt"
+
+func fastPower(a, b, mod int) int {
+    result := 1
+    a = a % mod // 初始取模（若mod > 0）
+    for b > 0 {
+        if b%2 == 1 { // 当前二进制位为1
+            result = (result * a) % mod
+        }
+        a = (a * a) % mod // 基数平方
+        b /= 2           // 右移一位
+    }
+    return result
+}
+
+func main() {
+    fmt.Println(fastPower(2, 10, 0))    // 输出 1024（mod=0时不取模）
+    fmt.Println(fastPower(2, 10, 1000)) // 输出 24
+}
+```
+
 ### **优势与局限**
 - **优势**：将线性时间的查询优化到对数时间。
-- **局限**：需要额外的空间存储跳转表（如 \(O(n \log n)\) 的稀疏表）。
+- **局限**：需要额外的空间存储跳转表（如 $`O(n \log n)`$ 的稀疏表）。
 - **适用场景**：适用于**静态数据**（预处理后数据不变）的多次查询问题。
 
 理解倍增的核心在于掌握**二进制分解**和**跳转表的预处理逻辑**，它是高效解决许多算法问题的关键技巧。
