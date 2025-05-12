@@ -14,6 +14,8 @@
     - [堆](#堆)
         - [优先队列](#优先队列)
     - [链表](#链表)
+        - [反转链表](#反转链表)
+        - [快慢指针](#快慢指针)
     - [二叉树](#二叉树)
         - [前序遍历](#前序遍历)
         - [中序遍历](#中序遍历)
@@ -157,6 +159,16 @@ func search(nums []int, target int) bool {
 ```
 
 ## 单调栈
+
+### 单调栈适用场景
+单调栈可以在时间复杂度为$`O(n)`$，求解出某个元素左边或者右边第一个比它大或者小的元素。
+
+单调栈一般用于解决一下几种问题：
+
+- 寻找左侧第一个比当前元素大的元素。
+- 寻找左侧第一个比当前元素小的元素。
+- 寻找右侧第一个比当前元素大的元素。
+- 寻找右侧第一个比当前元素小的元素。
 
 ```python3
 def solve(nums):
@@ -666,6 +678,39 @@ func reverseList(head *ListNode) *ListNode {
         curr = next
     }
     return prev
+}
+```
+
+### 快慢指针
+
+```python
+class ListNode:
+    def __init__(self, val=0, nxt=None):
+        self.val = val
+        self.next = nxt
+
+def half_head(head: ListNode) -> ListNode:
+    fast, slow = head, head
+    while fast and fast.next:
+        fast = fast.next.next
+        slow = slow.next
+    return slow
+```
+```go
+package main
+
+type ListNode struct {
+    Val  int
+    Next *ListNode
+}
+
+func halfHead(head *ListNode) *ListNode {
+	fast, slow := head, head
+	for fast != nil && fast.Next != nil {
+		fast = fast.Next.Next
+		slow = slow.Next
+	}
+	return slow
 }
 ```
 
@@ -1288,7 +1333,136 @@ func (uf *UnionFind) IsConnected(x, y int) bool {
 
 ---
 
+
 ## 树状数组
+
+树状数组（Fenwick Tree）是一种高效处理 **前缀和查询** 和 **单点更新** 的数据结构，时间复杂度为 $`O(\log n)`$。
+
+`子节点t[x]的父节点是t[x+lowbit(x)]`
+
+其中lowbit是求二进制最低位1 (可通过取反，再+1，再&)
+
+
+```python
+class FenwickTree:
+    def __init__(self, size: int):
+        self.n = size
+        self.tree = [0] * (self.n + 1)  # 索引从1开始
+
+    def lowbit(self, x: int) -> int:
+        return x & (-x)
+
+    def update(self, idx: int, delta: int) -> None:
+        """ 单点更新：a[idx] += delta """
+        while idx <= self.n:
+            self.tree[idx] += delta
+            idx += self.lowbit(idx)
+
+    def query(self, idx: int) -> int:
+        """ 查询前缀和：a[1] + a[2] + ... + a[idx] """
+        res = 0
+        while idx > 0:
+            res += self.tree[idx]
+            idx -= self.lowbit(idx)
+        return res
+
+    def range_query(self, l: int, r: int) -> int:
+        """ 区间查询：a[l] + a[l+1] + ... + a[r] """
+        return self.query(r) - self.query(l-1)
+
+# 示例
+arr = [1, 3, 5, 7, 9]
+n = len(arr)
+ft = FenwickTree(n)
+for i in range(1, n+1):
+    ft.update(i, arr[i-1])
+
+print(ft.query(3))      # 输出9 (1+3+5)
+print(ft.range_query(2, 4))  # 输出15 (3+5+7)
+```
+
+```go
+package main
+
+import "fmt"
+
+type FenwickTree struct {
+    n    int
+    tree []int
+}
+
+func NewFenwickTree(size int) *FenwickTree {
+    return &FenwickTree{
+        n:    size,
+        tree: make([]int, size+1), // 索引从1开始
+    }
+}
+
+func (ft *FenwickTree) lowbit(x int) int {
+    return x & (-x)
+}
+
+func (ft *FenwickTree) Update(idx int, delta int) {
+    for idx <= ft.n {
+        ft.tree[idx] += delta
+        idx += ft.lowbit(idx)
+    }
+}
+
+func (ft *FenwickTree) Query(idx int) int {
+    res := 0
+    for idx > 0 {
+        res += ft.tree[idx]
+        idx -= ft.lowbit(idx)
+    }
+    return res
+}
+
+func (ft *FenwickTree) RangeQuery(l, r int) int {
+    return ft.Query(r) - ft.Query(l-1)
+}
+
+func main() {
+    arr := []int{1, 3, 5, 7, 9}
+    n := len(arr)
+    ft := NewFenwickTree(n)
+    for i := 1; i <= n; i++ {
+        ft.Update(i, arr[i-1])
+    }
+
+    fmt.Println(ft.Query(3))       // 输出9
+    fmt.Println(ft.RangeQuery(2, 4)) // 输出15
+}
+```
+
+
+### **核心原理**
+1. **二进制索引**  
+   每个节点 `tree[i]` 管理原数组的一段区间，区间长度为 `lowbit(i)`（即 `i` 的二进制中最低位的 `1` 对应的值）。例如：
+   - `lowbit(6) = 2`（`6` 的二进制为 `110`）。
+   - `tree[6]` 管理原数组中 `a[5]` 和 `a[6]` 的和。
+
+2. **操作逻辑**  
+   - **单点更新**：更新 `a[i]` 时，需更新所有覆盖 `i` 的 `tree` 节点。
+   - **前缀和查询**：通过累加多个 `tree` 节点的值得到前 `i` 项的和。
+
+### **关键操作**
+| 操作        | 时间复杂度         | 说明                     |
+|-----------|---------------|------------------------|
+| **单点更新**  | $`O(\log n)`$ | 更新所有覆盖当前索引的 `tree` 节点。 |
+| **前缀和查询** | $`O(\log n)`$ | 累加多个 `tree` 节点的值。      |
+| **区间查询**  | $`O(\log n)`$ | 通过两次前缀和查询相减得到。         |
+
+### **应用场景**
+1. **动态前缀和**：实时统计前 `k` 个元素的和。
+2. **逆序对计数**：结合离散化处理数组的逆序对问题。
+3. **区间修改**：结合差分数组支持区间增减操作。
+
+### **复杂度分析**
+- **时间复杂度**：所有操作均为 $`O(\log n)`$。
+- **空间复杂度**：$`O(n)`$。
+
+通过树状数组，可以高效处理需要频繁更新和查询的场景，适用于算法竞赛和工程中的高性能需求。
 
 ---
 
@@ -1979,6 +2153,8 @@ class RangeAssignSegmentTree:
         else:
             return self._query(node.right, mid + 1, r, idx)
 ```
+
+---
 
 ## 跳表
 
