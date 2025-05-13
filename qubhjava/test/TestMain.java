@@ -13,7 +13,7 @@ import org.slf4j.LoggerFactory;
 
 
 import org.testng.util.Strings;
-import silversliver.silversliver_3335.Solution;
+import silversliver.silversliver_3337.Solution;
 import qubhjava.Testcase;
 
 import java.io.IOException;
@@ -25,7 +25,7 @@ import java.util.List;
 public class TestMain {
 
     private static final Logger log = LoggerFactory.getLogger(TestMain.class);
-    private static final String PROBLEM_ID = "3335";
+    private static final String PROBLEM_ID = "3337";
 
     private Testcase[] loadTestcases() throws IOException {
         String problemFolder = null;
