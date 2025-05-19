@@ -7,7 +7,12 @@ import qubhjava.BaseSolution;
 
 public class Solution extends BaseSolution {
     public List<String> getLongestSubsequence(String[] words, int[] groups) {
-        
+        var n = groups.length;
+        var ans = new ArrayList<String>();
+        for (var i = 0; i < n; ++i)
+            if (i == 0 || groups[i] != groups[i - 1])
+                ans.add(words[i]);
+        return ans;
     }
 
     @Override
