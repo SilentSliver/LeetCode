@@ -1,2 +1,2 @@
-["[3,3,3]", "[3,4,5]"]
-["equilateral", "scalene"]
+["[3,3,3]", "[3,4,5]", "[9,4,9]"]
+["equilateral", "scalene", "isosceles"]
