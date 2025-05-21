@@ -1,154 +1,144 @@
 # CHANGELOG
 
-## v9.4.0 (2025-05-19)
+## v9.6.0 (2025-05-21)
 
 ### Feature
 
-* feat: update interview
+* feat: add cookie expiration check and update mechanism
 
-difference between make and new ([`9614e36`](https://github.com/QuBenhao/LeetCode/commit/9614e36c47d418869c6458cae66b977517f4ce36))
+check cookie ([`4e1987f`](https://github.com/QuBenhao/LeetCode/commit/4e1987ffc24b40a6ae713f257b7127b9435e9d22))
+
+* feat: add cookie expiration check and update mechanism
+
+check cookie ([`c74cbbf`](https://github.com/QuBenhao/LeetCode/commit/c74cbbf785cd4f884d94e0d4b1992f587a1882a0))
 
 ### Fix
 
-* fix: golang any and [][]int
+* fix: code review
 
-LCR 013 input [][]int process ([`d622bd6`](https://github.com/QuBenhao/LeetCode/commit/d622bd6fe559a72a4ebff1d849e9219d45344def))
+copilot code review ([`206d1f1`](https://github.com/QuBenhao/LeetCode/commit/206d1f1be50459bcecbc5c7d3949084963fdc544))
 
-* fix: obj problem with muliple constructor
+* fix: add ignore
 
-2353 process three arr inputs ([`0b2bec4`](https://github.com/QuBenhao/LeetCode/commit/0b2bec42d4e2941c0a1ccc72d73f2aea629786cb))
+ignore .cache ([`2e541fd`](https://github.com/QuBenhao/LeetCode/commit/2e541fd97c01c269e9730e5d6398c49f0b978f8a))
 
 ### Test
 
-* test: 2353 solution ([`d969683`](https://github.com/QuBenhao/LeetCode/commit/d96968306217bfcfab4f1bc92f50a540dc74d371))
+* test: 3356, LCR 103 solution
 
-* test: 3024, LCR 020 solution
+go ([`e1567a2`](https://github.com/QuBenhao/LeetCode/commit/e1567a23c1ee4e0c6d2b15781aa08753e6967ff8))
 
-go ([`6715926`](https://github.com/QuBenhao/LeetCode/commit/67159267c156f400a442020236adb49b50941097))
+* test: 3356, LCR 103 solution
 
-* test: 1931 solution
+py ([`4ec7eab`](https://github.com/QuBenhao/LeetCode/commit/4ec7eab20ff3dba1a2e3bec721171d9bb02a007a))
 
-go ([`6a93c09`](https://github.com/QuBenhao/LeetCode/commit/6a93c09cd5e3f2af88d842d3b8edd17a13795190))
+* test: [20250521] Add (3356 LCR_103) ([`c55c342`](https://github.com/QuBenhao/LeetCode/commit/c55c342733a506f192526d1cf04f106b797533c7))
 
-* test: 3024, LCR 020 solution
+* test: LCR 018 solution
 
-py ([`da796d2`](https://github.com/QuBenhao/LeetCode/commit/da796d297b9598f1829ed49470fd65d184f273b6))
+go ([`3d6e204`](https://github.com/QuBenhao/LeetCode/commit/3d6e204b121855bf35e7964692e39a34631a88ff))
 
-* test: LCR 046 solution
+* test: 3159 solution
 
-py ([`f4559bb`](https://github.com/QuBenhao/LeetCode/commit/f4559bb433f2b9afcf59bd44874a5c1403e2cb7a))
+go ([`0e00b52`](https://github.com/QuBenhao/LeetCode/commit/0e00b52f7c62ef5590f6d31d1179470e98feef02))
 
-* test: daily LCR 020
+* test: 2545 solution
 
-add study plan ([`93c8d2c`](https://github.com/QuBenhao/LeetCode/commit/93c8d2c191745dea4a489b84be5ed28c166dfa47))
+go ([`328ba3c`](https://github.com/QuBenhao/LeetCode/commit/328ba3c25cf45c986274508bcae4cb61b344442a))
 
-* test: [20250519] Add (3024) ([`0815a0a`](https://github.com/QuBenhao/LeetCode/commit/0815a0ad627183c7572202e22ae04dfd9e297d12))
+* test: 2537 solution
 
-* test: Weekly #450 solution
+go ([`f66904e`](https://github.com/QuBenhao/LeetCode/commit/f66904eb11566c8d04d16b59d401c19948d4fce0))
 
-3550, 3551, 3552, 3553 py #rank 67 ([`149752e`](https://github.com/QuBenhao/LeetCode/commit/149752e9851420f74c5570fdbae7c262288aee36))
+* test: 2506 solution
 
-* test: Weekly #450 contest
+go ([`5d1a721`](https://github.com/QuBenhao/LeetCode/commit/5d1a721c5d96ba194a62aa1a89cd87bb6aa8f528))
 
-3550, 3551, 3552, 3553 ([`084dc5a`](https://github.com/QuBenhao/LeetCode/commit/084dc5a6ecf0424e48db7d68e3e947eb3eb9b30f))
+* test: 2462 solution
 
-* test: LCR 067, LCR 013 solution
-
-go ([`70d01ce`](https://github.com/QuBenhao/LeetCode/commit/70d01cee353a8ef6aa31820886e10f81f2919786))
-
-* test: LCR 067, LCR 013 solution
-
-py ([`63405a2`](https://github.com/QuBenhao/LeetCode/commit/63405a23c558904e0b50522b031ad16096433730))
-
-* test: LCR 067, LCR 013 daily
-
-add questions ([`9937861`](https://github.com/QuBenhao/LeetCode/commit/9937861cc792f01eddaeac8d8db214a98992d434))
-
-* test: [20250518] Add (1931) ([`d3daeec`](https://github.com/QuBenhao/LeetCode/commit/d3daeec42db4da843147b7f0c41a81f3f391d40c))
-
-* test: LCR 118 solution
-
-go ([`0994978`](https://github.com/QuBenhao/LeetCode/commit/0994978c5dd4403023d12c250ca039a68d7edbd4))
-
-* test: LCR 057, LCR 118 solution
-
-go ([`ef9ff27`](https://github.com/QuBenhao/LeetCode/commit/ef9ff27701215f7af655034af58245bf1c781f9b))
-
-* test: LCR 057, LCR 118 solution
-
-py ([`6512f67`](https://github.com/QuBenhao/LeetCode/commit/6512f67a01633e18572da2f8828053814cbe75d2))
-
-* test: [20250517] add LCR 057, LCR 118
-
-daily ([`2cdbf4d`](https://github.com/QuBenhao/LeetCode/commit/2cdbf4d4ca2a392819ed33c9ed3839f532e87b59))
-
-* test: [20250517] Add (75) ([`8bd58c6`](https://github.com/QuBenhao/LeetCode/commit/8bd58c6ba13f7bda7f63ef906e6ed57fa3d84c40))
-
-* test: LCR 102 solution
-
-py ([`262254a`](https://github.com/QuBenhao/LeetCode/commit/262254ab8057cba5667f2ba1dafb4dec56527859))
-
-* test: LCR 102 solution
-
-py ([`98fe2ff`](https://github.com/QuBenhao/LeetCode/commit/98fe2ff41a9fdf64a0151f07bd3321ce501d8217))
-
-* test: 2901 solution
-
-py ([`c7f2144`](https://github.com/QuBenhao/LeetCode/commit/c7f2144f268c0f54245e0d378797538f310f9f75))
-
-* test: [20250516] Add (2901) ([`6e6d3a9`](https://github.com/QuBenhao/LeetCode/commit/6e6d3a9273f5bedbc4e2685828cb8b1a34cdf9a0))
-
-* test: 2900 solution
-
-go ([`737b7b0`](https://github.com/QuBenhao/LeetCode/commit/737b7b0b259b2fd1686300d3c7c025080757ff7a))
-
-* test: 2900 solution
-
-go ([`0aa0b83`](https://github.com/QuBenhao/LeetCode/commit/0aa0b83831297f746371922126b75f90603a6373))
-
-* test: 2900 solution
-
-py ([`a2a8a88`](https://github.com/QuBenhao/LeetCode/commit/a2a8a88c17f8c8544479a02ee02291956bfa1c84))
-
-* test: [20250515] Add (2900 LCR_046) ([`436c517`](https://github.com/QuBenhao/LeetCode/commit/436c51734628098559d0a33ab6d66e12e17e85d5))
-
-* test: LCR 035 solution
-
-py, go ([`e93a9a7`](https://github.com/QuBenhao/LeetCode/commit/e93a9a74e7f0976296d603cb6edef94409c042e0))
-
-* test: [20250514] Add (3337 LCR_035) ([`8e54e58`](https://github.com/QuBenhao/LeetCode/commit/8e54e58cca30d09b5aa70443f63be80517174fd2))
-
-* test: LCR 005 solution
-
-go ([`c275cf1`](https://github.com/QuBenhao/LeetCode/commit/c275cf19c7f0d6fd5767f0bb21599808d3ceea38))
-
-* test: 3335, 3337 solution
-
-go ([`190cffb`](https://github.com/QuBenhao/LeetCode/commit/190cffb801916fe121565ee7d67b15f232e9be70))
-
-* test: LCR 005 solution
-
-py ([`66f5500`](https://github.com/QuBenhao/LeetCode/commit/66f5500dbff3201936dd8a1f3d7ce58fbb76c845))
-
-* test: 3335, 3337 solution
-
-go ([`40a803d`](https://github.com/QuBenhao/LeetCode/commit/40a803deddc24d42d9342965013f36a3922807d0))
-
-* test: [20250513] Add (3335 LCR_005) ([`94ad40e`](https://github.com/QuBenhao/LeetCode/commit/94ad40eb66cac613405a0e25e997ef6a795cb721))
+py, go ([`e3d8aa4`](https://github.com/QuBenhao/LeetCode/commit/e3d8aa4b420ec92c6d4f3857b204316cf34857fa))
 
 ### Unknown
 
-* Merge pull request #148 from QuBenhao/147-golang-fix
+* Merge pull request #151 from QuBenhao/150-cookie
 
-147 golang fix ([`05e64bd`](https://github.com/QuBenhao/LeetCode/commit/05e64bd28530384bbd185e7c0f776014dd7bf1c1))
+150 cookie ([`9dd6d1a`](https://github.com/QuBenhao/LeetCode/commit/9dd6d1aedd6cd1f4dfa0ba71e6fa7e1f394d6bb0))
 
-* doc: templates.md
+* Update python/scripts/daily_auto.py
 
-update 环 ([`5f698d6`](https://github.com/QuBenhao/LeetCode/commit/5f698d6a03080e7f24a96709d29360722d8abdfb))
+Co-authored-by: Copilot &lt;175728472+Copilot@users.noreply.github.com&gt; ([`057d255`](https://github.com/QuBenhao/LeetCode/commit/057d2556e683969c1a10474fb956d7ae02adb5cd))
 
-* Merge branch &#39;master&#39; of github.com:QuBenhao/LeetCode ([`0e593a3`](https://github.com/QuBenhao/LeetCode/commit/0e593a306b544330c906a24628fdf3698eb5f6ab))
+* Update python/scripts/daily_submission.py
 
-## v9.3.0 (2025-05-12)
+Co-authored-by: Copilot &lt;175728472+Copilot@users.noreply.github.com&gt; ([`9da3143`](https://github.com/QuBenhao/LeetCode/commit/9da314387e20ba038e9d7ad11961eae033eac891))
+
+* Update python/scripts/submit.py
+
+Co-authored-by: Copilot &lt;175728472+Copilot@users.noreply.github.com&gt; ([`dd28e6f`](https://github.com/QuBenhao/LeetCode/commit/dd28e6fcf60f59b348318c04845426873025efbd))
+
+* Update python/scripts/tools.py
+
+Co-authored-by: Copilot &lt;175728472+Copilot@users.noreply.github.com&gt; ([`57a08bc`](https://github.com/QuBenhao/LeetCode/commit/57a08bc648e9a3c983151c7f1482ed10fb765450))
+
+* doc: update interface{} in golang
+
+replace with any ([`7c3cdeb`](https://github.com/QuBenhao/LeetCode/commit/7c3cdeb3bd2e1a70554cd414a81a83e5986c37ad))
+
+## v9.5.0 (2025-05-20)
+
+### Feature
+
+* feat: golang doubleLinkedListNode
+
+implementation ([`88fbd58`](https://github.com/QuBenhao/LeetCode/commit/88fbd5895e5cba0a0a8915de7c979855b79cdea9))
+
+* feat: implement double-linked-list-with-child python
+
+support LCR 028 &amp;&amp; 430 ([`7a3e138`](https://github.com/QuBenhao/LeetCode/commit/7a3e1386d474d716c1b4bf89825c87514e57e89c))
+
+### Fix
+
+* fix: golang any
+
+replace interface{} with any ([`009a82c`](https://github.com/QuBenhao/LeetCode/commit/009a82c770ddcb45bd75a14f7005f7f8f364779f))
+
+* fix: golang any
+
+use any instead of interface{} ([`9b877bf`](https://github.com/QuBenhao/LeetCode/commit/9b877bf5cd23b4d61c9e9a850aa1b07d25dfefc8))
+
+* fix: golang new submission
+
+Handle both any &amp; interface{} in Solve ([`57b80de`](https://github.com/QuBenhao/LeetCode/commit/57b80de1ddba722f0a23eb494318e9a624769d3d))
+
+### Test
+
+* test: 3355, LCR 028 solution
+
+go ([`fd94385`](https://github.com/QuBenhao/LeetCode/commit/fd9438575c92f0603c2c4c1208c25fccb93b2d1f))
+
+* test: 335, LCR 028 solution
+
+py ([`dfffbf0`](https://github.com/QuBenhao/LeetCode/commit/dfffbf06a52a07a5a7df6b8f4014a78a712decaa))
+
+* test: [20250520] Add (3355 LCR_028) ([`65f3a8a`](https://github.com/QuBenhao/LeetCode/commit/65f3a8a30fe47a1764bc273f3a03def26b73edfe))
+
+* test: 2412 solution
+
+go ([`cec2da2`](https://github.com/QuBenhao/LeetCode/commit/cec2da2af3c9665d394d06c8aa672db5dcf1ef51))
+
+* test: 2412 solution
+
+py ([`8d57b0f`](https://github.com/QuBenhao/LeetCode/commit/8d57b0f0ecc1af121172dc9ec192d65e184a7298))
+
+* test: 2360 solution
+
+go ([`b38bc02`](https://github.com/QuBenhao/LeetCode/commit/b38bc02298c7d94f7847b53075aa01de7333bf14))
+
+* test: LCR 004 solution
+
+go ([`b3f5511`](https://github.com/QuBenhao/LeetCode/commit/b3f55111495aadcd2d689e06dbea1a9d1ff74e30))
+
+## v9.4.0 (2025-05-19)
 
 ### Breaking
 
@@ -279,6 +269,10 @@ latest ([`050396a`](https://github.com/QuBenhao/LeetCode/commit/050396aef9132d82
 README.md ([`77f8ea7`](https://github.com/QuBenhao/LeetCode/commit/77f8ea7df735d30f865ca5fa7fd51a8c506a0eb3))
 
 ### Feature
+
+* feat: update interview
+
+difference between make and new ([`9614e36`](https://github.com/QuBenhao/LeetCode/commit/9614e36c47d418869c6458cae66b977517f4ce36))
 
 * feat: python contest template
 
@@ -1217,6 +1211,14 @@ The code refactors the way TreeNodes are converted to arrays and vice versa in G
 Generate linkedList from int array or the opposite, as well as basic test for linkedList ([`72fde28`](https://github.com/QuBenhao/LeetCode/commit/72fde2896de1d2cac24ed03d5aaac71a7d8dcf55))
 
 ### Fix
+
+* fix: golang any and [][]int
+
+LCR 013 input [][]int process ([`d622bd6`](https://github.com/QuBenhao/LeetCode/commit/d622bd6fe559a72a4ebff1d849e9219d45344def))
+
+* fix: obj problem with muliple constructor
+
+2353 process three arr inputs ([`0b2bec4`](https://github.com/QuBenhao/LeetCode/commit/0b2bec42d4e2941c0a1ccc72d73f2aea629786cb))
 
 * fix: java dependency
 
@@ -2711,6 +2713,122 @@ query param load from str ([`576737d`](https://github.com/QuBenhao/LeetCode/comm
 go.sum uploaded ([`064618d`](https://github.com/QuBenhao/LeetCode/commit/064618d550530aefd4c12eeb3a8d7d3e328cf9f0))
 
 ### Test
+
+* test: 2353 solution ([`d969683`](https://github.com/QuBenhao/LeetCode/commit/d96968306217bfcfab4f1bc92f50a540dc74d371))
+
+* test: 3024, LCR 020 solution
+
+go ([`6715926`](https://github.com/QuBenhao/LeetCode/commit/67159267c156f400a442020236adb49b50941097))
+
+* test: 1931 solution
+
+go ([`6a93c09`](https://github.com/QuBenhao/LeetCode/commit/6a93c09cd5e3f2af88d842d3b8edd17a13795190))
+
+* test: 3024, LCR 020 solution
+
+py ([`da796d2`](https://github.com/QuBenhao/LeetCode/commit/da796d297b9598f1829ed49470fd65d184f273b6))
+
+* test: LCR 046 solution
+
+py ([`f4559bb`](https://github.com/QuBenhao/LeetCode/commit/f4559bb433f2b9afcf59bd44874a5c1403e2cb7a))
+
+* test: daily LCR 020
+
+add study plan ([`93c8d2c`](https://github.com/QuBenhao/LeetCode/commit/93c8d2c191745dea4a489b84be5ed28c166dfa47))
+
+* test: [20250519] Add (3024) ([`0815a0a`](https://github.com/QuBenhao/LeetCode/commit/0815a0ad627183c7572202e22ae04dfd9e297d12))
+
+* test: Weekly #450 solution
+
+3550, 3551, 3552, 3553 py #rank 67 ([`149752e`](https://github.com/QuBenhao/LeetCode/commit/149752e9851420f74c5570fdbae7c262288aee36))
+
+* test: Weekly #450 contest
+
+3550, 3551, 3552, 3553 ([`084dc5a`](https://github.com/QuBenhao/LeetCode/commit/084dc5a6ecf0424e48db7d68e3e947eb3eb9b30f))
+
+* test: LCR 067, LCR 013 solution
+
+go ([`70d01ce`](https://github.com/QuBenhao/LeetCode/commit/70d01cee353a8ef6aa31820886e10f81f2919786))
+
+* test: LCR 067, LCR 013 solution
+
+py ([`63405a2`](https://github.com/QuBenhao/LeetCode/commit/63405a23c558904e0b50522b031ad16096433730))
+
+* test: LCR 067, LCR 013 daily
+
+add questions ([`9937861`](https://github.com/QuBenhao/LeetCode/commit/9937861cc792f01eddaeac8d8db214a98992d434))
+
+* test: [20250518] Add (1931) ([`d3daeec`](https://github.com/QuBenhao/LeetCode/commit/d3daeec42db4da843147b7f0c41a81f3f391d40c))
+
+* test: LCR 118 solution
+
+go ([`0994978`](https://github.com/QuBenhao/LeetCode/commit/0994978c5dd4403023d12c250ca039a68d7edbd4))
+
+* test: LCR 057, LCR 118 solution
+
+go ([`ef9ff27`](https://github.com/QuBenhao/LeetCode/commit/ef9ff27701215f7af655034af58245bf1c781f9b))
+
+* test: LCR 057, LCR 118 solution
+
+py ([`6512f67`](https://github.com/QuBenhao/LeetCode/commit/6512f67a01633e18572da2f8828053814cbe75d2))
+
+* test: [20250517] add LCR 057, LCR 118
+
+daily ([`2cdbf4d`](https://github.com/QuBenhao/LeetCode/commit/2cdbf4d4ca2a392819ed33c9ed3839f532e87b59))
+
+* test: [20250517] Add (75) ([`8bd58c6`](https://github.com/QuBenhao/LeetCode/commit/8bd58c6ba13f7bda7f63ef906e6ed57fa3d84c40))
+
+* test: LCR 102 solution
+
+py ([`262254a`](https://github.com/QuBenhao/LeetCode/commit/262254ab8057cba5667f2ba1dafb4dec56527859))
+
+* test: LCR 102 solution
+
+py ([`98fe2ff`](https://github.com/QuBenhao/LeetCode/commit/98fe2ff41a9fdf64a0151f07bd3321ce501d8217))
+
+* test: 2901 solution
+
+py ([`c7f2144`](https://github.com/QuBenhao/LeetCode/commit/c7f2144f268c0f54245e0d378797538f310f9f75))
+
+* test: [20250516] Add (2901) ([`6e6d3a9`](https://github.com/QuBenhao/LeetCode/commit/6e6d3a9273f5bedbc4e2685828cb8b1a34cdf9a0))
+
+* test: 2900 solution
+
+go ([`737b7b0`](https://github.com/QuBenhao/LeetCode/commit/737b7b0b259b2fd1686300d3c7c025080757ff7a))
+
+* test: 2900 solution
+
+go ([`0aa0b83`](https://github.com/QuBenhao/LeetCode/commit/0aa0b83831297f746371922126b75f90603a6373))
+
+* test: 2900 solution
+
+py ([`a2a8a88`](https://github.com/QuBenhao/LeetCode/commit/a2a8a88c17f8c8544479a02ee02291956bfa1c84))
+
+* test: [20250515] Add (2900 LCR_046) ([`436c517`](https://github.com/QuBenhao/LeetCode/commit/436c51734628098559d0a33ab6d66e12e17e85d5))
+
+* test: LCR 035 solution
+
+py, go ([`e93a9a7`](https://github.com/QuBenhao/LeetCode/commit/e93a9a74e7f0976296d603cb6edef94409c042e0))
+
+* test: [20250514] Add (3337 LCR_035) ([`8e54e58`](https://github.com/QuBenhao/LeetCode/commit/8e54e58cca30d09b5aa70443f63be80517174fd2))
+
+* test: LCR 005 solution
+
+go ([`c275cf1`](https://github.com/QuBenhao/LeetCode/commit/c275cf19c7f0d6fd5767f0bb21599808d3ceea38))
+
+* test: 3335, 3337 solution
+
+go ([`190cffb`](https://github.com/QuBenhao/LeetCode/commit/190cffb801916fe121565ee7d67b15f232e9be70))
+
+* test: LCR 005 solution
+
+py ([`66f5500`](https://github.com/QuBenhao/LeetCode/commit/66f5500dbff3201936dd8a1f3d7ce58fbb76c845))
+
+* test: 3335, 3337 solution
+
+go ([`40a803d`](https://github.com/QuBenhao/LeetCode/commit/40a803deddc24d42d9342965013f36a3922807d0))
+
+* test: [20250513] Add (3335 LCR_005) ([`94ad40e`](https://github.com/QuBenhao/LeetCode/commit/94ad40eb66cac613405a0e25e997ef6a795cb721))
 
 * test: 3542 solution
 
@@ -7653,6 +7771,16 @@ Introduced a new test file, tree_test.go, containing unit tests for the conversi
 The extended test coverage now includes the &#39;ListNode&#39; function. This also involves the creation and validation of cyclic nodes and intersecting nodes within a linked list. The respective checks for node existence, length, and correct values have been implemented in these new tests. ([`a61f839`](https://github.com/QuBenhao/LeetCode/commit/a61f8397e29900191980b5ec3e02ca0850f12df3))
 
 ### Unknown
+
+* Merge pull request #148 from QuBenhao/147-golang-fix
+
+147 golang fix ([`05e64bd`](https://github.com/QuBenhao/LeetCode/commit/05e64bd28530384bbd185e7c0f776014dd7bf1c1))
+
+* doc: templates.md
+
+update 环 ([`5f698d6`](https://github.com/QuBenhao/LeetCode/commit/5f698d6a03080e7f24a96709d29360722d8abdfb))
+
+* Merge branch &#39;master&#39; of github.com:QuBenhao/LeetCode ([`0e593a3`](https://github.com/QuBenhao/LeetCode/commit/0e593a306b544330c906a24628fdf3698eb5f6ab))
 
 * doc: interview
 

@@ -7,10 +7,15 @@ import (
 )
 
 func minimumMoney(transactions [][]int) int64 {
-    
+	totalLoss, mx := int64(0), int64(0)
+	for _, transaction := range transactions {
+		totalLoss += int64(max(0, transaction[0]-transaction[1]))
+		mx = max(mx, int64(min(transaction[0], transaction[1])))
+	}
+	return totalLoss + mx
 }
 
-func Solve(inputJsonValues string) interface{} {
+func Solve(inputJsonValues string) any {
 	inputValues := strings.Split(inputJsonValues, "\n")
 	var transactions [][]int
 

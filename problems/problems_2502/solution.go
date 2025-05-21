@@ -6,25 +6,22 @@ import (
 	"strings"
 )
 
-type Allocator struct {
-    
-}
+// https://go.googlesource.com/proposal/+/master/design/35112-scaling-the-page-allocator.md
 
+type Allocator struct {
+}
 
 func Constructor(n int) Allocator {
-    
-}
 
+}
 
 func (this *Allocator) Allocate(size int, mID int) int {
-    
-}
 
+}
 
 func (this *Allocator) FreeMemory(mID int) int {
-    
-}
 
+}
 
 /**
  * Your Allocator object will be instantiated and called as such:
@@ -33,11 +30,11 @@ func (this *Allocator) FreeMemory(mID int) int {
  * param_2 := obj.FreeMemory(mID);
  */
 
-func Solve(inputJsonValues string) interface{} {
+func Solve(inputJsonValues string) any {
 	inputValues := strings.Split(inputJsonValues, "\n")
 	var operators []string
-	var opValues [][]interface{}
-	var ans []interface{}
+	var opValues [][]any
+	var ans []any
 	if err := json.Unmarshal([]byte(inputValues[0]), &operators); err != nil {
 		log.Println(err)
 		return nil
@@ -49,7 +46,7 @@ func Solve(inputJsonValues string) interface{} {
 	obj := Constructor(int(opValues[0][0].(float64)))
 	ans = append(ans, nil)
 	for i := 1; i < len(operators); i++ {
-		var res interface{}
+		var res any
 		switch operators[i] {
 		case "allocate", "Allocate":
 			res = obj.Allocate(int(opValues[i][0].(float64)), int(opValues[i][1].(float64)))
@@ -60,7 +57,6 @@ func Solve(inputJsonValues string) interface{} {
 		}
 		ans = append(ans, res)
 	}
-
 
 	return ans
 }
