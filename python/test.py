@@ -5,7 +5,7 @@ import unittest
 from importlib.util import spec_from_file_location, module_from_spec
 
 from dotenv import load_dotenv
-import constants
+import constant
 from utils import get_default_folder, timeout
 
 logging.basicConfig(level=logging.INFO, format=constants.LOGGING_FORMAT, datefmt=constants.DATE_FORMAT)
