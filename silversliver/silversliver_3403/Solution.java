@@ -1,13 +1,22 @@
 package silversliver.silversliver_3403;
 
 import com.alibaba.fastjson.JSON;
-import java.util.*;
 import qubhjava.BaseSolution;
 
 
 public class Solution extends BaseSolution {
     public String answerString(String word, int numFriends) {
-        
+        if (numFriends == 1)
+            return word;
+        var n = word.length();
+        var ans = "";
+        for (var i = 0; i < n; ++i) {
+            var tmp = word.substring(i, Math.min(n, i + n - (numFriends - 1)));
+            if (ans.compareTo(tmp) < 0)
+                ans = tmp;
+        }
+        return ans;
+
     }
 
     @Override
