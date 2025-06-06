@@ -1,4 +1,4 @@
-package problems.problems_135;
+package silversliver.silversliver_2434;
 
 import com.alibaba.fastjson.JSON;
 import java.util.*;
@@ -6,13 +6,13 @@ import qubhjava.BaseSolution;
 
 
 public class Solution extends BaseSolution {
-    public int candy(int[] ratings) {
+    public String robotWithString(String s) {
         
     }
 
     @Override
     public Object solve(String[] inputJsonValues) {
-        int[] ratings = jsonArrayToIntArray(inputJsonValues[0]);
-        return JSON.toJSON(candy(ratings));
+        String s = jsonStringToString(inputJsonValues[0]);
+        return JSON.toJSON(robotWithString(s));
     }
 }
