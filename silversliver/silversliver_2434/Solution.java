@@ -7,7 +7,21 @@ import qubhjava.BaseSolution;
 
 public class Solution extends BaseSolution {
     public String robotWithString(String s) {
-        
+        var cnt = new int[26];
+        for (var c : s.toCharArray())
+            cnt[c - 'a']++;
+        var ans = new StringBuilder();
+        var stack = new ArrayDeque<Character>();
+        var min_char = 'a';
+        for (var c : s.toCharArray()) {
+            --cnt[c - 'a'];
+            while (min_char < 'z' && cnt[min_char - 'a'] == 0)
+                min_char++;
+            stack.push(c);
+            while (!stack.isEmpty() && stack.peek() <= min_char)
+                ans.append(stack.pop());
+        }
+        return ans.toString();
     }
 
     @Override
