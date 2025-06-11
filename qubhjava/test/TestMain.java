@@ -8,7 +8,9 @@ import org.junit.jupiter.api.TestFactory;
 import org.junit.jupiter.api.Timeout;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import org.testng.util.Strings;
+import silversliver.silversliver_3445.Solution;
 import qubhjava.Testcase;
 
 import java.io.IOException;
@@ -26,7 +28,9 @@ import java.lang.reflect.InvocationTargetException;
 public class TestMain {
 
     private static final Logger log = LoggerFactory.getLogger(TestMain.class);
+
     private static final String PROBLEM_ID, PROBLEM_FOLDER;
+
 
     static {
         String problemId = null;

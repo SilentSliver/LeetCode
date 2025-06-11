@@ -187,8 +187,11 @@
                     <source>21</source>
                     <target>21</target>
                     <excludes>
+                        <exclude>silversliver/**</exclude>
                         <exclude>bazel-*/**</exclude>
                         <exclude>external/**</exclude>
+                        <exclude>problems/**</exclude>
+                        <exclude>premiums/**</exclude>
                     </excludes>
                 </configuration>
             </plugin>
