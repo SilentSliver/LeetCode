@@ -7,7 +7,11 @@ import qubhjava.BaseSolution;
 
 public class Solution extends BaseSolution {
     public int maxAdjacentDistance(int[] nums) {
-        
+        var n = nums.length;
+        var ans = 0;
+        for (var i = 0; i < n; i++)
+            ans = Math.max(ans, Math.abs(nums[(i + 1) % n] - nums[i]));
+        return ans;
     }
 
     @Override
