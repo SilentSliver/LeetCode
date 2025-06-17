@@ -7,7 +7,16 @@ import qubhjava.BaseSolution;
 
 public class Solution extends BaseSolution {
     public int maximumDifference(int[] nums) {
-        
+        var n = nums.length;
+        var ans = -1;
+        var cur_min = nums[0];
+        for (var i = 1; i < n; i++) {
+            if (cur_min > nums[i])
+                cur_min = nums[i];
+            else
+                ans = Math.max(ans, nums[i] - cur_min);
+        }
+        return ans > 0 ? ans : -1;
     }
 
     @Override
