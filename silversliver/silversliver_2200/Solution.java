@@ -7,7 +7,20 @@ import qubhjava.BaseSolution;
 
 public class Solution extends BaseSolution {
     public List<Integer> findKDistantIndices(int[] nums, int key, int k) {
-        
+        var ans = new ArrayList<Integer>();
+        var jset = new ArrayList<Integer>();
+        var n = nums.length;
+        for (var i = 0; i < n; i++)
+            if (nums[i] == key)
+                jset.add(i);
+        for (var i = 0; i < n; i++) {
+            for (int j: jset)
+                if (Math.abs(i - j) <= k){
+                    ans.add(i);
+                    break;
+                }
+        }
+        return ans;
     }
 
     @Override
