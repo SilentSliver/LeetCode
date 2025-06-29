@@ -61,6 +61,8 @@
         - [重复元素子集](#重复元素子集)
 - [数学](#数学)
     - [费马平方和定理](#费马平方和定理)
+    - [组合数](#组合数)
+    - [质数](#质数)
 - [字符串](#字符串)
     - [KMP算法](#kmp算法模板)
 - [其他](#其他)
@@ -1551,6 +1553,7 @@ class UnionFind:
     def __init__(self, size):
         self.parent = list(range(size))
         self.rank = [1] * size
+        self.size = size
 
     def find(self, x):
         while self.parent[x] != x:
@@ -1572,6 +1575,7 @@ class UnionFind:
             self.parent[root_x] = root_y
             if self.rank[root_x] == self.rank[root_y]:
                 self.rank[root_y] += 1
+        self.size -= 1
         return True
 
     def is_connected(self, x, y):
@@ -1584,12 +1588,14 @@ package main
 type UnionFind struct {
     parent []int
     rank   []int
+	cc int
 }
 
 func NewUnionFind(size int) *UnionFind {
     uf := &UnionFind{
         parent: make([]int, size),
         rank:   make([]int, size),
+		cc: size,
     }
     for i := range uf.parent {
         uf.parent[i] = i
@@ -1623,6 +1629,7 @@ func (uf *UnionFind) Union(x, y int) bool {
             uf.rank[rootY]++
         }
     }
+	uf.cc-- // 合并后集合数减少
     return true
 }
 
@@ -2929,6 +2936,37 @@ $$
 | 交替符号和         | $` 0 `$（当 $` n \geq 1 `$） | 二项式定理代入负值 |
 
 这些公式在概率论、组合优化和算法分析中有广泛应用，例如动态规划中的状态转移计数。
+
+
+## 质数
+
+### 求N以内的所有质数
+
+```python
+def primes(n):
+    is_prime = [True] * (n + 1)
+    is_prime[0] = is_prime[1] = False  # 0和1不是质数
+    p = 2
+    while p * p <= n:
+        if is_prime[p]:
+            for i in range(p * p, n + 1, p):
+                is_prime[i] = False
+        p += 1
+    return [p for p in range(2, n + 1) if is_prime[p]]
+```
+
+### 求N以内每个数的不同质因子个数
+
+```python
+def count_distinct_prime_factors(n):
+    count = [0] * (n + 1)
+    
+    for p in range(2, n + 1):
+        if count[p] == 0:
+            for j in range(p, n + 1, p):
+                count[j] += 1
+    return count
+```
 
 ---
 
