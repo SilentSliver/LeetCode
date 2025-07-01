@@ -7,13 +7,13 @@ import qubhjava.BaseSolution;
 
 public class Solution extends BaseSolution {
     public int findLHS(int[] nums) {
-                var cnt = new HashMap<Integer, Integer>();
+        var cnt = new HashMap<Integer, Integer>();
         for (var n: nums) cnt.merge(n, 1, Integer::sum);
         var ans = 0;
-        for(var entry: cnd.entrySet()) {
+        for(var entry: cnt.entrySet()) {
             int key = entry.getKey(), val = entry.getValue();
             if (cnt.containsKey(key + 1))
-                ans = Math.max(ans, val + cnt.get(key + 1))
+                ans = Math.max(ans, val + cnt.get(key + 1));
         }
         return ans;
     }

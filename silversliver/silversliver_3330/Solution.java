@@ -7,7 +7,12 @@ import qubhjava.BaseSolution;
 
 public class Solution extends BaseSolution {
     public int possibleStringCount(String word) {
-        
+        var ans = 1;
+        char last_char = 'a' - 1;
+        for (char c: word.toCharArray())
+            if (c != last_char) last_char = c;
+            else ans++;
+        return ans;
     }
 
     @Override
