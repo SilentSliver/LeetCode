@@ -6,18 +6,22 @@ using json = nlohmann::json;
 
 class Solution {
 public:
-  int findLucky(const vector<int> &arr) {
-    unordered_map<int, int> count_map;
-    for (int num : arr) {
-      ++count_map[num];
-    }
-    int ans = -1;
-    for (const auto &[num, count] : count_map) {
-      if (num == count) {
-        ans = max(ans, num);
+  bool checkOnesSegment(const string& s) {
+    int count = 0;
+    bool appear = false;
+    for (char c : s) {
+      if (c == '1') {
+        appear = true;
+      } else {
+        if (appear) {
+          if (++count > 1) {
+            return false;
+          }
+          appear = false;
+        }
       }
     }
-    return ans;
+    return count == 0 || !appear;
   }
 };
 
@@ -32,6 +36,6 @@ json leetcode::qubh::Solve(string input_json_values) {
   inputArray.push_back(input_json_values);
 
   Solution solution;
-  vector<int> arr = json::parse(inputArray.at(0));
-  return solution.findLucky(arr);
+  string s = json::parse(inputArray.at(0));
+  return solution.checkOnesSegment(s);
 }
