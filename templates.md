@@ -63,6 +63,8 @@
     - [费马平方和定理](#费马平方和定理)
     - [组合数](#组合数)
     - [质数](#质数)
+    - [几何](#几何)
+        - [平行四边形](#平行四边形)
 - [字符串](#字符串)
     - [KMP算法](#kmp算法模板)
 - [其他](#其他)
@@ -1864,6 +1866,40 @@ public:
 };
 ```
 
+```java
+class FenwickTree {
+        private final int[] tree;
+        private final int n;
+        
+        public  FenwickTree(int n) {
+            this.n = n;
+            this.tree = new int[n + 1];
+        }
+        
+        private int lowbit(int x) {
+            return x & -x;
+        }
+        
+        public void update(int index, int value) {
+            for (; index <= n; index += lowbit(index)) {
+                tree[index] += value;
+            }
+        }
+        
+        public int query(int index) {
+            int sum = 0;
+            for (; index > 0; index -= lowbit(index)) {
+                sum += tree[index];
+            }
+            return sum;
+        }
+        
+        public int query(int left, int right) {
+            return query(right) - query(left - 1);
+        }
+}
+```
+
 ### **核心原理**
 
 1. **二进制索引**  
@@ -2945,6 +2981,7 @@ $$
 
 ```python
 def primes(n):
+    n = int(n)
     is_prime = [True] * (n + 1)
     is_prime[0] = is_prime[1] = False  # 0和1不是质数
     p = 2
@@ -2954,6 +2991,32 @@ def primes(n):
                 is_prime[i] = False
         p += 1
     return [p for p in range(2, n + 1) if is_prime[p]]
+```
+```cpp
+#define MAXN ((int) 1e5)
+bool flag[MAXN + 5], inited = false;
+void init() {
+    if (inited) return;
+    inited = true;
+    flag[0] = flag[1] = true;
+    // 筛法求质数
+    for (int i = 2; i * i <= MAXN; i++) if (!flag[i]) for (int j = i * 2; j <= MAXN; j += i) flag[j] = true;
+}
+```
+```java
+    private static final int MAX_N = 100000;
+    private static final boolean[] FLAG = new boolean[MAX_N + 1];
+    static {
+        FLAG[0] = true;
+        FLAG[1] = true;
+        for (int i = 2; i * i <= MAX_N; i++) {
+            if (!FLAG[i]) {
+                for (int j = i * 2; j <= MAX_N; j += i) {
+                    FLAG[j] = true;
+                }
+            }
+        }
+    }
 ```
 
 ### 求N以内每个数的不同质因子个数
@@ -2968,6 +3031,12 @@ def count_distinct_prime_factors(n):
                 count[j] += 1
     return count
 ```
+
+## 几何
+
+### 平行四边形
+
+1. 对角线互相平分
 
 ---
 
