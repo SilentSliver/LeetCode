@@ -7,7 +7,15 @@ import qubhjava.BaseSolution;
 
 public class Solution extends BaseSolution {
     public int longestSubarray(int[] nums) {
-        
+        var max = Arrays.stream(nums).max().getAsInt();
+        var ans = 0;
+        var cnt = 0;
+        for (var n: nums) 
+            if (max == n)
+                ans = Math.max(ans, ++cnt);
+            else
+                cnt = 0;
+        return ans;
     }
 
     @Override
