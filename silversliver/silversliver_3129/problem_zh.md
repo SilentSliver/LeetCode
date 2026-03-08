@@ -1,4 +1,4 @@
-# 3129. 找出所有稳定的二进制数组 I
+# 3129. 找出所有稳定的二进制数组 I [难度分: 2200.12]
 
 <p>给你 3 个正整数&nbsp;<code>zero</code>&nbsp;，<code>one</code>&nbsp;和&nbsp;<code>limit</code>&nbsp;。</p>
 
