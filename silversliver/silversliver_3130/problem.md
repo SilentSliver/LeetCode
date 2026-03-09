@@ -1,4 +1,4 @@
-# 3130. Find All Possible Stable Binary Arrays II
+# 3130. Find All Possible Stable Binary Arrays II [Rating: 2824.70]
 
 <p>You are given 3 positive integers <code>zero</code>, <code>one</code>, and <code>limit</code>.</p>
 
